@@ -4,7 +4,9 @@ project(lib)
 # Add third-party libraries
 add_subdirectory(gl3w)
 add_subdirectory(glfw)
-add_subdirectory(imgui)
+add_subdirectory(ImGui)
+add_subdirectory(ImGuizmo)
+add_subdirectory(ImGuiNodeEditor)
 add_subdirectory(implot)
 add_subdirectory(squirrel)
 
