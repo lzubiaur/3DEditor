@@ -5,6 +5,7 @@
 #include <ui/AppLog.h>
 #include <Script.h>
 #include <IManager.h>
+#include <Editor/MainWindow.h>
 
 #include <spdlog/spdlog.h>
 
@@ -39,9 +40,12 @@ private:
   Script m_script;
   bool m_showImGuiDemo;
   bool m_showImPlotDemo;
+  bool m_showImGuiDocking;
   
   AppLog m_appLog;
   bool m_appLogOpen = true;
+
+  MainWindow mMainWindow;
 
   spdlog::pattern_formatter m_formatter;
   mutable std::shared_ptr<spdlog::logger> m_logger;

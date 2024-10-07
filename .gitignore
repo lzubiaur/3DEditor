@@ -5,6 +5,7 @@ sync.sh
 
 .DS_Store
 *.bak
+*.exe
 
 # Vim
 [._]*.s[a-w][a-z]

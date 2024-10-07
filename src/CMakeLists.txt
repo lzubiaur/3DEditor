@@ -13,9 +13,10 @@ add_library(engine STATIC
   Manager.cpp
   Script.cpp
   ui/AppLog.cpp
+  Editor/MainWindow.cpp
 )
 
-target_link_libraries(engine gl3w glfw imgui implot sqstdlib_static squirrel_static ${GLFW_LIBRARIES})
+target_link_libraries(engine gl3w glfw imgui implot imguinodeeditor imguizmo sqstdlib_static squirrel_static ${GLFW_LIBRARIES})
 target_include_directories(engine PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 # Runtime executable

@@ -22,6 +22,7 @@ namespace Engine
 Manager::Manager()
 : m_showImGuiDemo(true)
 , m_showImPlotDemo(true)
+, m_showImGuiDocking(true)
 , m_script(*this)
 {
   m_logger = std::make_shared<spdlog::logger>("default-multi-sink-logger");
@@ -59,12 +60,18 @@ void Manager::startMainLoop()
       ImGui::ShowDemoWindow(&m_showImGuiDemo);
     }
 
+    if (m_showImGuiDocking)
+    {
+      // ImGui::ShowExampleAppDockSpace(&m_showImGuiDocking);
+    }
+
     if (m_showImPlotDemo)
     {
       ImPlot::ShowDemoWindow(&m_showImPlotDemo);
     }
 
     m_appLog.draw("Log", &m_appLogOpen);
+    mMainWindow.draw();
 
     ImGui::Render();
 
@@ -111,6 +118,7 @@ bool Manager::initializeUI()
   ImGuiIO& io = ImGui::GetIO(); (void)io;
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
   // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+  ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
   ImPlot::CreateContext();
 
@@ -120,6 +128,7 @@ bool Manager::initializeUI()
 
   succeeded &= ImGui_ImplGlfw_InitForOpenGL(m_window->getHandle(), true);
   succeeded &= ImGui_ImplOpenGL3_Init(m_window->getGLSLVersion());
+  succeeded &= mMainWindow.initialize();
 
   return succeeded;
 }
