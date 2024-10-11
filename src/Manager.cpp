@@ -15,6 +15,7 @@
 #include <memory>
 
 #include <common.h>
+#include <Editor/IUIControl.h>
 
 namespace Engine
 {
@@ -38,6 +39,16 @@ std::shared_ptr<spdlog::logger> Manager::getLog() const
   return m_logger;
 }
 
+void Manager::addControl(IUIControl *control)
+{
+  mControls.push_back(control);
+
+  if (mRunning)
+  {
+    control->onInitialize();
+  }
+}
+
 void Manager::startMainLoop() 
 {
   if (!initialize())
@@ -46,6 +57,8 @@ void Manager::startMainLoop()
   }
 
   ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+  mRunning = true;
 
   while (!glfwWindowShouldClose(m_window->getHandle())) 
   {
@@ -71,7 +84,11 @@ void Manager::startMainLoop()
     }
 
     m_appLog.draw("Log", &m_appLogOpen);
-    mMainWindow.draw();
+
+    for (IUIControl* control : mControls)
+    {
+      control->onDraw();
+    }
 
     ImGui::Render();
 
@@ -85,6 +102,8 @@ void Manager::startMainLoop()
 
     glfwSwapBuffers(m_window->getHandle());
   }
+
+  mRunning = false;
 
   shutdown();
 }
@@ -128,7 +147,11 @@ bool Manager::initializeUI()
 
   succeeded &= ImGui_ImplGlfw_InitForOpenGL(m_window->getHandle(), true);
   succeeded &= ImGui_ImplOpenGL3_Init(m_window->getGLSLVersion());
-  succeeded &= mMainWindow.initialize();
+
+  for (IUIControl* control : mControls)
+  {
+    control->onInitialize();
+  }
 
   return succeeded;
 }

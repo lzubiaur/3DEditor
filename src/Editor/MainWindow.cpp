@@ -14,12 +14,12 @@ MainWindow::~MainWindow()
 
 }
 
-bool MainWindow::initialize()
+bool MainWindow::onInitialize()
 {
     return true;
 }
 
-void MainWindow::draw()
+void MainWindow::onDraw()
 {
 
 }

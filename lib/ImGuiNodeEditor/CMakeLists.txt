@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
 
 project(libimguinodeeditor C CXX)
 
-set(SRC
+set(IMGUI_NODE_EDITOR_SRC
   crude_json.cpp
   imgui_canvas.cpp
   imgui_node_editor.cpp
@@ -11,7 +11,7 @@ set(SRC
 
 include_directories("../ImGui")
 
-add_library(imguinodeeditor STATIC ${SRC})
+add_library(imguinodeeditor STATIC ${IMGUI_NODE_EDITOR_SRC})
 
 target_include_directories(imguinodeeditor PUBLIC
   ${PROJECT_SOURCE_DIR}

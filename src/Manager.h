@@ -12,8 +12,11 @@
 namespace Engine 
 {
 
+class IUIControl;
 class Script;
 class Window;
+
+// TODO rename Application
 
 class Manager : public IManager
 {
@@ -23,6 +26,8 @@ public:
 
   void startMainLoop();
   virtual std::shared_ptr<spdlog::logger> getLog() const override;
+
+  virtual void addControl(IUIControl *control) override;
 
 private:
   bool initialize();
@@ -36,6 +41,10 @@ private:
 
   void createCustomLogger();
 
+public:
+
+  bool mRunning = false;
+
   std::unique_ptr<Window> m_window;
   Script m_script;
   bool m_showImGuiDemo;
@@ -45,7 +54,7 @@ private:
   AppLog m_appLog;
   bool m_appLogOpen = true;
 
-  MainWindow mMainWindow;
+  std::vector<IUIControl*> mControls;
 
   spdlog::pattern_formatter m_formatter;
   mutable std::shared_ptr<spdlog::logger> m_logger;

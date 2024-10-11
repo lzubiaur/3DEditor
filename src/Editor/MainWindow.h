@@ -1,16 +1,17 @@
 #include <imgui.h>
+#include <Editor/IUIControl.h>
 
 namespace Engine 
 {
 
-class MainWindow
+class MainWindow : public IUIControl
 {
 public:
     MainWindow();
     ~MainWindow();
 
-    bool initialize();
-    void draw();
+    virtual bool onInitialize() = 0;
+    virtual void onDraw() = 0;
 
 private:
 };

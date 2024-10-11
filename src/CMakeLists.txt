@@ -6,6 +6,7 @@ include_directories(
   ${GLFW_HEADERS}
   ${SPDLOG_HEADERS}
   ${SQUIREL_HEADERS}
+  ${IMGUI_NODE_EDITOR}
 )
 
 add_library(engine STATIC 
@@ -14,6 +15,7 @@ add_library(engine STATIC
   Script.cpp
   ui/AppLog.cpp
   Editor/MainWindow.cpp
+  Editor/NodeGraph.cpp
 )
 
 target_link_libraries(engine gl3w glfw imgui implot imguinodeeditor imguizmo sqstdlib_static squirrel_static ${GLFW_LIBRARIES})

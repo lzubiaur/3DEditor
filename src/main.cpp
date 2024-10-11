@@ -3,6 +3,7 @@
 
 #include <Manager.h>
 #include <common.h>
+#include <Editor/NodeGraph.h>
 
 #ifndef _WIN32
   #error "Only Windows platform build is supported at the moment"
@@ -29,6 +30,10 @@ int main(int argc, char *argv[]) {
 #endif
 
   Engine::Manager manager;
+
+  Engine::NodeGraph node;
+  manager.addControl(&node);
+
   manager.startMainLoop();
 
   return EXIT_SUCCESS;
