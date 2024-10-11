@@ -9,6 +9,7 @@ add_subdirectory(ImGuizmo)
 add_subdirectory(ImGuiNodeEditor)
 add_subdirectory(implot)
 add_subdirectory(squirrel)
+add_subdirectory(fruit)
 
 # HACK force the gl3w files generation
 message(CHECK_START "Generating gl3w sources")

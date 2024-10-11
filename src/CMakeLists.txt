@@ -18,7 +18,19 @@ add_library(engine STATIC
   Editor/NodeGraph.cpp
 )
 
-target_link_libraries(engine gl3w glfw imgui implot imguinodeeditor imguizmo sqstdlib_static squirrel_static ${GLFW_LIBRARIES})
+target_link_libraries(engine
+  gl3w
+  glfw
+  imgui
+  implot
+  imguinodeeditor
+  imguizmo
+  sqstdlib_static
+  squirrel_static
+  ${GLFW_LIBRARIES}
+  fruit  
+)
+
 target_include_directories(engine PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 # Runtime executable

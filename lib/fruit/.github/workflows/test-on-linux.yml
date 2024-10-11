@@ -1,0 +1,111 @@
+name: Test on Linux
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'Run the tests with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
+  schedule:
+    # Run at 8:13 on the 1st day of each month
+    - cron:  '13 8 1 * *'
+jobs:
+  Ubuntu-22-10:
+    runs-on: ubuntu-latest
+    container: polettimarco/fruit-basesystem:ubuntu-22.10
+    env:
+      N_JOBS: 2
+      ASAN_OPTIONS: ""
+      OS: "linux"
+      COMPILER: ${{ matrix.config.compiler }}
+      STLARG: ${{ matrix.config.stlarg }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: test
+        run: extras/scripts/postsubmit-helper.sh ${{ matrix.config.test }}
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && failure() }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {compiler: clang-15.0, stlarg: -stdlib=libstdc++, test: ReleasePlain}
+          - {compiler: clang-15.0, stlarg: -stdlib=libstdc++, test: DebugPlain}
+          - {compiler: clang-15.0, stlarg: -stdlib=libstdc++, test: DebugAsanUbsan}
+          - {compiler: gcc-12, test: ReleasePlain}
+          - {compiler: gcc-12, test: DebugPlain}
+          - {compiler: gcc-12, test: DebugAsanUbsan}
+          - {compiler: clang-11.0, stlarg: -stdlib=libstdc++, test: ReleasePlain}
+          - {compiler: clang-11.0, stlarg: -stdlib=libstdc++, test: DebugPlain}
+          # clang-11 has issues in the DebugAsanUbsan configuration
+          - {compiler: clang-13.0, stlarg: -stdlib=libstdc++, test: DebugAsanUbsan}
+          - {compiler: gcc-9, test: ReleasePlain}
+          - {compiler: gcc-9, test: DebugAsanUbsan}
+
+  Ubuntu-22-04:
+    runs-on: ubuntu-latest
+    container: polettimarco/fruit-basesystem:ubuntu-22.04
+    env:
+      N_JOBS: 2
+      ASAN_OPTIONS: ""
+      OS: "linux"
+      COMPILER: ${{ matrix.config.compiler }}
+      STLARG: ${{ matrix.config.stlarg }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: test
+        run: extras/scripts/postsubmit-helper.sh ${{ matrix.config.test }}
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && failure() }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {compiler: clang-15.0, stlarg: -stdlib=libstdc++, test: ReleasePlain}
+          - {compiler: clang-15.0, stlarg: -stdlib=libstdc++, test: DebugPlain}
+          - {compiler: clang-15.0, stlarg: -stdlib=libstdc++, test: DebugAsanUbsan}
+          - {compiler: gcc-12, test: ReleasePlain}
+          - {compiler: gcc-12, test: DebugAsanUbsan}
+          - {compiler: clang-11.0, stlarg: -stdlib=libstdc++, test: ReleasePlain}
+          - {compiler: clang-11.0, stlarg: -stdlib=libstdc++, test: DebugPlain}
+          # clang-11 has issues in the DebugAsanUbsan configuration
+          - {compiler: clang-13.0, stlarg: -stdlib=libstdc++, test: DebugAsanUbsan}
+          - {compiler: gcc-9, test: ReleasePlain}
+          - {compiler: gcc-9, test: DebugAsanUbsan}
+
+  Ubuntu-20-04:
+    runs-on: ubuntu-latest
+    container: polettimarco/fruit-basesystem:ubuntu-20.04
+    env:
+      N_JOBS: 2
+      ASAN_OPTIONS: ""
+      OS: "linux"
+      COMPILER: ${{ matrix.config.compiler }}
+      STLARG: ${{ matrix.config.stlarg }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: test
+        run: extras/scripts/postsubmit-helper.sh ${{ matrix.config.test }}
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && failure() }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {compiler: clang-10.0, stlarg: -stdlib=libstdc++, test: ReleasePlain}
+          - {compiler: clang-10.0, stlarg: -stdlib=libstdc++, test: DebugPlain}
+          - {compiler: clang-10.0, stlarg: -stdlib=libstdc++, test: DebugAsanUbsan}
+          - {compiler: gcc-10, test: ReleasePlain}
+          - {compiler: gcc-10, test: DebugAsanUbsan}
+          - {compiler: clang-6.0, stlarg: -stdlib=libstdc++, test: ReleasePlain}
+          - {compiler: clang-6.0, stlarg: -stdlib=libstdc++, test: DebugPlain}
+          - {compiler: clang-6.0, stlarg: -stdlib=libstdc++, test: DebugAsanUbsan}
+          - {compiler: gcc-7, test: ReleasePlain}
+          - {compiler: gcc-7, test: DebugAsanUbsan}

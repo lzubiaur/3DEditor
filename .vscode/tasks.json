@@ -6,7 +6,8 @@
       "command": "mkdir",
       "args": [
         "-p",
-        "${workspaceFolder}/build"
+        "${workspaceFolder}/build",
+        "-Force"
       ],
       "group": {
         "kind": "build",
@@ -37,8 +38,10 @@
       "args": [
         "..",
         "-Wno-dev",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DFRUIT_USES_BOOST=False",
         "-B",
-        "${workspaceFolder}/build"
+        "${workspaceFolder}/build",
       ],
       "options": {
         "cwd": "${workspaceFolder}/build"

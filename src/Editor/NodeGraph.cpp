@@ -18,7 +18,7 @@ NodeGraph::~NodeGraph()
 bool NodeGraph::onInitialize()
 {
     ed::Config config;
-    config.SettingsFile = "Simple.json";
+    config.SettingsFile = "NodeGraphConfig.json";
     m_Context = ed::CreateEditor(&config);
 
     return true;

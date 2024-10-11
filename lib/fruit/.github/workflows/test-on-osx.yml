@@ -1,0 +1,110 @@
+name: Test on OS X
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'Run the tests with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
+  schedule:
+    # Run at 8:13 on the 1st day of each month
+    - cron:  '13 8 1 * *'
+jobs:
+  macOS-12:
+    runs-on: macos-12
+    env:
+      COMPILER: ${{ matrix.config.compiler }}
+      STL: ${{ matrix.config.stl }}
+      OS: osx
+    steps:
+      - uses: actions/checkout@v3
+      - name: install
+        run: extras/scripts/ci_install_osx.sh
+      - name: test
+        run: extras/scripts/postsubmit.sh ${{ matrix.config.test }}
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && failure() }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {compiler: clang-default, stl: libc++, test: ReleasePlainNoPchNoClangTidy}
+          - {compiler: clang-default, stl: libc++, test: DebugAsanUbsanNoPchNoClangTidy}
+          - {compiler: clang-default, stl: libc++, test: DebugPlainNoPchNoClangTidy}
+          - {compiler: clang-14.0, stl: libc++, test: ReleasePlainNoPchNoClangTidy}
+          - {compiler: clang-14.0, stl: libc++, test: DebugAsanUbsanNoPchNoClangTidy}
+          - {compiler: clang-14.0, stl: libc++, test: DebugPlainNoPchNoClangTidy}
+          - {compiler: clang-11.0, stl: libc++, test: ReleasePlainNoClangTidy}
+          - {compiler: clang-11.0, stl: libc++, test: DebugAsanUbsanNoClangTidy}
+          # Disabled due to https://github.com/iains/gcc-12-branch/issues/6
+          # - {compiler: gcc-11, test: ReleasePlainNoPchNoClangTidy}
+          # - {compiler: gcc-11, test: DebugPlainNoPchNoClangTidy}
+          # - {compiler: gcc-9, test: ReleasePlainNoClangTidy}
+          # - {compiler: gcc-9, test: DebugPlainNoClangTidy}
+  macOS-11:
+    runs-on: macos-11
+    env:
+      COMPILER: ${{ matrix.config.compiler }}
+      STL: ${{ matrix.config.stl }}
+      OS: osx
+    steps:
+      - uses: actions/checkout@v3
+      - name: install
+        run: extras/scripts/ci_install_osx.sh
+      - name: test
+        run: extras/scripts/postsubmit.sh ${{ matrix.config.test }}
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && failure() }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {compiler: clang-default, stl: libc++, test: ReleasePlainNoPchNoClangTidy}
+          - {compiler: clang-default, stl: libc++, test: DebugAsanUbsanNoPchNoClangTidy}
+          - {compiler: clang-default, stl: libc++, test: DebugPlainNoPchNoClangTidy}
+          - {compiler: clang-14.0, stl: libc++, test: ReleasePlainNoPchNoClangTidy}
+          - {compiler: clang-14.0, stl: libc++, test: DebugAsanUbsanNoPchNoClangTidy}
+          - {compiler: clang-14.0, stl: libc++, test: DebugPlainNoPchNoClangTidy}
+          - {compiler: clang-12.0, stl: libc++, test: ReleasePlainNoClangTidy}
+          - {compiler: clang-12.0, stl: libc++, test: DebugAsanUbsanNoClangTidy}
+          - {compiler: gcc-11, test: ReleasePlainNoPchNoClangTidy}
+          - {compiler: gcc-11, test: DebugPlainNoPchNoClangTidy}
+          - {compiler: gcc-9, test: ReleasePlainNoClangTidy}
+          - {compiler: gcc-9, test: DebugPlainNoClangTidy}
+  macOS-10-15:
+    runs-on: macos-10.15
+    env:
+      COMPILER: ${{ matrix.config.compiler }}
+      STL: ${{ matrix.config.stl }}
+      OS: osx
+    steps:
+      - uses: actions/checkout@v3
+      - name: install
+        run: extras/scripts/ci_install_osx.sh
+      - name: test
+        run: extras/scripts/postsubmit.sh ${{ matrix.config.test }}
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && failure() }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {compiler: clang-default, stl: libc++, test: ReleasePlainNoPchNoClangTidy}
+          - {compiler: clang-default, stl: libc++, test: DebugAsanUbsanNoPchNoClangTidy}
+          - {compiler: clang-default, stl: libc++, test: DebugPlainNoPchNoClangTidy}
+          - {compiler: clang-14.0, stl: libc++, test: ReleasePlainNoPchNoClangTidy}
+          - {compiler: clang-14.0, stl: libc++, test: DebugAsanUbsanNoPchNoClangTidy}
+          - {compiler: clang-14.0, stl: libc++, test: DebugPlainNoPchNoClangTidy}
+          - {compiler: clang-12.0, stl: libc++, test: ReleasePlainNoClangTidy}
+          - {compiler: clang-12.0, stl: libc++, test: DebugAsanUbsanNoClangTidy}
+          - {compiler: gcc-11, test: ReleasePlainNoPchNoClangTidy}
+          - {compiler: gcc-11, test: DebugPlainNoPchNoClangTidy}
+          - {compiler: gcc-9, test: ReleasePlainNoClangTidy}
+          - {compiler: gcc-9, test: DebugPlainNoClangTidy}
