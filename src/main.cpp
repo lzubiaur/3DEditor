@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <Application.h>
-#include <common.h>
-#include <Editor/NodeGraph.h>
+#include <core/Application.h>
 
 #ifndef _WIN32
   #error "Only Windows platform build is supported at the moment"
@@ -30,11 +28,7 @@ int main(int argc, char *argv[]) {
 #endif
 
   Engine::Application app;
-
-  Engine::NodeGraph node;
-  app.addControl(&node);
-
-  app.startMainLoop();
+  app.run();
 
   return EXIT_SUCCESS;
 }

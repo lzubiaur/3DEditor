@@ -1,4 +1,4 @@
-#include <Editor/NodeGraph.h>
+#include <editor/NodeGraph.h>
 
 #include <imgui.h>
 

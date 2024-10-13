@@ -1,14 +1,18 @@
 #pragma once
 
+#include <editor/IControl.h>
 #include <imgui.h>
 
 namespace Engine
 {
 
-class AppLog
+class MessageConsole : public IControl
 {
 public:
-    AppLog();
+    MessageConsole();
+
+    bool onInitialize() override;
+    void onDraw() override;
 
     void clear();
     void addLog(const char* fmt, ...) IM_FMTARGS(2);

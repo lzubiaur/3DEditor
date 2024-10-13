@@ -1,20 +1,21 @@
 #pragma once
 
-#include <IManager.h>
+#include <managers/IManager.h>
 #include <string>
 #include <squirrel.h>
 
 namespace Engine
 {
 
-class Script
+class ScriptManager : IManager
 {
 public:
-    Script(IManager& manager);
-    ~Script();
+    ScriptManager(IManager& manager);
+    ~ScriptManager();
 
-    bool initialize();
-    void shutdown();
+    void onInitialize() override;
+    void onUpdate() override;
+    void onShutdown() override;
 
     bool run(const std::string& file);
 

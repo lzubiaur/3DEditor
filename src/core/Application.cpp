@@ -1,4 +1,4 @@
-#include <Application.h>
+#include <core/Application.h>
 
 #include <imgui.h>
 // ImGui backend and renderer
@@ -14,19 +14,16 @@
 #include <utility>
 #include <memory>
 
-#include <common.h>
-#include <Editor/IUIControl.h>
+#include <core/Common.h>
 
 namespace Engine
 {
 
 Application::Application()
-: mShowImGuiDemo(true)
-, mShowImPlotDemo(true)
-, mShowImGuiDocking(true)
-, mScript(*this)
 {
   mLogger = std::make_shared<spdlog::logger>("default-multi-sink-logger");
+
+  // TODO Use DI
   mPlatform = std::make_unique<Platform>(640,480);
 }
 
@@ -39,17 +36,7 @@ std::shared_ptr<spdlog::logger> Application::getLog() const
   return mLogger;
 }
 
-void Application::addControl(IUIControl *control)
-{
-  mControls.push_back(control);
-
-  if (mRunning)
-  {
-    control->onInitialize();
-  }
-}
-
-void Application::startMainLoop() 
+void Application::run() 
 {
   if (!initialize())
   {
@@ -68,27 +55,7 @@ void Application::startMainLoop()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    if (mShowImGuiDemo)
-    {
-      ImGui::ShowDemoWindow(&mShowImGuiDemo);
-    }
-
-    if (mShowImGuiDocking)
-    {
-      // ImGui::ShowExampleAppDockSpace(&mShowImGuiDocking);
-    }
-
-    if (mShowImPlotDemo)
-    {
-      ImPlot::ShowDemoWindow(&mShowImPlotDemo);
-    }
-
-    mAppLog.draw("Log", &mAppLogOpen);
-
-    for (IUIControl* control : mControls)
-    {
-      control->onDraw();
-    }
+    // TODO draw controls
 
     ImGui::Render();
 
@@ -122,8 +89,9 @@ bool Application::initialize()
 
 bool Application::initializeScript()
 {
-  mScript.initialize();
-  mScript.run("scripts/main.nut");
+  // TODO initialize managers
+  // mScript.initialize();
+  // mScript.run("scripts/main.nut");
 
   return true;
 }
@@ -148,10 +116,7 @@ bool Application::initializeUI()
   succeeded &= ImGui_ImplGlfw_InitForOpenGL(mPlatform->getHandle(), true);
   succeeded &= ImGui_ImplOpenGL3_Init(mPlatform->getGLSLVersion());
 
-  for (IUIControl* control : mControls)
-  {
-    control->onInitialize();
-  }
+  // TODO initialize managers
 
   return succeeded;
 }
@@ -166,7 +131,8 @@ void Application::createCustomLogger()
     auto eol_len = strlen(spdlog::details::os::default_eol);
     std::string str(formatted.begin(), formatted.end() - eol_len);
 
-    mAppLog.addLog(str.c_str());
+    // TODO
+    // mAppLog.addLog(str.c_str());
   });
 
   // TODO add config to set the sinks and main levels
@@ -191,16 +157,18 @@ void Application::shutdown()
   shutDownUI();
   shutDownScript();
 
-  // TODO Move to Window class
+  // TODO Move to Platform class
   glfwDestroyWindow(mPlatform->getHandle());
   glfwTerminate();
+
+  // TODO shutdowns managers
 
   spdlog::shutdown();
 }
 
 void Application::shutDownScript()
 {
-  mScript.shutdown(); 
+  // mScript.shutdown(); 
 }
 
 void Application::shutDownUI()

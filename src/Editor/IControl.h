@@ -3,7 +3,7 @@
 namespace Engine 
 {
 
-class IUIControl
+class IControl
 {
 public:
     virtual bool onInitialize() = 0;

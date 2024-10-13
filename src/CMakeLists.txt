@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.5)
 
 include_directories(
   ${PROJECT_SOURCE_DIR}/src
@@ -10,12 +10,14 @@ include_directories(
 )
 
 add_library(engine STATIC 
-  Platform.cpp 
-  Application.cpp
-  Script.cpp
-  ui/AppLog.cpp
-  Editor/MainWindow.cpp
-  Editor/NodeGraph.cpp
+  core/Platform.cpp 
+  core/Application.cpp
+  managers/UIManager.cpp
+  managers/ScriptManager.cpp
+  editor/MessageConsole.cpp
+  editor/MainWindow.cpp
+  editor/NodeGraph.cpp
+  editor/UserControl.cpp
 )
 
 target_link_libraries(engine

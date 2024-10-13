@@ -1,12 +1,6 @@
 #pragma once
 
-#include <ui/AppLog.h>
-#include <Platform.h>
-#include <ui/AppLog.h>
-#include <Script.h>
-#include <IManager.h>
-#include <Editor/MainWindow.h>
-
+#include <core/Platform.h>
 #include <spdlog/spdlog.h>
 
 namespace Engine 
@@ -16,16 +10,16 @@ class IUIControl;
 class Script;
 class Platform;
 
-class Application : public IManager
+class Application
 {
 public:
   Application();
   ~Application();
 
-  void startMainLoop();
-  virtual std::shared_ptr<spdlog::logger> getLog() const override;
+  void run();
 
-  virtual void addControl(IUIControl *control) override;
+  // TODO create a looger service
+  virtual std::shared_ptr<spdlog::logger> getLog() const;
 
 private:
   bool initialize();
@@ -44,15 +38,7 @@ public:
   bool mRunning = false;
 
   std::unique_ptr<Platform> mPlatform;
-  Script mScript;
-  bool mShowImGuiDemo;
-  bool mShowImPlotDemo;
-  bool mShowImGuiDocking;
-  
-  AppLog mAppLog;
   bool mAppLogOpen = true;
-
-  std::vector<IUIControl*> mControls;
 
   spdlog::pattern_formatter mFormatter;
   mutable std::shared_ptr<spdlog::logger> mLogger;

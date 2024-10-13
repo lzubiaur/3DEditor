@@ -1,15 +1,13 @@
-#include <imgui.h>
+#pragma once
+
 #include <editor/IControl.h>
 
 namespace Engine 
 {
 
-class MainWindow : public IControl
+class UserControl : public IControl
 {
 public:
-    MainWindow();
-    ~MainWindow();
-
     bool onInitialize() override;
     void onDraw() override;
 };

@@ -1,11 +1,11 @@
 // DEPRECATED
 
-#ifndef ENGINE_COMMON_H
-#define ENGINE_COMMON_H
+#pragma once
 
 #include "spdlog/spdlog.h"
 
-namespace Engine {
+namespace Engine 
+{
 
 #define ENGINE_DEBUG
 
@@ -30,6 +30,4 @@ namespace Engine {
 #define LOG_DEBUG_IF(flag, ...)
 #endif
 
-} /* Engine */
-
-#endif // ENGINE_COMMON_H
+}

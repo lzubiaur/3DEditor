@@ -1,5 +1,4 @@
-#ifndef ENGINE_WINDOW_H
-#define ENGINE_WINDOW_H
+#pragma once
 
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
@@ -30,5 +29,3 @@ protected:
 };
 
 }
-
-#endif

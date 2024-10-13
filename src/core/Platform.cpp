@@ -1,4 +1,4 @@
-#include <Platform.h>
+#include <core/Platform.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 
-#include <Config.h>
+#include <core/Config.h>
 
 namespace Engine
 {

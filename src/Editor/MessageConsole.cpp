@@ -1,23 +1,29 @@
-#include <ui/AppLog.h>
-#include <Application.h>
+#include <editor/MessageConsole.h>
+#include <core/Application.h>
 
 namespace Engine
 {
 
-AppLog::AppLog()
+MessageConsole::MessageConsole()
 {
     m_autoScroll = true;
     clear();
 }
 
-void AppLog::clear()
+bool MessageConsole::onInitialize()
+{}
+
+void MessageConsole::onDraw()
+{}
+
+void MessageConsole::clear()
 {
     m_buf.clear();
     m_lineOffsets.clear();
     m_lineOffsets.push_back(0);
 }
 
-void AppLog::addLog(const char* fmt, ...) IM_FMTARGS(2)
+void MessageConsole::addLog(const char* fmt, ...) IM_FMTARGS(2)
 {
     int old_size = m_buf.size();
     va_list args;
@@ -36,7 +42,7 @@ void AppLog::addLog(const char* fmt, ...) IM_FMTARGS(2)
     // }
 }
 
-void AppLog::draw(const char *title, bool *p_open)
+void MessageConsole::draw(const char *title, bool *p_open)
 {
     if (!ImGui::Begin(title, p_open))
     {

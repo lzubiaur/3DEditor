@@ -1,4 +1,4 @@
-#include <Editor/MainWindow.h>
+#include <editor/MainWindow.h>
 #include <ImGuizmo.h>
 namespace Engine 
 {
