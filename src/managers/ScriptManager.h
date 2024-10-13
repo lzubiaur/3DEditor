@@ -7,11 +7,11 @@
 namespace Engine
 {
 
-class ScriptManager : IManager
+class ScriptManager : public IManager
 {
 public:
-    ScriptManager(IManager& manager);
-    ~ScriptManager();
+    ScriptManager();
+    ~ScriptManager() = default;
 
     void onInitialize() override;
     void onUpdate() override;
@@ -23,7 +23,6 @@ private:
     void printSystemError(HSQUIRRELVM vm);
 
 private:
-    IManager& m_manager;
     HSQUIRRELVM m_vm;
 };
 

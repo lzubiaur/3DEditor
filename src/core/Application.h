@@ -1,47 +1,49 @@
 #pragma once
 
+#include <memory>
+#include <vector>
+
 #include <core/Platform.h>
-#include <spdlog/spdlog.h>
+#include <managers/IManager.h>
 
 namespace Engine 
 {
 
-class IUIControl;
-class Script;
-class Platform;
-
 class Application
 {
 public:
-  Application();
-  ~Application();
+    using ManagerPtr = std::unique_ptr<IManager>;
+    using PlatformPtr = std::unique_ptr<Platform>;
 
-  void run();
+    Application(PlatformPtr platform, std::vector<ManagerPtr>& managers);
+    ~Application() = default;
 
-  // TODO create a looger service
-  virtual std::shared_ptr<spdlog::logger> getLog() const;
+    Application(Application&&) noexcept = delete;
+    Application& operator=(Application&&) noexcept = delete;
+
+    Application(Application&) noexcept = delete;
+    Application& operator=(Application&) noexcept = delete;
+
+    void run();
 
 private:
-  bool initialize();
-  void shutdown();
+    bool initialize();
+    void shutdown();
 
-  bool initializeUI();
-  bool initializeScript();
+    bool initializeUI();
+    bool initializeScript();
 
-  void shutDownUI();
-  void shutDownScript();
+    void initializeManagers();
+    void updateManagers();
+    void shutdownManagers();
 
-  void createCustomLogger();
+    void shutDownUI();
+    void shutDownScript();
 
 public:
-
-  bool mRunning = false;
-
-  std::unique_ptr<Platform> mPlatform;
-  bool mAppLogOpen = true;
-
-  spdlog::pattern_formatter mFormatter;
-  mutable std::shared_ptr<spdlog::logger> mLogger;
+    bool mRunning = false;
+    PlatformPtr mPlatform;
+    std::vector<ManagerPtr> mManagers;
 };
 
 }

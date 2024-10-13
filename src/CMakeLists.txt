@@ -7,6 +7,7 @@ include_directories(
   ${SPDLOG_HEADERS}
   ${SQUIREL_HEADERS}
   ${IMGUI_NODE_EDITOR}
+  ${DI_HEADERS}
 )
 
 add_library(engine STATIC 
@@ -18,6 +19,7 @@ add_library(engine STATIC
   editor/MainWindow.cpp
   editor/NodeGraph.cpp
   editor/UserControl.cpp
+  services/LogService.cpp
 )
 
 target_link_libraries(engine
@@ -30,7 +32,6 @@ target_link_libraries(engine
   sqstdlib_static
   squirrel_static
   ${GLFW_LIBRARIES}
-  fruit  
 )
 
 target_include_directories(engine PUBLIC ${PROJECT_SOURCE_DIR}/src)

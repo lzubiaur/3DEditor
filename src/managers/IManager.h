@@ -9,7 +9,7 @@ public:
     virtual void onInitialize() = 0;
     virtual void onUpdate() = 0;
     virtual void onShutdown() = 0;
-    virtual ~IManager() = default;
+    virtual ~IManager() noexcept = default;
 };
 
 }

@@ -33,6 +33,11 @@ std::string toChar(const SQChar* wstr)
 #endif
 }
 
+void ScriptManager::onUpdate()
+{
+
+}
+
 IManager* getManager(HSQUIRRELVM SQ_UNUSED_ARG(m_vm))
 {
     SQUserPointer ud = nullptr;
@@ -66,11 +71,7 @@ void printFunc(HSQUIRRELVM SQ_UNUSED_ARG(m_vm), const SQChar *s, ...)
     // manager->getLog()->info(buf, vl);
 }
 
-ScriptManager::ScriptManager(IManager& manager)
-: m_manager(manager)
-{}
-
-ScriptManager::~ScriptManager()
+ScriptManager::ScriptManager()
 {}
 
 void ScriptManager::onInitialize()
@@ -97,12 +98,14 @@ void ScriptManager::onInitialize()
     sq_setprintfunc(m_vm, printFunc, printFunc);
  
     // push the manager reference into the root table
-    sq_pushstring(m_vm, _SC("_manager"), -1);
-    sq_pushuserpointer(m_vm, &m_manager);
-    if (!SQ_SUCCEEDED(sq_newslot(m_vm, -3, false)))
-    {
-        printSystemError(m_vm);
-    }
+
+    // TODO
+    // sq_pushstring(m_vm, _SC("_manager"), -1);
+    // sq_pushuserpointer(m_vm, &m_manager);
+    // if (!SQ_SUCCEEDED(sq_newslot(m_vm, -3, false)))
+    // {
+    //     printSystemError(m_vm);
+    // }
 }
 
 void ScriptManager::onShutdown()

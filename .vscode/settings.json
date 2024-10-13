@@ -77,7 +77,11 @@
         "future": "cpp",
         "regex": "cpp",
         "span": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "bitset": "cpp",
+        "random": "cpp",
+        "typeindex": "cpp",
+        "unordered_set": "cpp"
     },
     "cmake.configureOnOpen": false
 }

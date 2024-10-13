@@ -2,9 +2,10 @@
 #include <stdlib.h>
 
 #include <core/Application.h>
+#include <core/Components.h>
 
 #ifndef _WIN32
-  #error "Only Windows platform build is supported at the moment"
+    #error "Only Windows platform build is supported at the moment"
 #endif
 
 #ifdef _WIN32
@@ -18,17 +19,28 @@
 
 #ifdef _WIN32
 int CALLBACK WinMain(
-  HINSTANCE hInstance,     /* handle to the current instance of the application. */
-  HINSTANCE hPrevInstance, /* handle to the previous instance of the application */
-  LPSTR     lpCmdLine,     /* command line for the application */
-  int       nCmdShow) {    /* controls how the window is to be shown */
+    HINSTANCE hInstance,     /* handle to the current instance of the application. */
+    HINSTANCE hPrevInstance, /* handle to the previous instance of the application */
+    LPSTR lpCmdLine,         /* command line for the application */
+    int nCmdShow)
+{ /* controls how the window is to be shown */
 #else
 /* Linux and OSX use standard entry point */
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 #endif
 
-  Engine::Application app;
-  app.run();
+    using namespace Engine;
 
-  return EXIT_SUCCESS;
+    auto app = getApplicationInjector().create<std::unique_ptr<Application>>();
+    app->run();
+
+    // auto platform = std::make_unique<Platform>(600, 600);
+    // std::vector<std::unique_ptr<IManager>> managers;
+    // managers.push_back(std::make_unique<ScriptManager>());
+    // managers.push_back(std::make_unique<UIManager>());
+
+    // Application app(std::move(platform), managers);
+    
+    return EXIT_SUCCESS;
 }
