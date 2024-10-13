@@ -1,4 +1,4 @@
-#include <Manager.h>
+#include <Application.h>
 
 #include <imgui.h>
 // ImGui backend and renderer
@@ -20,26 +20,26 @@
 namespace Engine
 {
 
-Manager::Manager()
-: m_showImGuiDemo(true)
-, m_showImPlotDemo(true)
-, m_showImGuiDocking(true)
-, m_script(*this)
+Application::Application()
+: mShowImGuiDemo(true)
+, mShowImPlotDemo(true)
+, mShowImGuiDocking(true)
+, mScript(*this)
 {
-  m_logger = std::make_shared<spdlog::logger>("default-multi-sink-logger");
-  m_window = std::make_unique<Window>(640,480);
+  mLogger = std::make_shared<spdlog::logger>("default-multi-sink-logger");
+  mPlatform = std::make_unique<Platform>(640,480);
 }
 
-Manager::~Manager()
+Application::~Application()
 {
 }
 
-std::shared_ptr<spdlog::logger> Manager::getLog() const
+std::shared_ptr<spdlog::logger> Application::getLog() const
 {
-  return m_logger;
+  return mLogger;
 }
 
-void Manager::addControl(IUIControl *control)
+void Application::addControl(IUIControl *control)
 {
   mControls.push_back(control);
 
@@ -49,7 +49,7 @@ void Manager::addControl(IUIControl *control)
   }
 }
 
-void Manager::startMainLoop() 
+void Application::startMainLoop() 
 {
   if (!initialize())
   {
@@ -60,7 +60,7 @@ void Manager::startMainLoop()
 
   mRunning = true;
 
-  while (!glfwWindowShouldClose(m_window->getHandle())) 
+  while (!glfwWindowShouldClose(mPlatform->getHandle())) 
   {
     glfwPollEvents();
 
@@ -68,22 +68,22 @@ void Manager::startMainLoop()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    if (m_showImGuiDemo)
+    if (mShowImGuiDemo)
     {
-      ImGui::ShowDemoWindow(&m_showImGuiDemo);
+      ImGui::ShowDemoWindow(&mShowImGuiDemo);
     }
 
-    if (m_showImGuiDocking)
+    if (mShowImGuiDocking)
     {
-      // ImGui::ShowExampleAppDockSpace(&m_showImGuiDocking);
+      // ImGui::ShowExampleAppDockSpace(&mShowImGuiDocking);
     }
 
-    if (m_showImPlotDemo)
+    if (mShowImPlotDemo)
     {
-      ImPlot::ShowDemoWindow(&m_showImPlotDemo);
+      ImPlot::ShowDemoWindow(&mShowImPlotDemo);
     }
 
-    m_appLog.draw("Log", &m_appLogOpen);
+    mAppLog.draw("Log", &mAppLogOpen);
 
     for (IUIControl* control : mControls)
     {
@@ -93,14 +93,14 @@ void Manager::startMainLoop()
     ImGui::Render();
 
     int display_w, display_h;
-    glfwGetFramebufferSize(m_window->getHandle(), &display_w, &display_h);
+    glfwGetFramebufferSize(mPlatform->getHandle(), &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 
     glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    glfwSwapBuffers(m_window->getHandle());
+    glfwSwapBuffers(mPlatform->getHandle());
   }
 
   mRunning = false;
@@ -108,9 +108,9 @@ void Manager::startMainLoop()
   shutdown();
 }
 
-bool Manager::initialize()
+bool Application::initialize()
 {
-  if (!m_window->init()) 
+  if (!mPlatform->init()) 
   {
     return false;
   }
@@ -120,15 +120,15 @@ bool Manager::initialize()
   return initializeUI() && initializeScript();
 }
 
-bool Manager::initializeScript()
+bool Application::initializeScript()
 {
-  m_script.initialize();
-  m_script.run("scripts/main.nut");
+  mScript.initialize();
+  mScript.run("scripts/main.nut");
 
   return true;
 }
 
-bool Manager::initializeUI()
+bool Application::initializeUI()
 {
   bool succeeded = true;
 
@@ -145,8 +145,8 @@ bool Manager::initializeUI()
   ImGui::StyleColorsDark();
   //ImGui::StyleColorsLight();
 
-  succeeded &= ImGui_ImplGlfw_InitForOpenGL(m_window->getHandle(), true);
-  succeeded &= ImGui_ImplOpenGL3_Init(m_window->getGLSLVersion());
+  succeeded &= ImGui_ImplGlfw_InitForOpenGL(mPlatform->getHandle(), true);
+  succeeded &= ImGui_ImplOpenGL3_Init(mPlatform->getGLSLVersion());
 
   for (IUIControl* control : mControls)
   {
@@ -156,17 +156,17 @@ bool Manager::initializeUI()
   return succeeded;
 }
 
-void Manager::createCustomLogger()
+void Application::createCustomLogger()
 {
   auto callback_sink = std::make_shared<spdlog::sinks::callback_sink_mt>([&](const spdlog::details::log_msg &msg) 
   {
     spdlog::memory_buf_t formatted;
-    m_formatter.format(msg, formatted);
+    mFormatter.format(msg, formatted);
 
     auto eol_len = strlen(spdlog::details::os::default_eol);
     std::string str(formatted.begin(), formatted.end() - eol_len);
 
-    m_appLog.addLog(str.c_str());
+    mAppLog.addLog(str.c_str());
   });
 
   // TODO add config to set the sinks and main levels
@@ -175,35 +175,35 @@ void Manager::createCustomLogger()
   auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("log.txt", true);
   file_sink->set_level(spdlog::level::debug);
 
-  m_logger->sinks().push_back(file_sink);
-  m_logger->sinks().push_back(callback_sink);
+  mLogger->sinks().push_back(file_sink);
+  mLogger->sinks().push_back(callback_sink);
 
   spdlog::set_level(spdlog::level::debug);
-  spdlog::register_logger(m_logger);
-  spdlog::set_default_logger(m_logger);
+  spdlog::register_logger(mLogger);
+  spdlog::set_default_logger(mLogger);
   // Loggers must be thread safe (_mt) when enabling the flush thread
   spdlog::flush_every(std::chrono::seconds(3));
   spdlog::flush_on(spdlog::level::err);
 }
 
-void Manager::shutdown()
+void Application::shutdown()
 {
   shutDownUI();
   shutDownScript();
 
   // TODO Move to Window class
-  glfwDestroyWindow(m_window->getHandle());
+  glfwDestroyWindow(mPlatform->getHandle());
   glfwTerminate();
 
   spdlog::shutdown();
 }
 
-void Manager::shutDownScript()
+void Application::shutDownScript()
 {
-  m_script.shutdown(); 
+  mScript.shutdown(); 
 }
 
-void Manager::shutDownUI()
+void Application::shutDownUI()
 {
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplGlfw_Shutdown();

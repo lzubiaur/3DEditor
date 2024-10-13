@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <Manager.h>
+#include <Application.h>
 #include <common.h>
 #include <Editor/NodeGraph.h>
 
@@ -29,12 +29,12 @@ int CALLBACK WinMain(
 int main(int argc, char *argv[]) {
 #endif
 
-  Engine::Manager manager;
+  Engine::Application app;
 
   Engine::NodeGraph node;
-  manager.addControl(&node);
+  app.addControl(&node);
 
-  manager.startMainLoop();
+  app.startMainLoop();
 
   return EXIT_SUCCESS;
 }

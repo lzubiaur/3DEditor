@@ -17,18 +17,25 @@
       "detail": "Create the build folder"
     },
     {
-      "label": "Delete Build Folder",
+      "label": "Clean",
       "type": "shell",
       "command": "rm",
       "args": [
-        "-rf",
-        "${workspaceFolder}/build"
+        "-Path",
+        "${workspaceFolder}/build",
+        "-Recurse",
+        "-Force"
       ],
       "group": {
         "kind": "build",
         "isDefault": false
       },
       "problemMatcher": [],
+      "options": {
+        "shell": {
+          "executable": "powershell.exe"
+        }
+      },
       "detail": "Delete the build folder"
     },
     {
@@ -36,12 +43,13 @@
       "type": "shell",
       "command": "cmake",
       "args": [
+        "-S",
         "..",
         "-Wno-dev",
-        "-DCMAKE_BUILD_TYPE=Debug",
-        "-DFRUIT_USES_BOOST=False",
+        "-G \"Visual Studio 17 2022\"",
+        "-T ClangCL",
         "-B",
-        "${workspaceFolder}/build",
+        "${workspaceFolder}/build"
       ],
       "options": {
         "cwd": "${workspaceFolder}/build"
@@ -70,6 +78,16 @@
         "$gcc"
       ],
       "detail": "Generated task for building the CMake project."
+    },
+    {
+      "label": "Clean Build",
+      "dependsOn": [
+        "Clean",
+        "CMake Generate",
+        "CMake Build"
+      ],
+      "detail": "Clean and re-build the project.",
+      "problemMatcher": []
     }
   ],
   "version": "2.0.0"

@@ -1,3 +1,12 @@
+## Build on Windows
+
+```bash
+mkdir build
+cd build
+cmake -S .. -Wno-dev -G "Visual Studio 17 2022" -T ClangCL
+cmake --build . 
+```
+
 
 ## Git sub modules
 

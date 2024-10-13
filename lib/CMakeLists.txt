@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(lib)
+
+set(FRUIT_USES_BOOST OFF)
 
 # Add third-party libraries
 add_subdirectory(gl3w)

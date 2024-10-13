@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ui/AppLog.h>
-#include <Window.h>
+#include <Platform.h>
 #include <ui/AppLog.h>
 #include <Script.h>
 #include <IManager.h>
@@ -14,15 +14,13 @@ namespace Engine
 
 class IUIControl;
 class Script;
-class Window;
+class Platform;
 
-// TODO rename Application
-
-class Manager : public IManager
+class Application : public IManager
 {
 public:
-  Manager();
-  ~Manager();
+  Application();
+  ~Application();
 
   void startMainLoop();
   virtual std::shared_ptr<spdlog::logger> getLog() const override;
@@ -45,19 +43,19 @@ public:
 
   bool mRunning = false;
 
-  std::unique_ptr<Window> m_window;
-  Script m_script;
-  bool m_showImGuiDemo;
-  bool m_showImPlotDemo;
-  bool m_showImGuiDocking;
+  std::unique_ptr<Platform> mPlatform;
+  Script mScript;
+  bool mShowImGuiDemo;
+  bool mShowImPlotDemo;
+  bool mShowImGuiDocking;
   
-  AppLog m_appLog;
-  bool m_appLogOpen = true;
+  AppLog mAppLog;
+  bool mAppLogOpen = true;
 
   std::vector<IUIControl*> mControls;
 
-  spdlog::pattern_formatter m_formatter;
-  mutable std::shared_ptr<spdlog::logger> m_logger;
+  spdlog::pattern_formatter mFormatter;
+  mutable std::shared_ptr<spdlog::logger> mLogger;
 };
 
 }

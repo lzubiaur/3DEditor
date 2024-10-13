@@ -10,14 +10,11 @@
 namespace Engine 
 {
 
-
-// Rename Platform
-
-class Window 
+class Platform 
 {
 public:
-  Window(int width, int height);
-  ~Window(); 
+  Platform(int width, int height);
+  ~Platform(); 
 
   bool init();
 
@@ -25,11 +22,11 @@ public:
   GLFWwindow* getHandle();
 
 protected:
-  GLFWwindow *m_window;
+  GLFWwindow *mWindow;
   int width, height;
-  std::string m_glslVersion;
-  int m_glfwVersionMajor;
-  int m_glfwVersionMinor;
+  std::string mGlslVersion;
+  int mGlfwVersionMajor;
+  int mGlfwVersionMinor;
 };
 
 }

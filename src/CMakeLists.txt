@@ -10,8 +10,8 @@ include_directories(
 )
 
 add_library(engine STATIC 
-  Window.cpp 
-  Manager.cpp
+  Platform.cpp 
+  Application.cpp
   Script.cpp
   ui/AppLog.cpp
   Editor/MainWindow.cpp

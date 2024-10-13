@@ -1,8 +1,7 @@
-cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
+project("Particle Editor" C CXX)
 set(RUNTIME_NAME "mygame")
-
-project("opengl-2D-engine" C CXX)
 
 # TODO GLFW compile options http://www.glfw.org/docs/latest/compile.html#compile_options_osx
 
@@ -23,8 +22,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/lib)
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
 
-# Global compiler flags
-list(APPEND CMAKE_CXX_FLAGS "-std=c++17")
+# Build options
+set(CMAKE_BUILD_TYPE "Debug")
+
+# Compiler options
+# set(CMAKE_C_COMPILER "clang")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w") # Disable warnings
 
 # Show all errors/warning on release build
 # add_definitions(-Wall)

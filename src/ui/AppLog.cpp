@@ -1,5 +1,5 @@
 #include <ui/AppLog.h>
-#include <Manager.h>
+#include <Application.h>
 
 namespace Engine
 {
