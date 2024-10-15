@@ -15,7 +15,7 @@ namespace Engine
 class Platform : public IPlatform
 {
 public:
-    Platform(int width, int height);
+    Platform();
     ~Platform() = default;
 
     Platform(Platform&&) noexcept = delete;

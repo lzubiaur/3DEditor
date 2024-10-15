@@ -2,10 +2,12 @@
 
 #include <memory>
 #include <vector>
+#include <functional>
+#include <boost/di.hpp>
 
+#include <core/ISystem.h>
 #include <core/IApplication.h>
 #include <core/IPlatform.h>
-#include <managers/IManager.h>
 
 namespace Engine 
 {
@@ -13,10 +15,10 @@ namespace Engine
 class Application : public IApplication
 {
 public:
-    using ManagerPtr = std::unique_ptr<IManager>;
+    Application() = delete;
+    ~Application() noexcept = default;
 
-    Application(IPlatform& platform, std::vector<ManagerPtr>& managers);
-    ~Application() = default;
+    BOOST_DI_INJECT(Application, IPlatform& platform);
 
     Application(Application&&) noexcept = delete;
     Application& operator=(Application&&) noexcept = delete;
@@ -27,21 +29,25 @@ public:
     void run();
 
     void requestClose() override;
+
+    void addSystem(ISystem& system) override;
+    void removeSystem(ISystem& system) override;
+
     const IPlatform& getPlatform() const override;
 
 private:
     void initialize();
     void shutdown();
 
-    void initializeManagers();
-    void updateManagers();
-    void shutdownManagers();
+    void initializeSystems();
+    void updateSystems();
+    void shutdownSystems();
 
 public:
     bool mRunning = false;
     bool mCloseRequested = false;
     IPlatform& mPlatform;
-    std::vector<ManagerPtr> mManagers;
+    std::vector<std::reference_wrapper<ISystem>> mSystems;
 };
 
 }

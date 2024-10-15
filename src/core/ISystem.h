@@ -5,10 +5,10 @@
 namespace Engine
 {
 
-class ILifecycleEvent
+class ISystem
 {
 public:
-    virtual ~ILifecycleEvent() noexcept = default;
+    virtual ~ISystem() noexcept = default;
 
     virtual void onInitialize() = 0;
     virtual void onShutdown() = 0;

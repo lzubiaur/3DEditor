@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <core/Application.h>
+#include <core/IApplication.h>
 #include <core/Injectors.h>
 
 #ifndef _WIN32
@@ -32,7 +32,12 @@ int main(int argc, char *argv[])
 
     using namespace Engine;
 
+    // TODO use reference instead of unique pointer
     auto app = getApplicationInjector().create<std::unique_ptr<Application>>();
+
+    auto uiManager = getManagerInjector(*app).create<UIManager>();
+    app->addSystem(uiManager);
+
     app->run();
 
     // auto platform = std::make_unique<Platform>(600, 600);

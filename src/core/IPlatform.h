@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <string>
-#include <core/ILifecycleEvent.h>
+#include <core/ISystem.h>
 
 namespace Engine
 {
@@ -25,7 +25,7 @@ public:
     virtual void* getWindowHandle() const = 0;
 };
 
-class IPlatform : public ILifecycleEvent
+class IPlatform : public ISystem
 {
 public:
     using PlatformDataPtr = std::unique_ptr<IPlatformData>;

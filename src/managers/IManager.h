@@ -1,11 +1,11 @@
 #pragma once
 
-#include <core/ILifecycleEvent.h>
+#include <core/ISystem.h>
 
 namespace Engine
 {
 
-class IManager : public ILifecycleEvent
+class IManager : public ISystem
 {
 };
 

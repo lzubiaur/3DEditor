@@ -9,10 +9,19 @@
 namespace Engine
 {
 
-Application::Application(IPlatform& platform, std::vector<ManagerPtr>& managers)
+Application::Application(IPlatform& platform)
 : mPlatform(platform)
-, mManagers(std::move(managers))
 {
+}
+
+void Application::addSystem(ISystem& system)
+{
+    mSystems.push_back(system);
+}
+
+void Application::removeSystem(ISystem& system)
+{
+    // TODO
 }
 
 void Application::run()
@@ -24,7 +33,7 @@ void Application::run()
     {
         mPlatform.onPreUpdate();
 
-        updateManagers();
+        updateSystems();
 
         mPlatform.onPostUpdate();
     }
@@ -49,31 +58,31 @@ const IPlatform& Application::getPlatform() const
 
 void Application::initialize()
 {
-    initializeManagers();
-
     mPlatform.onInitialize();
+    initializeSystems();
 }
 
 void Application::shutdown()
 {
-    shutdownManagers();
+    shutdownSystems();
+    mPlatform.onShutdown();
 }
 
-void Application::initializeManagers()
+void Application::initializeSystems()
 {
-    std::for_each(mManagers.begin(), mManagers.end(), [](const auto& manager) { manager->onInitialize(); });
+    std::for_each(mSystems.begin(), mSystems.end(), [](ISystem& system) { system.onInitialize(); });
 }
 
-void Application::updateManagers()
+void Application::updateSystems()
 {
-    std::for_each(mManagers.begin(), mManagers.end(), [](const ManagerPtr& manager) { manager->onPreUpdate(); });
-    std::for_each(mManagers.begin(), mManagers.end(), [](const ManagerPtr& manager) { manager->onUpdate(); });
-    std::for_each(mManagers.begin(), mManagers.end(), [](const ManagerPtr& manager) { manager->onPostUpdate(); });
+    std::for_each(mSystems.begin(), mSystems.end(), [](ISystem& system) { system.onPreUpdate(); });
+    std::for_each(mSystems.begin(), mSystems.end(), [](ISystem& system) { system.onUpdate(); });
+    std::for_each(mSystems.begin(), mSystems.end(), [](ISystem& system) { system.onPostUpdate(); });
 }
 
-void Application::shutdownManagers()
+void Application::shutdownSystems()
 {
-    std::for_each(mManagers.begin(), mManagers.end(), [](const auto& manager) { manager->onShutdown(); });
+    std::for_each(mSystems.begin(), mSystems.end(), [](ISystem& system) { system.onShutdown(); });
 }
 
 }

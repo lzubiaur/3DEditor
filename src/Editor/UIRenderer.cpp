@@ -19,13 +19,13 @@ void UIRenderer::initialize()
 {
     const auto platformData = mApplication.getPlatform().getPlatformData();
     
-    Expects(platformData->getAPI() != GraphicsAPI::OpenGL);
+    Expects(platformData->getAPI() == GraphicsAPI::OpenGL);
 
     GLFWwindow* handle = static_cast<GLFWwindow*>(platformData->getWindowHandle());
     std::string version = platformData->getVersion();
 
-    ImGui_ImplGlfw_InitForOpenGL(handle, true);
-    ImGui_ImplOpenGL3_Init(version.c_str());
+    Ensures(ImGui_ImplGlfw_InitForOpenGL(handle, true));
+    Ensures(ImGui_ImplOpenGL3_Init(version.c_str()));
 }
 
 void UIRenderer::shutdown()

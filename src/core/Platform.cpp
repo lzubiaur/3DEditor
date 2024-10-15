@@ -18,9 +18,9 @@ static void error_callback(int error, const char *description)
   std::cerr << "ERROR: " << description << " [" << error << "]" << std::endl;
 }
 
-Platform::Platform(int width, int height)
-: mWidth(width)
-, mHeight(height)
+Platform::Platform()
+: mWidth(800)
+, mHeight(600)
 {
 }
 
