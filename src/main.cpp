@@ -32,21 +32,12 @@ int main(int argc, char *argv[])
 
     using namespace Engine;
 
-    // TODO use reference instead of unique pointer
     auto app = getApplicationInjector().create<std::unique_ptr<Application>>();
 
-    auto uiManager = getManagerInjector(*app).create<UIManager>();
-    app->addSystem(uiManager);
+    app->addSystem(getManagerInjector(*app).create<std::shared_ptr<UIManager>>());
+    app->addSystem(getManagerInjector(*app).create<std::shared_ptr<ScriptManager>>());
 
     app->run();
 
-    // auto platform = std::make_unique<Platform>(600, 600);
-    // std::vector<std::unique_ptr<IManager>> managers;
-    // managers.push_back(std::make_unique<ScriptManager>());
-    // managers.push_back(std::make_unique<UIManager>());
-
-    // Application app(std::move(platform), managers);
-    // app.run();
-    
     return EXIT_SUCCESS;
 }

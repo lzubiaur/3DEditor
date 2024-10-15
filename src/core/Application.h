@@ -29,10 +29,8 @@ public:
     void run();
 
     void requestClose() override;
-
-    void addSystem(ISystem& system) override;
-    void removeSystem(ISystem& system) override;
-
+    void addSystem(SystemPtr system) override;
+    void removeSystem(SystemPtr system) override;
     const IPlatform& getPlatform() const override;
 
 private:
@@ -47,7 +45,7 @@ public:
     bool mRunning = false;
     bool mCloseRequested = false;
     IPlatform& mPlatform;
-    std::vector<std::reference_wrapper<ISystem>> mSystems;
+    std::vector<SystemPtr> mSystems;
 };
 
 }

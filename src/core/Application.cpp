@@ -14,12 +14,12 @@ Application::Application(IPlatform& platform)
 {
 }
 
-void Application::addSystem(ISystem& system)
+void Application::addSystem(SystemPtr system)
 {
     mSystems.push_back(system);
 }
 
-void Application::removeSystem(ISystem& system)
+void Application::removeSystem(SystemPtr system)
 {
     // TODO
 }
@@ -70,19 +70,19 @@ void Application::shutdown()
 
 void Application::initializeSystems()
 {
-    std::for_each(mSystems.begin(), mSystems.end(), [](ISystem& system) { system.onInitialize(); });
+    std::for_each(mSystems.begin(), mSystems.end(), [](SystemPtr system) { system->onInitialize(); });
 }
 
 void Application::updateSystems()
 {
-    std::for_each(mSystems.begin(), mSystems.end(), [](ISystem& system) { system.onPreUpdate(); });
-    std::for_each(mSystems.begin(), mSystems.end(), [](ISystem& system) { system.onUpdate(); });
-    std::for_each(mSystems.begin(), mSystems.end(), [](ISystem& system) { system.onPostUpdate(); });
+    std::for_each(mSystems.begin(), mSystems.end(), [](SystemPtr system) { system->onPreUpdate(); });
+    std::for_each(mSystems.begin(), mSystems.end(), [](SystemPtr system) { system->onUpdate(); });
+    std::for_each(mSystems.begin(), mSystems.end(), [](SystemPtr system) { system->onPostUpdate(); });
 }
 
 void Application::shutdownSystems()
 {
-    std::for_each(mSystems.begin(), mSystems.end(), [](ISystem& system) { system.onShutdown(); });
+    std::for_each(mSystems.begin(), mSystems.end(), [](SystemPtr system) { system->onShutdown(); });
 }
 
 }
