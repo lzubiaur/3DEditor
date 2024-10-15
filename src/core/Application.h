@@ -3,19 +3,19 @@
 #include <memory>
 #include <vector>
 
-#include <core/Platform.h>
+#include <core/IApplication.h>
+#include <core/IPlatform.h>
 #include <managers/IManager.h>
 
 namespace Engine 
 {
 
-class Application
+class Application : public IApplication
 {
 public:
     using ManagerPtr = std::unique_ptr<IManager>;
-    using PlatformPtr = std::unique_ptr<Platform>;
 
-    Application(PlatformPtr platform, std::vector<ManagerPtr>& managers);
+    Application(IPlatform& platform, std::vector<ManagerPtr>& managers);
     ~Application() = default;
 
     Application(Application&&) noexcept = delete;
@@ -26,23 +26,21 @@ public:
 
     void run();
 
-private:
-    bool initialize();
-    void shutdown();
+    void requestClose() override;
+    const IPlatform& getPlatform() const override;
 
-    bool initializeUI();
-    bool initializeScript();
+private:
+    void initialize();
+    void shutdown();
 
     void initializeManagers();
     void updateManagers();
     void shutdownManagers();
 
-    void shutDownUI();
-    void shutDownScript();
-
 public:
     bool mRunning = false;
-    PlatformPtr mPlatform;
+    bool mCloseRequested = false;
+    IPlatform& mPlatform;
     std::vector<ManagerPtr> mManagers;
 };
 

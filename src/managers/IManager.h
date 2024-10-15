@@ -1,15 +1,12 @@
 #pragma once
 
+#include <core/ILifecycleEvent.h>
+
 namespace Engine
 {
 
-class IManager 
+class IManager : public ILifecycleEvent
 {
-public:
-    virtual void onInitialize() = 0;
-    virtual void onUpdate() = 0;
-    virtual void onShutdown() = 0;
-    virtual ~IManager() noexcept = default;
 };
 
 }

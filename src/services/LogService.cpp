@@ -42,5 +42,9 @@ void LogService::createCustomLogger()
   spdlog::flush_on(spdlog::level::err);
 }
 
+void LogService::onShutdown()
+{
+  spdlog::shutdown();
+}
 
 }

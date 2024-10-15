@@ -1,12 +1,14 @@
 #include <core/Platform.h>
 
+#include <gsl/assert>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <string>
 #include <sstream>
 
-#include <core/Config.h>
+#include <utils/Config.h>
 
 namespace Engine
 {
@@ -16,17 +18,19 @@ static void error_callback(int error, const char *description)
   std::cerr << "ERROR: " << description << " [" << error << "]" << std::endl;
 }
 
-Platform::Platform(int width, int height) : width(width), height(height)
+Platform::Platform(int width, int height)
+: mWidth(width)
+, mHeight(height)
 {
 }
 
-bool Platform::initialize()
+void Platform::onInitialize()
 {
     glfwSetErrorCallback(error_callback);
 
     if (!glfwInit())
     {
-        return false;
+        return;
     }
 
 #if defined(IMGUI_IMPL_OPENGL_ES2)
@@ -61,52 +65,77 @@ bool Platform::initialize()
     windowTitle << Engine::AppName << " " << Engine::Version;
 
     // Create a windowed mode window and its OpenGL context
-    mWindow = glfwCreateWindow(width, height, windowTitle.str().c_str(), NULL, NULL);
+    mWindow = glfwCreateWindow(mWidth, mHeight, windowTitle.str().c_str(), NULL, NULL);
+    Ensures(mWindow != nullptr);
 
-    if (!mWindow)
-    {
-        glfwTerminate();
-
-        return false;
-    }
-
-    // Make the window's context current
     glfwMakeContextCurrent(mWindow);
 
-    if (gl3wInit())
-    {
-        // LOG_ERROR("Failed to initialize OpenGL");
+    int initResult = gl3wInit();
+    Ensures(initResult == GL3W_OK);
 
-        return false;
-    }
-
-    if (!gl3wIsSupported(mGlfwVersionMajor, mGlfwVersionMinor))
-    {
-        // LOG_ERROR("OpenGL {}.{} not supported", m_glfwVersionMajor, m_glfwVersionMinor);
-
-        return false;
-    }
+    Ensures(gl3wIsSupported(mGlfwVersionMajor, mGlfwVersionMinor));
 
     glfwSwapInterval(1); // Enable vsync
-
-    // TODO
-    // LOG_DEBUG("Running OpenGL {} GLSL {}", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
-
-    return true;
 }
 
-void Platform::shutdown()
+void Platform::onShutdown()
 {
-    // TODO
+    glfwDestroyWindow(mWindow);
+    glfwTerminate();
 }
 
-const char *Platform::getGLSLVersion() const
+void Platform::onPreUpdate()
 {
-    return mGlslVersion.c_str();
+    glfwPollEvents();
+
+    int display_w, display_h;
+    glfwGetFramebufferSize(mWindow, &display_w, &display_h);
+    glViewport(0, 0, display_w, display_h);
+
+    glClearColor(0.f, 0.f, 0.f, 1.f);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
-GLFWwindow *Platform::getHandle()
+GLFWwindow* Platform::getWindowHandle() const
 {
     return mWindow;
 }
+
+std::string Platform::getGLSLVersion() const
+{
+    return mGlslVersion;
+}
+
+IPlatform::PlatformDataPtr Platform::getPlatformData() const
+{
+    return std::make_unique<OpenGLAPIData>(*this);
+}
+
+bool Platform::shouldClose() const
+{
+    return glfwWindowShouldClose(mWindow);
+}
+
+void Platform::onUpdate()
+{}
+
+void Platform::onPostUpdate()
+{
+    glfwSwapBuffers(mWindow);
+}
+
+OpenGLAPIData::OpenGLAPIData(const Platform& platform)
+: mPlatform(platform)
+{}
+
+void* OpenGLAPIData::getWindowHandle() const
+{
+    return static_cast<void*>(mPlatform.getWindowHandle());
+}
+
+std::string OpenGLAPIData::getVersion() const
+{
+    return mPlatform.getGLSLVersion();
+}
+
 }

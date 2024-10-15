@@ -81,7 +81,13 @@
         "bitset": "cpp",
         "random": "cpp",
         "typeindex": "cpp",
-        "unordered_set": "cpp"
+        "unordered_set": "cpp",
+        "complex": "cpp",
+        "deque": "cpp",
+        "memory_resource": "cpp",
+        "ranges": "cpp",
+        "pointers": "cpp",
+        "assert": "cpp"
     },
     "cmake.configureOnOpen": false
 }

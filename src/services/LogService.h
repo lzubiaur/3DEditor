@@ -12,12 +12,14 @@ public:
     LogService();
     virtual std::shared_ptr<spdlog::logger> getLog() const;
 
+    void onShutdown() override;
+
 private:
     void createCustomLogger();
 
 private:
-  spdlog::pattern_formatter mFormatter;
-  mutable std::shared_ptr<spdlog::logger> mLogger;
+    spdlog::pattern_formatter mFormatter;
+    mutable std::shared_ptr<spdlog::logger> mLogger;
 };
 
 }

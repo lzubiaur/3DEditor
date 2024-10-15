@@ -14,8 +14,11 @@ public:
     ~ScriptManager() = default;
 
     void onInitialize() override;
-    void onUpdate() override;
     void onShutdown() override;
+
+    void onPreUpdate() override {}
+    void onUpdate() override;
+    void onPostUpdate() override {}
 
     bool run(const std::string& file);
 

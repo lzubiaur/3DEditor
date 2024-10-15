@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include <core/Application.h>
-#include <core/Components.h>
+#include <core/Injectors.h>
 
 #ifndef _WIN32
     #error "Only Windows platform build is supported at the moment"
@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
     // managers.push_back(std::make_unique<UIManager>());
 
     // Application app(std::move(platform), managers);
+    // app.run();
     
     return EXIT_SUCCESS;
 }
