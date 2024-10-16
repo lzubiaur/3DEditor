@@ -7,13 +7,12 @@
 #include <editor/IUIRenderer.h>
 #include <managers/IManager.h>
 #include <editor/MainWindow.h>
-
-#include <boost/signals2.hpp>
+#include <services/SignalService.h>
 
 namespace Engine
 {
 
-class UIManager : public IManager
+class UIManager : public IManager, public SignalService
 {
 public:
     using ControlPtr = std::shared_ptr<IControl>;
@@ -30,13 +29,7 @@ public:
 
     void addControl(ControlPtr control);
 
-    void notifyRequestCloseApp();
-    void unsubscribeToRequestCloseApp(std::function<void()> callback);
-    void subscribeToRequestCloseApp(std::function<void()> callback);
-
 private:
-    boost::signals2::signal<void ()> onRequestCloseApp;
-
     IUIRenderer& mRenderer;
     IApplication& mApplication;
     std::vector<ControlPtr> mControls;

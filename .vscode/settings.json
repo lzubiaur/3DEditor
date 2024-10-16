@@ -103,7 +103,8 @@
         "stack": "cpp",
         "stdfloat": "cpp",
         "strstream": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "*.ipp": "cpp"
     },
     "cmake.configureOnOpen": false
 }

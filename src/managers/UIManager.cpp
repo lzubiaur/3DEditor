@@ -16,6 +16,11 @@ UIManager::UIManager(IApplication& application, IUIRenderer& renderer)
 
 void UIManager::onInitialize()
 {
+    subscribe<void()>("ui.onRequestClose", [&]()
+    {
+        mApplication.requestClose();
+    });
+
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
@@ -59,8 +64,6 @@ void UIManager::onPostUpdate()
 
 void UIManager::onShutdown()
 {
-    onRequestCloseApp.disconnect_all_slots();
-
     // TODO
     // std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onShutDown(); });
 
@@ -76,22 +79,6 @@ void UIManager::addControl(ControlPtr control)
     {
         control->onInitialize();
     }
-}
-
-void UIManager::notifyRequestCloseApp()
-{
-    onRequestCloseApp();
-    mApplication.requestClose();
-}
-
-void UIManager::unsubscribeToRequestCloseApp(std::function<void()> callback)
-{
-    // onRequestCloseApp.disconnect(callback);
-}
-
-void UIManager::subscribeToRequestCloseApp(std::function<void()> callback)
-{
-    onRequestCloseApp.connect(callback);
 }
 
 }

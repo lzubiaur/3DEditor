@@ -24,6 +24,7 @@ add_library(engine STATIC
   editor/UserControl.cpp
   editor/MainMenu.cpp
   services/LogService.cpp
+  services/SignalService.cpp
 )
 
 target_link_libraries(engine

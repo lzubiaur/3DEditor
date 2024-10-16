@@ -10,7 +10,6 @@ MainMenu::MainMenu(UIManager &manager)
 
 void MainMenu::onInitialize() 
 {
-
 }
 
 void MainMenu::onDraw() 
@@ -23,7 +22,7 @@ void MainMenu::onDraw()
             ImGui::MenuItem("Save", "Ctrl+S");
             if (ImGui::MenuItem("Exit", "Alt+F4"))
             {
-                mManager.notifyRequestCloseApp();
+                mManager.emit<void()>("ui.onRequestClose");
             }
             ImGui::EndMenu();
         }
