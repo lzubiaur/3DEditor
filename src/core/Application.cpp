@@ -42,13 +42,18 @@ void Application::run()
     shutdown();
 }
 
+bool Application::isRunning()
+{
+    return mRunning;
+}
+
 void Application::requestClose()
 {
     // TODO signal close requested
 
     // TODO if closing confirm then close
 
-    mCloseRequested = false;
+    mCloseRequested = true;
 }
 
 const IPlatform& Application::getPlatform() const

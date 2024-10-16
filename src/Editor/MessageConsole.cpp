@@ -10,7 +10,7 @@ MessageConsole::MessageConsole()
     clear();
 }
 
-bool MessageConsole::onInitialize()
+void MessageConsole::onInitialize()
 {}
 
 void MessageConsole::onDraw()

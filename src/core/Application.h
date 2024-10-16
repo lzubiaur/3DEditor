@@ -28,7 +28,9 @@ public:
 
     void run();
 
+    bool isRunning() override;
     void requestClose() override;
+
     void addSystem(SystemPtr system) override;
     void removeSystem(SystemPtr system) override;
     const IPlatform& getPlatform() const override;

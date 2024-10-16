@@ -3,7 +3,7 @@
 namespace Engine
 {
 
-bool UserControl::onInitialize()
+void UserControl::onInitialize()
 {
 }
 

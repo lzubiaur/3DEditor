@@ -11,7 +11,7 @@ class MessageConsole : public IControl
 public:
     MessageConsole();
 
-    bool onInitialize() override;
+    void onInitialize() override;
     void onDraw() override;
 
     void clear();

@@ -15,6 +15,8 @@ public:
     virtual void removeSystem(SystemPtr system) = 0;
 
     virtual const IPlatform& getPlatform() const = 0;
+    
+    virtual bool isRunning() = 0;
     virtual void requestClose() = 0;
 };
 

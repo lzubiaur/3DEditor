@@ -15,13 +15,11 @@ NodeGraph::~NodeGraph()
 {
 }
 
-bool NodeGraph::onInitialize()
+void NodeGraph::onInitialize()
 {
     ed::Config config;
     config.SettingsFile = "NodeGraphConfig.json";
     m_Context = ed::CreateEditor(&config);
-
-    return true;
 }
 
 void NodeGraph::onDraw()

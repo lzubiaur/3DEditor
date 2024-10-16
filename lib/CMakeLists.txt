@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(lib)
 
+# Boost 1_86_0 must be installed manually (copy headers only)
 
 # Add third-party libraries
 add_subdirectory(gl3w)
@@ -28,5 +29,5 @@ set(GLFW_HEADERS "${PROJECT_SOURCE_DIR}/glfw/include" PARENT_SCOPE)
 set(CATCH_HEADERS "${PROJECT_SOURCE_DIR}/catch" PARENT_SCOPE)
 set(SQUIREL_HEADERS "${PROJECT_SOURCE_DIR}/squirrel/include" PARENT_SCOPE)
 set(DI_HEADERS "${PROJECT_SOURCE_DIR}/DI/include" PARENT_SCOPE)
-set(BOOTS_SIGNAL2_HEADERS "${PROJECT_SOURCE_DIR}/signal2/include" PARENT_SCOPE)
 set(GSL_HEADERS "${PROJECT_SOURCE_DIR}/GSL/include" PARENT_SCOPE)
+set(BOOTS_HEADERS "${PROJECT_SOURCE_DIR}/boost_1_86_0" PARENT_SCOPE)

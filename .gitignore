@@ -7,6 +7,9 @@ sync.sh
 *.bak
 *.exe
 
+# dont commit boost lib
+lib/boost_1_86_0
+
 # Some generated misc files 
 log.txt
 NodeGraphConfig.json

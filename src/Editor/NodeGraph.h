@@ -16,8 +16,8 @@ public:
     NodeGraph();
     ~NodeGraph();
 
-    virtual bool onInitialize() override;
-    virtual void onDraw() override;
+    void onInitialize() override;
+    void onDraw() override;
 
 private:
     node::EditorContext* m_Context = nullptr;

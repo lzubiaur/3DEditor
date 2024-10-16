@@ -10,7 +10,7 @@ public:
     MainWindow();
     ~MainWindow();
 
-    bool onInitialize() override;
+    void onInitialize() override;
     void onDraw() override;
 };
 

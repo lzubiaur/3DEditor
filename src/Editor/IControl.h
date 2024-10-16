@@ -6,7 +6,8 @@ namespace Engine
 class IControl
 {
 public:
-    virtual bool onInitialize() = 0;
+    virtual void onInitialize() = 0;
+    // TODO pass the ImGui context
     virtual void onDraw() = 0;
 
     // TODO

@@ -87,7 +87,23 @@
         "memory_resource": "cpp",
         "ranges": "cpp",
         "pointers": "cpp",
-        "assert": "cpp"
+        "assert": "cpp",
+        "any": "cpp",
+        "cfenv": "cpp",
+        "cinttypes": "cpp",
+        "coroutine": "cpp",
+        "csetjmp": "cpp",
+        "csignal": "cpp",
+        "cwctype": "cpp",
+        "execution": "cpp",
+        "queue": "cpp",
+        "scoped_allocator": "cpp",
+        "shared_mutex": "cpp",
+        "source_location": "cpp",
+        "stack": "cpp",
+        "stdfloat": "cpp",
+        "strstream": "cpp",
+        "valarray": "cpp"
     },
     "cmake.configureOnOpen": false
 }

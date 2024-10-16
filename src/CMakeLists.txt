@@ -8,8 +8,8 @@ include_directories(
   ${SQUIREL_HEADERS}
   ${IMGUI_NODE_EDITOR}
   ${DI_HEADERS}
-  ${BOOTS_SIGNAL2_HEADERS}
   ${GSL_HEADERS}
+  ${BOOTS_HEADERS}
 )
 
 add_library(engine STATIC 
@@ -22,6 +22,7 @@ add_library(engine STATIC
   editor/MainWindow.cpp
   editor/NodeGraph.cpp
   editor/UserControl.cpp
+  editor/MainMenu.cpp
   services/LogService.cpp
 )
 

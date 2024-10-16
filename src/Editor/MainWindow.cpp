@@ -11,12 +11,10 @@ MainWindow::MainWindow()
 MainWindow::~MainWindow()
 {
 
-
 }
 
-bool MainWindow::onInitialize()
+void MainWindow::onInitialize()
 {
-    return true;
 }
 
 void MainWindow::onDraw()

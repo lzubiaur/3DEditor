@@ -8,7 +8,7 @@ namespace Engine
 class UserControl : public IControl
 {
 public:
-    bool onInitialize() override;
+    void onInitialize() override;
     void onDraw() override;
 };
 
