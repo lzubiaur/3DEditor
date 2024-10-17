@@ -22,7 +22,7 @@ void MainMenu::onDraw()
             ImGui::MenuItem("Save", "Ctrl+S");
             if (ImGui::MenuItem("Exit", "Alt+F4"))
             {
-                mManager.emit<void()>("ui.onRequestClose");
+                mManager.getSignal<void()>("ui.onRequestAppClose")->emit();
             }
             ImGui::EndMenu();
         }

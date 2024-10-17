@@ -16,7 +16,9 @@ UIManager::UIManager(IApplication& application, IUIRenderer& renderer)
 
 void UIManager::onInitialize()
 {
-    subscribe<void()>("ui.onRequestClose", [&]()
+    auto signal = registerSignal<void()>("ui.onRequestAppClose");
+
+    signal->subscribe([&]()
     {
         mApplication.requestClose();
     });
@@ -69,6 +71,8 @@ void UIManager::onShutdown()
 
     mRenderer.shutdown();
     ImGui::DestroyContext();
+
+    SignalService::onShutdown();
 }
 
 void UIManager::addControl(ControlPtr control)

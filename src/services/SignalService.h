@@ -7,87 +7,71 @@
 namespace Engine
 {
 
-class ISignalWrapper
-{
-public:
-    virtual ~ISignalWrapper() noexcept = default;
-    virtual void disconnectAllSlots() = 0;
-};
-
-template<class T>
-class SignalWrapper : public ISignalWrapper
-{
-public:
-
-    void disconnectAllSlots() override
-    {
-        mSig.disconnect_all_slots();
-    }
-
-    boost::signals2::signal<T> mSig;
-};
-
 class Connection
 {
-public:
+public: 
     Connection(boost::signals2::connection connection) : mConnection(connection) {}
 
-    void disconnect()
-    {
-        mConnection.disconnect();
-    }
+    void disconnect() { mConnection.disconnect(); }
+    void isConnected() { mConnection.connected(); }
 
 private:
     boost::signals2::connection mConnection;
 };
 
-class SignalService : public IService
+class ISignal
+{};
+
+template<typename Signature>
+class Signal : public ISignal
 {
 public:
-    using SignalWrapperPtr = std::shared_ptr<ISignalWrapper>;
-
-    SignalService() = default;
-    ~SignalService() = default;
-
-    template<class Signature>
-    void registerSignal(const std::string& signalId)
+    Connection subscribe(const std::function<Signature>& slot)
     {
-        Expects(mRegistery.find(signalId) == mRegistery.end());
-        mRegistery[signalId] = std::make_shared<SignalWrapper<Signature>>();
+        return Connection(mSig.connect(slot));
     }
 
-    template<class Signature>
-    Connection subscribe(const std::string& signalId, const std::function<Signature>& callback)
+    template <typename... Args>
+    typename std::invoke_result<Signature, Args...>::type emit(Args&&... args)
     {
-        if (mRegistery.find(signalId) == mRegistery.end())
-        {
-            registerSignal<Signature>(signalId);
-        }
-
-        auto wrapper = std::static_pointer_cast<SignalWrapper<Signature>>(mRegistery.at(signalId));
-        
-        return Connection(wrapper->mSig.connect(callback));
-    }
-
-    template <typename Signature, typename... Args>
-    typename std::invoke_result<Signature, Args...>::type emit(const std::string& signalId, Args&&... args)
-    {
-        Expects(mRegistery.find(signalId) != mRegistery.end());
-        auto wrapper = std::static_pointer_cast<SignalWrapper<Signature>>(mRegistery.at(signalId));
-
-        return (wrapper->mSig)(std::forward<Args>(args)...);
-    }
-
-    void onShutdown() override
-    {
-        std::for_each(mRegistery.begin(), mRegistery.end(), [](const auto& pair)
-        {
-            pair.second->disconnectAllSlots();
-        });
+        return mSig(std::forward<Args>(args)...);
     }
 
 private:
-    std::unordered_map<std::string, SignalWrapperPtr> mRegistery;
+    boost::signals2::signal<Signature> mSig;
+};
+
+class SignalService : public IService
+{
+public:
+
+    template<typename Signature>
+    auto registerSignal(const std::string& signalId)
+    {
+        Expects(mRegistery.find(signalId) == mRegistery.end());
+
+        auto signal = std::make_shared<Signal<Signature>>();
+        mRegistery[signalId] = signal;
+
+        return signal;
+    }
+
+    template<typename Signature>
+    // std::shared_ptr<Signal<Signature>> getSignal(const std::string& signalId)
+    auto getSignal(const std::string& signalId)
+    {
+        Expects(mRegistery.find(signalId) != mRegistery.end());
+
+        return std::static_pointer_cast<Signal<Signature>>(mRegistery.at(signalId));
+    }
+
+    void onShutdown()
+    {
+        // TODO disconnect all signals
+    }
+
+private:
+    std::unordered_map<std::string, std::shared_ptr<ISignal>> mRegistery;
 };
 
 }
