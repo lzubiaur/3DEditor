@@ -20,7 +20,10 @@ private:
 };
 
 class ISignal
-{};
+{
+public:
+    virtual void disconnectAllSlots() = 0;
+};
 
 template<typename Signature>
 class Signal : public ISignal
@@ -37,6 +40,10 @@ public:
         return mSig(std::forward<Args>(args)...);
     }
 
+    void disconnectAllSlots() override
+    {
+        mSig.disconnect_all_slots();   
+    }
 private:
     boost::signals2::signal<Signature> mSig;
 };
@@ -67,7 +74,10 @@ public:
 
     void onShutdown()
     {
-        // TODO disconnect all signals
+        std::for_each(mRegistery.begin(), mRegistery.end(), [](const auto& pair)
+        {
+            pair.second->disconnectAllSlots(); 
+        });
     }
 
 private:

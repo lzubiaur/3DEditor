@@ -50,6 +50,8 @@ void UIManager::onShutdown()
 {
     std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onShutdown(); });
 
+    mSignalService.onShutdown();
+    mLogService.onShutdown();
     mRenderer.onShutdown();
 }
 
