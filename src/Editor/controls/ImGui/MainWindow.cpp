@@ -17,6 +17,10 @@ void MainWindow::onInitialize()
 {
 }
 
+void MainWindow::onShutdown() 
+{
+}
+
 void MainWindow::onDraw()
 {
 

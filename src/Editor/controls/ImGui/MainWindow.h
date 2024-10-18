@@ -11,6 +11,7 @@ public:
     ~MainWindow();
 
     void onInitialize() override;
+    void onShutdown() override;
     void onDraw() override;
 };
 

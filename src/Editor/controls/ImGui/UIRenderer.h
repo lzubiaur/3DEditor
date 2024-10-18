@@ -13,11 +13,11 @@ public:
     UIRenderer::UIRenderer(IApplication& application);
     ~UIRenderer() = default;
 
-    void initialize() override;
-    void shutdown() override;
+    void onInitialize() override;
+    void onShutdown() override;
 
-    void newFrame() override;
-    void render() override;
+    void onNewFrame() override;
+    void onRender() override;
 
 private:
     void initializeImGui();

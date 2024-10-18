@@ -13,6 +13,7 @@ public:
     MainMenu(IServiceProvider& services);
 
     void onInitialize() override;
+    void onShutdown() override;
     void onDraw() override;
 
 private:

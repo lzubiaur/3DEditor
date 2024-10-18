@@ -13,6 +13,10 @@ MessageConsole::MessageConsole()
 void MessageConsole::onInitialize()
 {}
 
+void MessageConsole::onShutdown() 
+{
+}
+
 void MessageConsole::onDraw()
 {}
 

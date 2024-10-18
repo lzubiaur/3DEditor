@@ -1,4 +1,5 @@
 #include <editor/controls/ImGui/MainMenu.h>
+#include <editor/UIEvents.h>
 #include <imgui.h>
 
 namespace Engine
@@ -12,8 +13,14 @@ void MainMenu::onInitialize()
 {
 }
 
+void MainMenu::onShutdown() 
+{
+}
+
 void MainMenu::onDraw() 
 {
+    auto signals = mServices.getSignalService();
+
     if (ImGui::BeginMainMenuBar())
     {
         if (ImGui::BeginMenu("File"))
@@ -22,7 +29,7 @@ void MainMenu::onDraw()
             ImGui::MenuItem("Save", "Ctrl+S");
             if (ImGui::MenuItem("Exit", "Alt+F4"))
             {
-                mServices.getSignalService().getSignal<void()>("ui.onRequestAppClose")->emit();
+                signals.getSignal<void()>(UIEvents::OnRequestAppClose)->emit();
             }
             ImGui::EndMenu();
         }

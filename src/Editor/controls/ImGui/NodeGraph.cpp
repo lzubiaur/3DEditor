@@ -22,6 +22,10 @@ void NodeGraph::onInitialize()
     m_Context = ed::CreateEditor(&config);
 }
 
+void NodeGraph::onShutdown() 
+{
+}
+
 void NodeGraph::onDraw()
 {
     ed::SetCurrentEditor(m_Context);

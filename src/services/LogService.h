@@ -11,8 +11,14 @@ class LogService : public IService
 public:
     LogService();
 
-    // TODO hide logger implementation in a wrapper class
-    virtual std::shared_ptr<spdlog::logger> getLog() const { return mLogger; }
+    template <typename... Args>
+    using fmt = spdlog::format_string_t<Args...>;
+
+    template<typename... Args>
+    void error(fmt<Args...> fmt, Args&&... args)
+    {
+        mLogger.error(fmt, std::forward<Args(args));
+    }
 
     void onShutdown() override;
 

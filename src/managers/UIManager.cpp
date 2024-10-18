@@ -1,6 +1,7 @@
 #include <algorithm>
 
 #include <managers/UIManager.h>
+#include <editor/UIEvents.h>
 
 namespace Engine
 {
@@ -15,14 +16,14 @@ UIManager::UIManager(IApplication& application, IUIRenderer& renderer, IUIBuilde
 
 void UIManager::onInitialize()
 {
-    auto signal = mSignalService.registerSignal<void()>("ui.onRequestAppClose");
+    auto signal = mSignalService.registerSignal<void()>(UIEvents::OnRequestAppClose);
 
     signal->subscribe([&]()
     {
         mApplication.requestClose();
     });
 
-    mRenderer.initialize();
+    mRenderer.onInitialize();
 
     addControl(mUIBuilder.buildMainMenu(*this));
     addControl(mUIBuilder.buildNodeGraph(*this));
@@ -32,7 +33,7 @@ void UIManager::onInitialize()
 
 void UIManager::onPreUpdate()
 {
-    mRenderer.newFrame();
+    mRenderer.onNewFrame();
 }
 
 void UIManager::onUpdate()
@@ -42,15 +43,14 @@ void UIManager::onUpdate()
 
 void UIManager::onPostUpdate()
 {
-    mRenderer.render();
+    mRenderer.onRender();
 }
 
 void UIManager::onShutdown()
 {
-    // TODO
-    // std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onShutDown(); });
+    std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onShutdown(); });
 
-    mRenderer.shutdown();
+    mRenderer.onShutdown();
 }
 
 SignalService& UIManager::getSignalService() 

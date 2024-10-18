@@ -7,6 +7,10 @@ class IControl
 {
 public:
     virtual void onInitialize() = 0;
+    virtual void onShutdown() = 0;
+    
+    // TODO define an onUpdate callback
+
     // TODO pass the ImGui context
     virtual void onDraw() = 0;
 

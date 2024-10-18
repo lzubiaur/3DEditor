@@ -3,7 +3,7 @@
 namespace Engine
 {
 
-struct UISignals
+struct UIEvents
 {
     inline static const char* OnRequestAppClose = "OnRequestAppClose";
     inline static const char* OnWindowResized = "OnWindowResized";

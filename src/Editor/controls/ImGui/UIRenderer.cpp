@@ -15,7 +15,7 @@ UIRenderer::UIRenderer(IApplication& application)
 {
 }
 
-void UIRenderer::initialize()
+void UIRenderer::onInitialize()
 {
     const auto platformData = mApplication.getPlatform().getPlatformData();
     
@@ -40,28 +40,25 @@ void UIRenderer::initializeImGui()
     // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-    // TODO move to plot class
-    // ImPlot::CreateContext();
-
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     // ImGui::StyleColorsLight();
 }
 
-void UIRenderer::newFrame()
+void UIRenderer::onNewFrame()
 {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 }
 
-void UIRenderer::render()
+void UIRenderer::onRender()
 {
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void UIRenderer::shutdown()
+void UIRenderer::onShutdown()
 {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
