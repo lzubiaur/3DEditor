@@ -1,4 +1,4 @@
-#include <editor/UIRenderer.h>
+#include <editor/controls/ImGui/UIRenderer.h>
 
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
@@ -24,25 +24,48 @@ void UIRenderer::initialize()
     GLFWwindow* handle = static_cast<GLFWwindow*>(platformData->getWindowHandle());
     std::string version = platformData->getVersion();
 
+    initializeImGui();
+
     Ensures(ImGui_ImplGlfw_InitForOpenGL(handle, true));
     Ensures(ImGui_ImplOpenGL3_Init(version.c_str()));
 }
 
-void UIRenderer::shutdown()
+void UIRenderer::initializeImGui()
 {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+    // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+    // TODO move to plot class
+    // ImPlot::CreateContext();
+
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    // ImGui::StyleColorsLight();
 }
 
 void UIRenderer::newFrame()
 {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
 }
 
 void UIRenderer::render()
 {
+    ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void UIRenderer::shutdown()
+{
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 }
 
 }

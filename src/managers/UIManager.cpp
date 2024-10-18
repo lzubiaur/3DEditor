@@ -1,48 +1,31 @@
 #include <algorithm>
 
-#include <implot.h>
-
 #include <managers/UIManager.h>
-#include <editor/NodeGraph.h>
-#include <editor/MainMenu.h>
 
 namespace Engine
 {
 
-UIManager::UIManager(IApplication& application, IUIRenderer& renderer)
+UIManager::UIManager(IApplication& application, IUIRenderer& renderer, IUIBuilder& uiBuilder, SignalService& signalService, LogService& logService)
 : mApplication(application)
+, mUIBuilder(uiBuilder)
 , mRenderer(renderer)
+, mLogService(logService)
+, mSignalService(signalService)
 {}
 
 void UIManager::onInitialize()
 {
-    auto signal = registerSignal<void()>("ui.onRequestAppClose");
+    auto signal = mSignalService.registerSignal<void()>("ui.onRequestAppClose");
 
     signal->subscribe([&]()
     {
         mApplication.requestClose();
     });
 
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
-    // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
-    // TODO move to plot class
-    // ImPlot::CreateContext();
-
-    // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    // ImGui::StyleColorsLight();
-
     mRenderer.initialize();
 
-    // TODO use factory or other pattern to create and load the controls
-    addControl(std::make_shared<NodeGraph>());
-    addControl(std::make_shared<MainMenu>(*this));
+    addControl(mUIBuilder.buildMainMenu(*this));
+    addControl(mUIBuilder.buildNodeGraph(*this));
 
     std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onInitialize(); });
 }
@@ -50,7 +33,6 @@ void UIManager::onInitialize()
 void UIManager::onPreUpdate()
 {
     mRenderer.newFrame();
-    ImGui::NewFrame();
 }
 
 void UIManager::onUpdate()
@@ -60,7 +42,6 @@ void UIManager::onUpdate()
 
 void UIManager::onPostUpdate()
 {
-    ImGui::Render();
     mRenderer.render();
 }
 
@@ -70,9 +51,16 @@ void UIManager::onShutdown()
     // std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onShutDown(); });
 
     mRenderer.shutdown();
-    ImGui::DestroyContext();
+}
 
-    SignalService::onShutdown();
+SignalService& UIManager::getSignalService() 
+{
+    return mSignalService;
+}
+
+LogService& UIManager::getLogService()
+{
+    return mLogService;
 }
 
 void UIManager::addControl(ControlPtr control)

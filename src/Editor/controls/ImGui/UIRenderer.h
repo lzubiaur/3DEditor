@@ -8,6 +8,8 @@ namespace Engine
 class UIRenderer : public IUIRenderer
 {
 public:
+
+    // TODO decouple from Application class
     UIRenderer::UIRenderer(IApplication& application);
     ~UIRenderer() = default;
 
@@ -16,6 +18,9 @@ public:
 
     void newFrame() override;
     void render() override;
+
+private:
+    void initializeImGui();
 
 private:
     IApplication& mApplication;

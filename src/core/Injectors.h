@@ -4,8 +4,10 @@
 #include <managers/UIManager.h>
 #include <core/Application.h>
 #include <core/Platform.h>
-#include <editor/UIRenderer.h>
+#include <editor/controls/ImGui/UIRenderer.h>
+#include <editor/controls/ImGui/UIBuilder.h>
 #include <editor/IUIRenderer.h>
+#include <editor/IUIBuilder.h>
 
 #include <memory>
 #include <boost/di.hpp>
@@ -17,6 +19,7 @@ namespace Engine
     {
         return di::make_injector(
             di::bind<IUIRenderer>().to<UIRenderer>(),
+            di::bind<IUIBuilder>().to<UIBuilder>(),
             di::bind<IPlatform>().to<Platform>(),
             di::bind<IApplication>().to<Application>(app)
         );

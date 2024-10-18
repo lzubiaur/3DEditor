@@ -1,11 +1,11 @@
-#include <editor/MainMenu.h>
+#include <editor/controls/ImGui/MainMenu.h>
 #include <imgui.h>
 
 namespace Engine
 {
 
-MainMenu::MainMenu(UIManager &manager)
-: mManager(manager)
+MainMenu::MainMenu(IServiceProvider& services)
+: mServices(services)
 {}
 
 void MainMenu::onInitialize() 
@@ -22,7 +22,7 @@ void MainMenu::onDraw()
             ImGui::MenuItem("Save", "Ctrl+S");
             if (ImGui::MenuItem("Exit", "Alt+F4"))
             {
-                mManager.getSignal<void()>("ui.onRequestAppClose")->emit();
+                mServices.getSignalService().getSignal<void()>("ui.onRequestAppClose")->emit();
             }
             ImGui::EndMenu();
         }

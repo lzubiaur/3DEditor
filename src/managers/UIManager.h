@@ -5,20 +5,20 @@
 #include <core/IApplication.h>
 #include <editor/IControl.h>
 #include <editor/IUIRenderer.h>
+#include <editor/IUIBuilder.h>
 #include <managers/IManager.h>
-#include <editor/MainWindow.h>
-#include <services/SignalService.h>
+#include <services/IServiceProvider.h>
 
 namespace Engine
 {
 
-class UIManager : public IManager, public SignalService
+class UIManager : public IManager, public IServiceProvider
 {
 public:
     using ControlPtr = std::shared_ptr<IControl>;
 
     UIManager() = delete;
-    UIManager(IApplication& application, IUIRenderer& renderer);
+    UIManager(IApplication& application, IUIRenderer& renderer, IUIBuilder& uiBuilder, SignalService& signalService, LogService& logService);
 
     void onInitialize() override;
     void onShutdown() override;
@@ -27,10 +27,16 @@ public:
     void onUpdate() override;
     void onPostUpdate() override;
 
+    SignalService& getSignalService() override;
+    LogService& getLogService() override;
+
     void addControl(ControlPtr control);
 
 private:
     IUIRenderer& mRenderer;
+    IUIBuilder& mUIBuilder;
+    SignalService& mSignalService;
+    LogService& mLogService;
     IApplication& mApplication;
     std::vector<ControlPtr> mControls;
 };

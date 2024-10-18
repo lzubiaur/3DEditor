@@ -1,4 +1,4 @@
-#include <editor/MessageConsole.h>
+#include <editor/controls/ImGui/MessageConsole.h>
 #include <core/Application.h>
 
 namespace Engine

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <editor/IControl.h>
-#include <managers/UIManager.h>
+#include <services/IServiceProvider.h>
 
 namespace Engine
 {
@@ -10,13 +10,13 @@ class MainMenu : public IControl
 {
 public:
     MainMenu() = delete;
-    MainMenu(UIManager& manager);
+    MainMenu(IServiceProvider& services);
 
     void onInitialize() override;
     void onDraw() override;
 
 private:
-    UIManager& mManager;
+    IServiceProvider& mServices;
 };
 
 }
