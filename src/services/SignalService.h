@@ -22,6 +22,7 @@ private:
 class ISignal
 {
 public:
+    virtual ~ISignal() noexcept = default;
     virtual void disconnectAllSlots() = 0;
 };
 
@@ -64,7 +65,6 @@ public:
     }
 
     template<typename Signature>
-    // std::shared_ptr<Signal<Signature>> getSignal(const std::string& signalId)
     auto getSignal(const std::string& signalId)
     {
         Expects(mRegistery.find(signalId) != mRegistery.end());

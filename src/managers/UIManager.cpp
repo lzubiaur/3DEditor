@@ -27,6 +27,7 @@ void UIManager::onInitialize()
 
     addControl(mUIBuilder.buildMainMenu(*this));
     addControl(mUIBuilder.buildNodeGraph(*this));
+    addControl(mUIBuilder.buildMessageConsole(*this));
 
     std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onInitialize(); });
 }

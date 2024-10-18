@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <editor/IControl.h>
-#include <services/IServiceProvider.h>
+#include <services/IServiceLocator.h>
 
 namespace Engine
 {
@@ -14,8 +14,9 @@ public:
 
     virtual ~IUIBuilder() noexcept = default;
 
-    virtual ControlPtr buildMainMenu(IServiceProvider& services) = 0;
-    virtual ControlPtr buildNodeGraph(IServiceProvider& services) = 0;
+    virtual ControlPtr buildMainMenu(IServiceLocator& services) = 0;
+    virtual ControlPtr buildNodeGraph(IServiceLocator& services) = 0;
+    virtual ControlPtr buildMessageConsole(IServiceLocator& services) = 0;
 };
 
 }

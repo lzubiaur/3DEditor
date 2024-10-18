@@ -1,7 +1,7 @@
 #pragma once
 #include <core/IApplication.h>
 #include <editor/IUIBuilder.h>
-#include <services/IServiceProvider.h>
+#include <services/IServiceLocator.h>
 
 namespace Engine
 {
@@ -11,8 +11,9 @@ class UIBuilder : public IUIBuilder
 public:
     UIBuilder::UIBuilder() = default;
 
-    ControlPtr buildMainMenu(IServiceProvider& services) override;
-    ControlPtr buildNodeGraph(IServiceProvider& services) override;
+    ControlPtr buildMainMenu(IServiceLocator& services) override;
+    ControlPtr buildNodeGraph(IServiceLocator& services) override;
+    ControlPtr buildMessageConsole(IServiceLocator& services) override;
 };
 
 }

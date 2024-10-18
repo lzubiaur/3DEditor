@@ -6,12 +6,12 @@
 namespace Engine
 {
     
-class IServiceProvider
+class IServiceLocator
 {
 public:
-    virtual ~IServiceProvider() noexcept = default;
+    virtual ~IServiceLocator() noexcept = default;
 
-    virtual SignalService& getSignalService() = 0; 
+    virtual SignalService& getSignalService() = 0;
     virtual LogService& getLogService() = 0; 
 };
     

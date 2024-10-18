@@ -7,12 +7,14 @@
 #include <editor/IUIRenderer.h>
 #include <editor/IUIBuilder.h>
 #include <managers/IManager.h>
-#include <services/IServiceProvider.h>
+#include <services/IServiceLocator.h>
 
 namespace Engine
 {
 
-class UIManager : public IManager, public IServiceProvider
+class IUI
+
+class UIManager : public IManager, public IServiceLocator
 {
 public:
     using ControlPtr = std::shared_ptr<IControl>;

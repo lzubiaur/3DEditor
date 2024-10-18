@@ -1,7 +1,10 @@
 #pragma once
 
 #include <editor/IControl.h>
+#include <services/IServiceLocator.h>
 #include <imgui.h>
+
+// Stolen from ImGui demo
 
 namespace Engine
 {
@@ -9,7 +12,7 @@ namespace Engine
 class MessageConsole : public IControl
 {
 public:
-    MessageConsole();
+    MessageConsole(IServiceLocator& services);
 
     void onInitialize() override;
     void onShutdown() override;
@@ -20,10 +23,12 @@ public:
     void draw(const char* title, bool* p_open = NULL);
 
 private:
-    ImGuiTextBuffer     m_buf;
-    ImGuiTextFilter     m_filter;
-    ImVector<int>       m_lineOffsets; // Index to lines offset. We maintain this with AddLog() calls.
-    bool                m_autoScroll;  // Keep scrolling if already at the bottom.
+    bool mOpen;
+    ImGuiTextBuffer mBuf;
+    ImGuiTextFilter mFilter;
+    ImVector<int> mLineOffsets; // Index to lines offset. We maintain this with AddLog() calls.
+    bool mAutoScroll;  // Keep scrolling if already at the bottom.
+    IServiceLocator& mServices;
 };
 
 }

@@ -5,7 +5,7 @@
 namespace Engine
 {
 
-MainMenu::MainMenu(IServiceProvider& services)
+MainMenu::MainMenu(IServiceLocator& services)
 : mServices(services)
 {}
 

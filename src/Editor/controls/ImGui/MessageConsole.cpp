@@ -4,9 +4,11 @@
 namespace Engine
 {
 
-MessageConsole::MessageConsole()
+MessageConsole::MessageConsole(IServiceLocator& services)
+: mServices(services)
+, mAutoScroll(true)
+, mOpen(true)
 {
-    m_autoScroll = true;
     clear();
 }
 
@@ -17,38 +19,35 @@ void MessageConsole::onShutdown()
 {
 }
 
-void MessageConsole::onDraw()
-{}
-
 void MessageConsole::clear()
 {
-    m_buf.clear();
-    m_lineOffsets.clear();
-    m_lineOffsets.push_back(0);
+    mBuf.clear();
+    mLineOffsets.clear();
+    mLineOffsets.push_back(0);
 }
 
 void MessageConsole::addLog(const char* fmt, ...) IM_FMTARGS(2)
 {
-    int old_size = m_buf.size();
+    int old_size = mBuf.size();
     va_list args;
     va_start(args, fmt);
-    m_buf.appendfv(fmt, args);
+    mBuf.appendfv(fmt, args);
     va_end(args);
 
-    m_lineOffsets.push_back(m_buf.size());
+    mLineOffsets.push_back(mBuf.size());
 
-    // for (int new_size = m_buf.size(); old_size < new_size; old_size++)
+    // for (int new_size = mBuf.size(); old_size < new_size; old_size++)
     // {
-    //     if (m_buf[old_size] == '\n')
+    //     if (mBuf[old_size] == '\n')
     //     {
-    //         m_lineOffsets.push_back(old_size + 1);
+    //         mLineOffsets.push_back(old_size + 1);
     //     }
     // }
 }
 
-void MessageConsole::draw(const char *title, bool *p_open)
+void MessageConsole::onDraw()
 {
-    if (!ImGui::Begin(title, p_open))
+    if (!ImGui::Begin("Message Console", &mOpen))
     {
         ImGui::End();
         return;
@@ -57,7 +56,7 @@ void MessageConsole::draw(const char *title, bool *p_open)
     // Options menu
     if (ImGui::BeginPopup("Options"))
     {
-        ImGui::Checkbox("Auto-scroll", &m_autoScroll);
+        ImGui::Checkbox("Auto-scroll", &mAutoScroll);
         ImGui::EndPopup();
     }
 
@@ -72,7 +71,7 @@ void MessageConsole::draw(const char *title, bool *p_open)
     ImGui::SameLine();
     bool copy = ImGui::Button("Copy");
     ImGui::SameLine();
-    m_filter.Draw("Filter", -100.0f);
+    mFilter.Draw("Filter", -100.0f);
 
     ImGui::Separator();
 
@@ -89,19 +88,19 @@ void MessageConsole::draw(const char *title, bool *p_open)
         }
 
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
-        const char *buf = m_buf.begin();
-        const char *buf_end = m_buf.end();
-        if (m_filter.IsActive())
+        const char *buf = mBuf.begin();
+        const char *buf_end = mBuf.end();
+        if (mFilter.IsActive())
         {
             // In this example we don't use the clipper when Filter is enabled.
             // This is because we don't have random access to the result of our filter.
             // A real application processing logs with ten of thousands of entries may want to store the result of
             // search/filter.. especially if the filtering function is not trivial (e.g. reg-exp).
-            for (int line_no = 0; line_no < m_lineOffsets.Size; line_no++)
+            for (int line_no = 0; line_no < mLineOffsets.Size; line_no++)
             {
-                const char *line_start = buf + m_lineOffsets[line_no];
-                const char *line_end = (line_no + 1 < m_lineOffsets.Size) ? (buf + m_lineOffsets[line_no + 1] - 1) : buf_end;
-                if (m_filter.PassFilter(line_start, line_end))
+                const char *line_start = buf + mLineOffsets[line_no];
+                const char *line_end = (line_no + 1 < mLineOffsets.Size) ? (buf + mLineOffsets[line_no + 1] - 1) : buf_end;
+                if (mFilter.PassFilter(line_start, line_end))
                 {
                     ImGui::TextUnformatted(line_start, line_end);
                 }
@@ -123,13 +122,13 @@ void MessageConsole::draw(const char *title, bool *p_open)
             // anymore, which is why we don't use the clipper. Storing or skimming through the search result would make
             // it possible (and would be recommended if you want to search through tens of thousands of entries).
             ImGuiListClipper clipper;
-            clipper.Begin(m_lineOffsets.Size);
+            clipper.Begin(mLineOffsets.Size);
             while (clipper.Step())
             {
                 for (int line_no = clipper.DisplayStart; line_no < clipper.DisplayEnd; line_no++)
                 {
-                    const char *line_start = buf + m_lineOffsets[line_no];
-                    const char *line_end = (line_no + 1 < m_lineOffsets.Size) ? (buf + m_lineOffsets[line_no + 1] - 1) : buf_end;
+                    const char *line_start = buf + mLineOffsets[line_no];
+                    const char *line_end = (line_no + 1 < mLineOffsets.Size) ? (buf + mLineOffsets[line_no + 1] - 1) : buf_end;
                     ImGui::TextUnformatted(line_start, line_end);
                 }
             }
@@ -139,7 +138,7 @@ void MessageConsole::draw(const char *title, bool *p_open)
 
         // Keep up at the bottom of the scroll region if we were already at the bottom at the beginning of the frame.
         // Using a scrollbar or mouse-wheel will take away from the bottom edge.
-        if (m_autoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
+        if (mAutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
         {
             ImGui::SetScrollHereY(1.0f);
         }
