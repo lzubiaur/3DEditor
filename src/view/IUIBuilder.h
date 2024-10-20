@@ -1,16 +1,16 @@
 #pragma once
 
 #include <memory>
-#include <editor/IControl.h>
+#include <view/IUIControl.h>
 #include <services/IServiceLocator.h>
 
-namespace Engine
+namespace Forged::View
 {
 
 class IUIBuilder
 {
 public:
-    using ControlPtr = std::shared_ptr<IControl>;
+    using ControlPtr = std::shared_ptr<IUIControl>;
 
     virtual ~IUIBuilder() noexcept = default;
 

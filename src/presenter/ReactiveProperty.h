@@ -4,7 +4,7 @@
 
 // TODO move to more appropirate folder
 
-namespace Engine
+namespace Forged::Presenter
 {
 
 template<typename T>

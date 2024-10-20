@@ -3,7 +3,7 @@
 #include <core/ISystem.h>
 #include <core/IPlatform.h>
 
-namespace Engine
+namespace Forged
 {
 
 class IApplication

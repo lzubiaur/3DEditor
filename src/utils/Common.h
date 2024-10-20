@@ -4,7 +4,7 @@
 
 #include "spdlog/spdlog.h"
 
-namespace Engine 
+namespace Forged 
 {
 
 #define ENGINE_DEBUG

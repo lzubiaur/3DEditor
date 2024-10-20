@@ -1,10 +1,10 @@
-#include <editor/view/ImGui/NodeGraph.h>
+#include <view/ImGui/NodeGraph.h>
 
 #include <imgui.h>
 
 namespace ed = ax::NodeEditor;
 
-namespace Engine 
+namespace Forged::View
 {
 
 NodeGraph::NodeGraph()
@@ -29,7 +29,7 @@ void NodeGraph::onShutdown()
 void NodeGraph::onDraw()
 {
     ed::SetCurrentEditor(m_Context);
-    ed::Begin("My Editor", ImVec2(0.0, 0.0f));
+    ed::Begin("Node Graph", ImVec2(0.0, 0.0f));
 
     int uniqueId = 1;
 

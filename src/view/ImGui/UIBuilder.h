@@ -1,9 +1,9 @@
 #pragma once
 #include <core/IApplication.h>
-#include <editor/IUIBuilder.h>
+#include <view/IUIBuilder.h>
 #include <services/IServiceLocator.h>
 
-namespace Engine
+namespace Forged::View
 {
 
 class UIBuilder : public IUIBuilder

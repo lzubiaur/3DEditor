@@ -1,10 +1,10 @@
 #pragma once
 
-#include <editor/presenter/Bindings.h>
+#include <presenter/Bindings.h>
 
 #include <imgui.h>
 
-namespace Engine::View::Widget
+namespace Forged::View::Widget
 {
 
 inline bool InputText(const char* label, Presenter::StringBinding& binding)

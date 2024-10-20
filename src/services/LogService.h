@@ -3,7 +3,7 @@
 #include <services/IService.h>
 #include <spdlog/spdlog.h>
 
-namespace Engine
+namespace Forged
 {
 
 class LogService : public IService

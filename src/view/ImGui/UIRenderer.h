@@ -1,8 +1,8 @@
 #pragma once
 #include <core/IApplication.h>
-#include <editor/IUIRenderer.h>
+#include <view/IUIRenderer.h>
 
-namespace Engine
+namespace Forged::View
 {
 
 class UIRenderer : public IUIRenderer

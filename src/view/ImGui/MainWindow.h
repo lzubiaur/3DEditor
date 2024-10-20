@@ -1,12 +1,12 @@
-#include <editor/IControl.h>
+#include <view/IUIControl.h>
 #include <services/IServiceLocator.h>
-#include <editor/presenter/TestPresenter.h>
-#include <editor/presenter/Bindings.h>
+#include <presenter/TestPresenter.h>
+#include <presenter/Bindings.h>
 
-namespace Engine 
+namespace Forged::View
 {
 
-class MainWindow : public IControl
+class MainWindow : public IUIControl
 {
 public:
     MainWindow(IServiceLocator& services, Presenter::IMainWindow& presenter);

@@ -4,7 +4,7 @@
 #include <boost/signals2.hpp>
 #include <gsl/assert>
 
-namespace Engine
+namespace Forged
 {
 
 class Connection

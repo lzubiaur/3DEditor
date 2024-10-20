@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
 {
 #endif
 
-    using namespace Engine;
-    using Injector = Engine::Core::Injector;
+    using namespace Forged;
+    using Injector = Forged::Core::Injector;
 
 
     auto app = Injector::getApplicationInjector().create<std::unique_ptr<Application>>();

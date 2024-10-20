@@ -1,12 +1,12 @@
 #pragma once
 
-#include <editor/IControl.h>
+#include <view/IUIControl.h>
 #include <services/IServiceLocator.h>
 
-namespace Engine
+namespace Forged::View
 {
 
-class MainMenu : public IControl
+class MainMenu : public IUIControl
 {
 public:
     MainMenu() = delete;

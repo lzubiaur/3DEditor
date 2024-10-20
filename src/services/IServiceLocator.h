@@ -5,7 +5,7 @@
 #include <services/IReactiveService.h>
 #include <services/EventBus.h>
 
-namespace Engine
+namespace Forged
 {
 
 class IServiceLocator

@@ -1,8 +1,8 @@
-#include <editor/view/ImGui/MessageConsole.h>
+#include <view/ImGui/MessageConsole.h>
 #include <core/Application.h>
-#include <editor/UIEvents.h>
+#include <view/UIEvents.h>
 
-namespace Engine
+namespace Forged::View
 {
 
 MessageConsole::MessageConsole(IServiceLocator& services)

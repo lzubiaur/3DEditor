@@ -18,13 +18,12 @@ add_library(engine STATIC
   core/Application.cpp
   managers/UIManager.cpp
   managers/ScriptManager.cpp
-  editor/view/ImGui/UIRenderer.cpp 
-  editor/view/ImGui/MessageConsole.cpp
-  editor/view/ImGui/MainWindow.cpp
-  editor/view/ImGui/NodeGraph.cpp
-  editor/view/ImGui/MainMenu.cpp
-  editor/view/ImGui/UIBuilder.cpp
-  editor/UserControl.cpp
+  view/ImGui/UIRenderer.cpp 
+  view/ImGui/MessageConsole.cpp
+  view/ImGui/MainWindow.cpp
+  view/ImGui/NodeGraph.cpp
+  view/ImGui/MainMenu.cpp
+  view/ImGui/UIBuilder.cpp
   services/LogService.cpp
   services/SignalService.cpp
 )

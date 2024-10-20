@@ -1,8 +1,8 @@
-#include <editor/view/ImGui/MainMenu.h>
-#include <editor/UIEvents.h>
+#include <view/ImGui/MainMenu.h>
+#include <view/UIEvents.h>
 #include <imgui.h>
 
-namespace Engine
+namespace Forged::View
 {
 
 MainMenu::MainMenu(IServiceLocator& services)
@@ -42,7 +42,7 @@ void MainMenu::drawFileMenu()
         ImGui::MenuItem("Save", "Ctrl+S");
         if (ImGui::MenuItem("Exit", "Alt+F4"))
         {
-            mSignals.getSignal<void()>(UIEvents::OnRequestAppClose)->emit();
+            mSignals.getSignal<void()>(View::UIEvents::OnRequestAppClose)->emit();
         }
         ImGui::EndMenu();
     }

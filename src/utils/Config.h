@@ -1,7 +1,7 @@
 #pragma once
 
-namespace Engine
+namespace Forged
 {
     const char* Version = "0.1";
-    const char* AppName = "Engine";
+    const char* AppName = "Forged - Particle Editor";
 }

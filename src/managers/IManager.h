@@ -2,7 +2,7 @@
 
 #include <core/ISystem.h>
 
-namespace Engine
+namespace Forged
 {
 
 class IManager : public ISystem

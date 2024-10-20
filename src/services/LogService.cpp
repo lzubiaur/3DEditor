@@ -3,7 +3,7 @@
 #include <spdlog/sinks/callback_sink.h>
 #include <spdlog/sinks/basic_file_sink.h>
 
-namespace Engine
+namespace Forged
 {
 
 LogService::LogService()

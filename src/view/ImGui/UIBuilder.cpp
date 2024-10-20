@@ -1,16 +1,16 @@
-#include <editor/view/ImGui/UIBuilder.h>
-#include <editor/view/ImGui/MainMenu.h>
-#include <editor/view/ImGui/MessageConsole.h>
-#include <editor/view/ImGui/NodeGraph.h>
-#include <editor/view/ImGui/MainWindow.h>
+#include <view/ImGui/UIBuilder.h>
+#include <view/ImGui/MainMenu.h>
+#include <view/ImGui/MessageConsole.h>
+#include <view/ImGui/NodeGraph.h>
+#include <view/ImGui/MainWindow.h>
 #include <core/Injectors.h>
 
 #include <memory>
 
-namespace Engine
+namespace Forged::View
 {
 using ControlPtr = UIBuilder::ControlPtr;
-using Injector = Engine::Core::Injector;
+using Injector = Forged::Core::Injector;
 
 ControlPtr UIBuilder::buildMainMenu(IServiceLocator& services)
 {

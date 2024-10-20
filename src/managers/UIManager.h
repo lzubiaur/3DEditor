@@ -3,25 +3,25 @@
 #include <memory>
 #include <vector>
 #include <core/IApplication.h>
-#include <editor/IControl.h>
-#include <editor/IUIRenderer.h>
-#include <editor/IUIBuilder.h>
+#include <view/IUIControl.h>
+#include <view/IUIRenderer.h>
+#include <view/IUIBuilder.h>
 #include <managers/IManager.h>
 #include <services/IServiceLocator.h>
 
-namespace Engine
+namespace Forged
 {
 
 class UIManager : public IManager, public IServiceLocator
 {
 public:
-    using ControlPtr = std::shared_ptr<IControl>;
+    using ControlPtr = std::shared_ptr<View::IUIControl>;
 
     struct Dependencies
     {
         IApplication& application;
-        IUIRenderer& renderer;
-        IUIBuilder& uiBuilder;
+        View::IUIRenderer& renderer;
+        View::IUIBuilder& uiBuilder;
         SignalService& signalService;
         LogService& logService;
         IReactiveService& reactiveService;
@@ -46,8 +46,8 @@ public:
     void addControl(ControlPtr control);
 
 private:
-    IUIRenderer& mRenderer;
-    IUIBuilder& mUIBuilder;
+    View::IUIRenderer& mRenderer;
+    View::IUIBuilder& mUIBuilder;
     SignalService& mSignalService;
     LogService& mLogService;
     IApplication& mApplication;

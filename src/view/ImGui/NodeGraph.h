@@ -3,14 +3,14 @@
 #include <imgui.h>
 #include <imgui_node_editor.h>
 
-#include <editor/IControl.h>
+#include <view/IUIControl.h>
 
 namespace node = ax::NodeEditor;
 
-namespace Engine 
+namespace Forged::View
 {
 
-class NodeGraph : public IControl
+class NodeGraph : public IUIControl
 {
 public:
     NodeGraph();

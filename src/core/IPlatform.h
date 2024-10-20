@@ -4,7 +4,7 @@
 #include <string>
 #include <core/ISystem.h>
 
-namespace Engine
+namespace Forged
 {
 
 enum class GraphicsAPI 

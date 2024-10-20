@@ -4,7 +4,7 @@
 #include <string>
 #include <squirrel.h>
 
-namespace Engine
+namespace Forged
 {
 
 class ScriptManager : public IManager

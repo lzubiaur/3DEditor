@@ -1,9 +1,9 @@
 #include <algorithm>
 
 #include <managers/UIManager.h>
-#include <editor/UIEvents.h>
+#include <view/UIEvents.h>
 
-namespace Engine
+namespace Forged
 {
 
 UIManager::UIManager(const Dependencies& dependencies)
@@ -18,7 +18,7 @@ UIManager::UIManager(const Dependencies& dependencies)
 
 void UIManager::onInitialize()
 {
-    auto signal = mSignalService.registerSignal<void()>(UIEvents::OnRequestAppClose);
+    auto signal = mSignalService.registerSignal<void()>(View::UIEvents::OnRequestAppClose);
 
     signal->subscribe([&]()
     {

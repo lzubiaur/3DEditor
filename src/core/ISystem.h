@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace Engine
+namespace Forged
 {
 
 class ISystem

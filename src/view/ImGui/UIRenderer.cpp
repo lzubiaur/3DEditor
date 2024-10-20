@@ -1,4 +1,4 @@
-#include <editor/view/ImGui/UIRenderer.h>
+#include <view/ImGui/UIRenderer.h>
 
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <gsl/assert>
 
-namespace Engine
+namespace Forged::View
 {
 
 UIRenderer::UIRenderer(IApplication& application)

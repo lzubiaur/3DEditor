@@ -1,8 +1,8 @@
 #pragma once
 
-#include <editor/presenter/ReactiveProperty.h>
+#include <presenter/ReactiveProperty.h>
 
-namespace Engine::Presenter
+namespace Forged::Presenter
 {
 
 class IMainWindow

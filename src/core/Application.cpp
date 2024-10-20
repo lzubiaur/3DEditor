@@ -6,7 +6,7 @@
 
 #include <utils/Common.h>
 
-namespace Engine
+namespace Forged
 {
 
 Application::Application(IPlatform& platform)

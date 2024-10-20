@@ -10,7 +10,7 @@
 
 #include <utils/Config.h>
 
-namespace Engine
+namespace Forged
 {
 
 static void error_callback(int error, const char *description)
@@ -62,7 +62,7 @@ void Platform::onInitialize()
 #endif
 
     std::stringstream windowTitle;
-    windowTitle << Engine::AppName << " " << Engine::Version;
+    windowTitle << Forged::AppName << " " << Forged::Version;
 
     // Create a windowed mode window and its OpenGL context
     mWindow = glfwCreateWindow(mWidth, mHeight, windowTitle.str().c_str(), NULL, NULL);

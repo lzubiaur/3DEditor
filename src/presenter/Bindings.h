@@ -1,10 +1,10 @@
 #pragma once
 
 #include <imgui.h>
-#include <editor/presenter/ReactiveProperty.h>
-#include <editor/IControl.h>
+#include <presenter/ReactiveProperty.h>
+#include <view/IUIControl.h>
 
-namespace Engine::Presenter
+namespace Forged::Presenter
 {
 
 template<typename T>

@@ -18,7 +18,7 @@
 // #include <ui/AppLog.h>
 #include <spdlog/spdlog.h>
 
-namespace Engine
+namespace Forged
 {
 
 std::string toChar(const SQChar* wstr)

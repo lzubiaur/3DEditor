@@ -5,7 +5,7 @@
 #include <services/IReactiveService.h>
 #include <rxcpp/rx.hpp>
 
-namespace Engine
+namespace Forged
 {
 
 class ReactiveService : public IReactiveService

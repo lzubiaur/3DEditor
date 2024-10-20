@@ -9,7 +9,7 @@
 #include <core/IApplication.h>
 #include <core/IPlatform.h>
 
-namespace Engine 
+namespace Forged 
 {
 
 class Application : public IApplication

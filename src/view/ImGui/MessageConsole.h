@@ -1,15 +1,15 @@
 #pragma once
 
-#include <editor/IControl.h>
+#include <view/IUIControl.h>
 #include <services/IServiceLocator.h>
 #include <imgui.h>
 
 // Stolen from ImGui demo
 
-namespace Engine
+namespace Forged::View
 {
 
-class MessageConsole : public IControl
+class MessageConsole : public IUIControl
 {
 public:
     MessageConsole(IServiceLocator& services);

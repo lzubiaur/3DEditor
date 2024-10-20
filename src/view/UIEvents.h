@@ -2,7 +2,7 @@
 
 #include <services/EventBus.h>
 
-namespace Engine
+namespace Forged::View
 {
 
 struct UIEvents
@@ -14,16 +14,6 @@ struct UIEvents
 
 namespace Events
 {
-
-struct ApplicationStateEvent
-{
-    bool openning;
-    bool initialized;
-    bool running;
-    bool closeRequested;
-    bool closing;
-    bool closed;
-};
 
 enum class LogLevel
 {

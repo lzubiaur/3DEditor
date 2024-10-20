@@ -1,9 +1,9 @@
-#include <editor/view/ImGui/MainWindow.h>
-#include <editor/view/ImGui/Widgets.h>
+#include <view/ImGui/MainWindow.h>
+#include <view/ImGui/Widgets.h>
 
 #include <imgui.h>
 
-namespace Engine 
+namespace Forged::View
 {
 
 MainWindow::MainWindow(IServiceLocator& services, Presenter::IMainWindow& presenter)

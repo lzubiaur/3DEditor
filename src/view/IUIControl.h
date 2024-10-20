@@ -1,9 +1,9 @@
 #pragma once
 
-namespace Engine 
+namespace Forged::View
 {
 
-class IControl
+class IUIControl
 {
 public:
     virtual void onInitialize() = 0;
