@@ -3,15 +3,18 @@ project(lib)
 
 # Boost 1_86_0 must be installed manually (copy headers only)
 
-# Add third-party libraries
-add_subdirectory(gl3w)
-
+# GLFW 
 set(GLFW_BUILD_EXAMPLES OFF)
 set(GLFW_BUILD_TESTS OFF)
 set(GLFW_BUILD_DOCS OFF)
 set(GLFW_INSTALL OFF)
-add_subdirectory(glfw)
 
+# Squirrel
+set(SQ_DISABLE_INTERPRETER ON)
+
+# Add third-party libraries
+add_subdirectory(gl3w)
+add_subdirectory(glfw)
 add_subdirectory(ImGui)
 add_subdirectory(ImGuizmo)
 add_subdirectory(ImGuiNodeEditor)

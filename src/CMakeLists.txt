@@ -13,7 +13,7 @@ include_directories(
   ${RXCPP_HEADERS}
 )
 
-add_library(engine STATIC 
+add_library(mylib STATIC 
   core/Platform.cpp 
   core/Application.cpp
   managers/UIManager.cpp
@@ -28,7 +28,7 @@ add_library(engine STATIC
   services/SignalService.cpp
 )
 
-target_link_libraries(engine
+target_link_libraries(mylib
   gl3w
   glfw
   imgui
@@ -40,21 +40,21 @@ target_link_libraries(engine
   ${GLFW_LIBRARIES}
 )
 
-target_include_directories(engine PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(mylib PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 # Runtime executable
-add_executable(rt main.cpp)
+add_executable(myruntime main.cpp)
 
 # Linking against static GLFW libary. GLFW_LIBRARIES must be used to add
 # dependencies (http://www.glfw.org/docs/latest/build.html).
-target_link_libraries(rt engine)
-set_target_properties(rt PROPERTIES OUTPUT_NAME ${RUNTIME_NAME})
+target_link_libraries(myruntime mylib)
+set_target_properties(myruntime PROPERTIES OUTPUT_NAME ${RUNTIME_NAME})
 
 if (WIN32)
-    set_target_properties(rt PROPERTIES WIN32_EXECUTABLE true)
+    set_target_properties(myruntime PROPERTIES WIN32_EXECUTABLE true)
 endif()
 
 set(INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/bin")
 
-install(TARGETS rt RUNTIME DESTINATION ${INSTALL_DIR})
+install(TARGETS myruntime RUNTIME DESTINATION ${INSTALL_DIR})
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/scripts DESTINATION ${INSTALL_DIR})

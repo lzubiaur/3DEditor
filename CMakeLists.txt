@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project("Forged - Particle Editor" C CXX)
-set(RUNTIME_NAME "Forged")
+set(RUNTIME_NAME "forged")
 
 # TODO GLFW compile options http://www.glfw.org/docs/latest/compile.html#compile_options_osx
 
