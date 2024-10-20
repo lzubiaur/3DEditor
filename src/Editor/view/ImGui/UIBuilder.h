@@ -14,6 +14,7 @@ public:
     ControlPtr buildMainMenu(IServiceLocator& services) override;
     ControlPtr buildNodeGraph(IServiceLocator& services) override;
     ControlPtr buildMessageConsole(IServiceLocator& services) override;
+    ControlPtr buildSandboxWindow(IServiceLocator& services) override;
 };
 
 }

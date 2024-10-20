@@ -10,6 +10,7 @@ include_directories(
   ${DI_HEADERS}
   ${GSL_HEADERS}
   ${BOOTS_HEADERS}
+  ${RXCPP_HEADERS}
 )
 
 add_library(engine STATIC 
@@ -17,12 +18,12 @@ add_library(engine STATIC
   core/Application.cpp
   managers/UIManager.cpp
   managers/ScriptManager.cpp
-  editor/controls/ImGui/UIRenderer.cpp 
-  editor/controls/ImGui/MessageConsole.cpp
-  editor/controls/ImGui/MainWindow.cpp
-  editor/controls/ImGui/NodeGraph.cpp
-  editor/controls/ImGui/MainMenu.cpp
-  editor/controls/ImGui/UIBuilder.cpp
+  editor/view/ImGui/UIRenderer.cpp 
+  editor/view/ImGui/MessageConsole.cpp
+  editor/view/ImGui/MainWindow.cpp
+  editor/view/ImGui/NodeGraph.cpp
+  editor/view/ImGui/MainMenu.cpp
+  editor/view/ImGui/UIBuilder.cpp
   editor/UserControl.cpp
   services/LogService.cpp
   services/SignalService.cpp

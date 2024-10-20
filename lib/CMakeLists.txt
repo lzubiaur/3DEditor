@@ -5,7 +5,13 @@ project(lib)
 
 # Add third-party libraries
 add_subdirectory(gl3w)
+
+set(GLFW_BUILD_EXAMPLES OFF)
+set(GLFW_BUILD_TESTS OFF)
+set(GLFW_BUILD_DOCS OFF)
+set(GLFW_INSTALL OFF)
 add_subdirectory(glfw)
+
 add_subdirectory(ImGui)
 add_subdirectory(ImGuizmo)
 add_subdirectory(ImGuiNodeEditor)
@@ -31,3 +37,4 @@ set(SQUIREL_HEADERS "${PROJECT_SOURCE_DIR}/squirrel/include" PARENT_SCOPE)
 set(DI_HEADERS "${PROJECT_SOURCE_DIR}/DI/include" PARENT_SCOPE)
 set(GSL_HEADERS "${PROJECT_SOURCE_DIR}/GSL/include" PARENT_SCOPE)
 set(BOOTS_HEADERS "${PROJECT_SOURCE_DIR}/boost_1_86_0" PARENT_SCOPE)
+set(RXCPP_HEADERS "${PROJECT_SOURCE_DIR}/RxCpp/Rx/v2/src" PARENT_SCOPE)

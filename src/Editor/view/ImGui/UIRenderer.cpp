@@ -1,4 +1,4 @@
-#include <editor/controls/ImGui/UIRenderer.h>
+#include <editor/view/ImGui/UIRenderer.h>
 
 #include <imgui.h>
 #include <imgui_impl_glfw.h>

@@ -6,12 +6,14 @@
 namespace Engine
 {
 
-UIManager::UIManager(IApplication& application, IUIRenderer& renderer, IUIBuilder& uiBuilder, SignalService& signalService, LogService& logService)
-: mApplication(application)
-, mUIBuilder(uiBuilder)
-, mRenderer(renderer)
-, mLogService(logService)
-, mSignalService(signalService)
+UIManager::UIManager(const Dependencies& dependencies)
+: mApplication(dependencies.application)
+, mUIBuilder(dependencies.uiBuilder)
+, mRenderer(dependencies.renderer)
+, mLogService(dependencies.logService)
+, mSignalService(dependencies.signalService)
+, mReactiveService(dependencies.reactiveService)
+, mEventBus(dependencies.eventBus)
 {}
 
 void UIManager::onInitialize()
@@ -28,6 +30,7 @@ void UIManager::onInitialize()
     addControl(mUIBuilder.buildMainMenu(*this));
     addControl(mUIBuilder.buildNodeGraph(*this));
     addControl(mUIBuilder.buildMessageConsole(*this));
+    addControl(mUIBuilder.buildSandboxWindow(*this));
 
     std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onInitialize(); });
 }
@@ -64,6 +67,16 @@ SignalService& UIManager::getSignalService()
 LogService& UIManager::getLogService()
 {
     return mLogService;
+}
+    
+IReactiveService& UIManager::getReactiveService()
+{
+    return mReactiveService;
+}
+
+EventBus& UIManager::getEventBus()
+{
+    return mEventBus;
 }
 
 void UIManager::addControl(ControlPtr control)

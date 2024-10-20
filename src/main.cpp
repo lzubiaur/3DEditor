@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <memory>
 
-#include <core/IApplication.h>
+#include <core/Application.h>
 #include <core/Injectors.h>
+#include <managers/UIManager.h>
+#include <managers/ScriptManager.h>
 
 #ifndef _WIN32
     #error "Only Windows platform build is supported at the moment"
@@ -31,11 +34,13 @@ int main(int argc, char *argv[])
 #endif
 
     using namespace Engine;
+    using Injector = Engine::Core::Injector;
 
-    auto app = getApplicationInjector().create<std::unique_ptr<Application>>();
 
-    app->addSystem(getManagerInjector(*app).create<std::shared_ptr<UIManager>>());
-    app->addSystem(getManagerInjector(*app).create<std::shared_ptr<ScriptManager>>());
+    auto app = Injector::getApplicationInjector().create<std::unique_ptr<Application>>();
+
+    app->addSystem(Injector::getManagerInjector(*app).create<std::shared_ptr<UIManager>>());
+    app->addSystem(Injector::getManagerInjector(*app).create<std::shared_ptr<ScriptManager>>());
 
     app->run();
 

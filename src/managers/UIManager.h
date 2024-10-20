@@ -12,15 +12,24 @@
 namespace Engine
 {
 
-class IUI
-
 class UIManager : public IManager, public IServiceLocator
 {
 public:
     using ControlPtr = std::shared_ptr<IControl>;
 
+    struct Dependencies
+    {
+        IApplication& application;
+        IUIRenderer& renderer;
+        IUIBuilder& uiBuilder;
+        SignalService& signalService;
+        LogService& logService;
+        IReactiveService& reactiveService;
+        EventBus& eventBus;
+    };
+
     UIManager() = delete;
-    UIManager(IApplication& application, IUIRenderer& renderer, IUIBuilder& uiBuilder, SignalService& signalService, LogService& logService);
+    UIManager(const Dependencies& dependencies);
 
     void onInitialize() override;
     void onShutdown() override;
@@ -31,6 +40,8 @@ public:
 
     SignalService& getSignalService() override;
     LogService& getLogService() override;
+    IReactiveService& getReactiveService() override;
+    EventBus& getEventBus() override;
 
     void addControl(ControlPtr control);
 
@@ -40,6 +51,8 @@ private:
     SignalService& mSignalService;
     LogService& mLogService;
     IApplication& mApplication;
+    EventBus& mEventBus;
+    IReactiveService& mReactiveService;
     std::vector<ControlPtr> mControls;
 };
 

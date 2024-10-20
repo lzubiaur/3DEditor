@@ -17,7 +17,14 @@ public:
     void onDraw() override;
 
 private:
+    void drawFileMenu();
+    void drawWindowsMenu();
+    void drawHelpMenu();
+
+private:
     IServiceLocator& mServices;
+    SignalService& mSignals;
+    IReactiveService& mReact;
 };
 
 }

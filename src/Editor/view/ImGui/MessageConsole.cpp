@@ -1,5 +1,6 @@
-#include <editor/controls/ImGui/MessageConsole.h>
+#include <editor/view/ImGui/MessageConsole.h>
 #include <core/Application.h>
+#include <editor/UIEvents.h>
 
 namespace Engine
 {
@@ -13,7 +14,50 @@ MessageConsole::MessageConsole(IServiceLocator& services)
 }
 
 void MessageConsole::onInitialize()
-{}
+{
+    // mServices.getReactiveService().subscribeToLogMessage([&](const std::string& message)
+    // {
+    //     addLog(message.c_str());
+    // });
+
+    mServices.getEventBus().getEvent<Events::TraceMessageEvent>().subscribe([&](auto event)
+    {
+        addLog(event.message.c_str());
+    },
+    [](std::exception_ptr eptr)
+    {
+        try 
+        {
+            std::rethrow_exception(eptr);
+        }
+        catch (const std::exception& ex) 
+        {
+            std::cout << "OnError: " << ex.what() << std::endl;
+        }
+    }, []()
+    {
+        // on complete
+    });
+
+
+    // rxcpp::subjects::subject<std::any> subject;
+
+    // subject.get_observable().filter([](std::any any)
+    // {
+    //     return std::any_cast<Events::TraceMessageEvent*>(any) != nullptr;
+    // })
+    // .map([](std::any any)
+    // {
+    //     return *std::any_cast<Events::TraceMessageEvent*>(any);
+    // });
+
+    // subject.get_observable().subscribe([](std::any any)
+    // {
+        
+    // });
+
+    // subject.get_subscriber().on_next(Events::TraceMessageEvent{Events::LogLevel::Error, ""});
+}
 
 void MessageConsole::onShutdown() 
 {
@@ -47,6 +91,11 @@ void MessageConsole::addLog(const char* fmt, ...) IM_FMTARGS(2)
 
 void MessageConsole::onDraw()
 {
+    if (!mOpen)
+    {
+        return;
+    }
+
     if (!ImGui::Begin("Message Console", &mOpen))
     {
         ImGui::End();
