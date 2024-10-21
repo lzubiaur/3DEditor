@@ -25,7 +25,6 @@ add_library(mylib STATIC
   view/ImGui/MainMenu.cpp
   view/ImGui/UIBuilder.cpp
   services/LogService.cpp
-  services/SignalService.cpp
 )
 
 target_link_libraries(mylib

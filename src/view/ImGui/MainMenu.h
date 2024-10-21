@@ -2,6 +2,7 @@
 
 #include <view/IUIControl.h>
 #include <services/IServiceLocator.h>
+#include <presenter/MainMenu.h>
 
 namespace Forged::View
 {
@@ -10,7 +11,7 @@ class MainMenu : public IUIControl
 {
 public:
     MainMenu() = delete;
-    MainMenu(IServiceLocator& services);
+    MainMenu(IServiceLocator& services, Presenter::IMainMenu& presenter);
 
     void onInitialize() override;
     void onShutdown() override;
@@ -23,6 +24,7 @@ private:
 
 private:
     IServiceLocator& mServices;
+    Presenter::IMainMenu& mPresenter;
     SignalService& mSignals;
     IReactiveService& mReact;
 };

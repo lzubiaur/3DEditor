@@ -22,7 +22,7 @@ public:
 
 protected:
     ReactiveProperty<T>& mProperty;
-    ReactiveProperty<T>::Subscription mSubscription;
+    Subscription mSubscription;
 };
 
 class StringBinding : public BindingContext<std::string>

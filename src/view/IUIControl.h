@@ -6,6 +6,8 @@ namespace Forged::View
 class IUIControl
 {
 public:
+    virtual ~IUIControl() noexcept = default;
+
     virtual void onInitialize() = 0;
     virtual void onShutdown() = 0;
     

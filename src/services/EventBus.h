@@ -9,7 +9,7 @@
 namespace Forged
 {
 
-// NOT WORKING
+// WARN : probably not very efficient if too much events
 
 class EventBus : public IService
 {

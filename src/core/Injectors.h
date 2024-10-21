@@ -10,6 +10,7 @@
 #include <view/IUIRenderer.h>
 #include <view/IUIBuilder.h>
 #include <presenter/TestPresenter.h>
+#include <presenter/MainMenu.h>
 
 #include <memory>
 #include <boost/di.hpp>
@@ -45,7 +46,8 @@ public:
     {
         return di::make_injector(
             di::bind<IServiceLocator>().to(services),
-            di::bind<Presenter::IMainWindow>().to<Presenter::TestPresenter>()
+            di::bind<Presenter::IMainWindow>().to<Presenter::TestPresenter>(),
+            di::bind<Presenter::IMainMenu>().to<Presenter::MainMenu>()
         );
     }
 };

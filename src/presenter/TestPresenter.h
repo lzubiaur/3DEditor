@@ -1,6 +1,7 @@
 #pragma once
 
 #include <presenter/ReactiveProperty.h>
+#include <presenter/ReactiveCommand.h>
 
 namespace Forged::Presenter
 {

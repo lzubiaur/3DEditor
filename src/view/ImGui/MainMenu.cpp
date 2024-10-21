@@ -5,10 +5,11 @@
 namespace Forged::View
 {
 
-MainMenu::MainMenu(IServiceLocator& services)
+MainMenu::MainMenu(IServiceLocator& services, Presenter::IMainMenu& presenter)
 : mServices(services)
 , mSignals(services.getSignalService())
 , mReact(services.getReactiveService())
+, mPresenter(presenter)
 {}
 
 void MainMenu::onInitialize() 
@@ -54,7 +55,10 @@ void MainMenu::drawWindowsMenu()
     {
         if (ImGui::MenuItem("Messages"))
         {
+            mPresenter.getToggleLogMessagePanelCmd().execute({});
         }
+        ImGui::Separator();
+
         if (ImGui::MenuItem("ImGui Demo"))
         {
         }

@@ -2,7 +2,26 @@
 
 #include <rxcpp/rx.hpp>
 
-// TODO move to more appropirate folder
+class Subscription
+{
+public:
+    Subscription() = default;
+    Subscription(rxcpp::subscription&& subscription) : mSubscription(std::move(subscription)) {}
+    ~Subscription() noexcept = default;
+
+    void unsubscribe()
+    {
+        mSubscription.unsubscribe();
+    }
+
+    bool isSubscribe()
+    {
+        mSubscription.is_subscribed();
+    }
+
+private:
+    rxcpp::subscription mSubscription;
+};
 
 namespace Forged::Presenter
 {
@@ -10,10 +29,6 @@ namespace Forged::Presenter
 template<typename T>
 class ReactiveProperty
 {
-public:
-    // TODO create wrapper
-    using Subscription = rxcpp::subscription;
-
 public:
     ReactiveProperty(T value) : mValue(value) {}
 
