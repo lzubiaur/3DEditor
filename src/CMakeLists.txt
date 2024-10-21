@@ -24,6 +24,7 @@ add_library(mylib STATIC
   view/ImGui/NodeGraph.cpp
   view/ImGui/MainMenu.cpp
   view/ImGui/UIBuilder.cpp
+  presenter/MainMenu.cpp
   services/LogService.cpp
 )
 

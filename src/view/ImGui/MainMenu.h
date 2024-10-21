@@ -11,7 +11,7 @@ class MainMenu : public IUIControl
 {
 public:
     MainMenu() = delete;
-    MainMenu(IServiceLocator& services, Presenter::IMainMenu& presenter);
+    MainMenu(Presenter::IMainMenu& presenter);
 
     void onInitialize() override;
     void onShutdown() override;
@@ -23,10 +23,7 @@ private:
     void drawHelpMenu();
 
 private:
-    IServiceLocator& mServices;
     Presenter::IMainMenu& mPresenter;
-    SignalService& mSignals;
-    IReactiveService& mReact;
 };
 
 }

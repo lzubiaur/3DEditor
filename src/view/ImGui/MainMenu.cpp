@@ -1,15 +1,12 @@
 #include <view/ImGui/MainMenu.h>
-#include <view/UIEvents.h>
 #include <imgui.h>
+#include <presenter/Command.h>
 
 namespace Forged::View
 {
 
-MainMenu::MainMenu(IServiceLocator& services, Presenter::IMainMenu& presenter)
-: mServices(services)
-, mSignals(services.getSignalService())
-, mReact(services.getReactiveService())
-, mPresenter(presenter)
+MainMenu::MainMenu(Presenter::IMainMenu& presenter)
+: mPresenter(presenter)
 {}
 
 void MainMenu::onInitialize() 
@@ -37,13 +34,12 @@ void MainMenu::drawFileMenu()
     {
         if (ImGui::MenuItem("Open", "Ctrl+O"))
         {
-            mServices.getEventBus().emitEvent(Events::TraceMessageEvent{Events::LogLevel::Error, "Hello React!"});
         }
 
         ImGui::MenuItem("Save", "Ctrl+S");
         if (ImGui::MenuItem("Exit", "Alt+F4"))
         {
-            mSignals.getSignal<void()>(View::UIEvents::OnRequestAppClose)->emit();
+            mPresenter.getApplicationCommand().execute({ Presenter::ApplicationCommandType::Close });
         }
         ImGui::EndMenu();
     }
@@ -53,9 +49,9 @@ void MainMenu::drawWindowsMenu()
 {
     if (ImGui::BeginMenu("Windows"))
     {
-        if (ImGui::MenuItem("Messages"))
+        if (ImGui::MenuItem("Messages Console"))
         {
-            mPresenter.getToggleLogMessagePanelCmd().execute({});
+            // TODO create a navigation command
         }
         ImGui::Separator();
 

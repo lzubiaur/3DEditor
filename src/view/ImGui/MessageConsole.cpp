@@ -1,6 +1,6 @@
 #include <view/ImGui/MessageConsole.h>
 #include <core/Application.h>
-#include <view/UIEvents.h>
+#include <presenter/Events.h>
 
 namespace Forged::View
 {
@@ -15,12 +15,8 @@ MessageConsole::MessageConsole(IServiceLocator& services)
 
 void MessageConsole::onInitialize()
 {
-    // mServices.getReactiveService().subscribeToLogMessage([&](const std::string& message)
-    // {
-    //     addLog(message.c_str());
-    // });
-
-    mServices.getEventBus().getEvent<Events::TraceMessageEvent>().subscribe([&](auto event)
+    // TODO get rid of the event bus and use a concreate command instead
+    mServices.getEventBus().getEvent<Presenter::Events::TraceMessageEvent>().subscribe([&](auto event)
     {
         addLog(event.message.c_str());
     },
@@ -32,7 +28,8 @@ void MessageConsole::onInitialize()
         }
         catch (const std::exception& ex) 
         {
-            std::cout << "OnError: " << ex.what() << std::endl;
+            // TODO
+            std::cout << "Error: " << ex.what() << std::endl;
         }
     }, []()
     {

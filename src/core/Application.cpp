@@ -47,7 +47,7 @@ bool Application::isRunning()
     return mRunning;
 }
 
-void Application::requestClose()
+void Application::close()
 {
     // TODO signal close requested
 

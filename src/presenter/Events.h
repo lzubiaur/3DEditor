@@ -2,9 +2,12 @@
 
 #include <services/EventBus.h>
 
-namespace Forged::View
+// TODO should probably remove signal and use ReactiveCommand instead
+
+namespace Forged::Presenter
 {
 
+// TODO rename
 struct UIEvents
 {
     inline static const char* OnRequestAppClose = "OnRequestAppClose";

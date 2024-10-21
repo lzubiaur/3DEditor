@@ -1,7 +1,7 @@
 #include <algorithm>
 
 #include <managers/UIManager.h>
-#include <view/UIEvents.h>
+#include <presenter/Events.h>
 
 namespace Forged
 {
@@ -18,11 +18,11 @@ UIManager::UIManager(const Dependencies& dependencies)
 
 void UIManager::onInitialize()
 {
-    auto signal = mSignalService.registerSignal<void()>(View::UIEvents::OnRequestAppClose);
+    auto signal = mSignalService.registerSignal<void()>(Presenter::UIEvents::OnRequestAppClose);
 
     signal->subscribe([&]()
     {
-        mApplication.requestClose();
+        mApplication.close();
     });
 
     mRenderer.onInitialize();

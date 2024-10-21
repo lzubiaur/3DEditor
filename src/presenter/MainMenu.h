@@ -2,42 +2,30 @@
 
 #include <presenter/ReactiveProperty.h>
 #include <presenter/ReactiveCommand.h>
+#include <presenter/Command.h>
+#include <services/IServiceLocator.h>
 
 namespace Forged::Presenter
 {
 
-struct MainMenuCommandParameter
-{
-
-};
-
 class IMainMenu
 {
 public:
-    using MainMenuCommand = ReactiveCommand<MainMenuCommandParameter>;
-
     ~IMainMenu() noexcept = default;
 
-    virtual MainMenuCommand& getToggleLogMessagePanelCmd() = 0;
+    virtual ApplicationCommand& getApplicationCommand() = 0;
 };
 
 class MainMenu : public IMainMenu
 {
 public:
-    MainMenu()
-    {
-        mToggleLogMessagePanelCmd.bind([](auto parameter)
-        {
-            
-        });
-    }
+    MainMenu(IServiceLocator& services);
 
-    MainMenuCommand& getToggleLogMessagePanelCmd() { return mToggleLogMessagePanelCmd; }
-    
-
+    ApplicationCommand& getApplicationCommand() { return mApplicationCommand; }
     
 private:
-    MainMenuCommand mToggleLogMessagePanelCmd;
+    ApplicationCommand mApplicationCommand;
+    IServiceLocator& mServices;
 };
 
 }
