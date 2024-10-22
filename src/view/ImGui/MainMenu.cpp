@@ -59,6 +59,7 @@ void MainMenu::drawWindowsMenu()
 
         if (ImGui::MenuItem("ImGui Demo"))
         {
+            mPresenter.getPanelCommand().execute({ PanelCommandType::TogglePanel, "ImGuiDemo"});
         }
         if (ImGui::MenuItem("ImPlot Demo"))
         {

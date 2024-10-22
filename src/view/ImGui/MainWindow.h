@@ -9,6 +9,7 @@ namespace Forged::View
 class MainWindow : public UserControl
 {
 public:
+    // TODO remove services. Should use the presenter only
     MainWindow(IServiceLocator& services, Presenter::IMainWindow& presenter);
     ~MainWindow();
 

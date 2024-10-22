@@ -14,9 +14,12 @@ public:
 
     virtual ~IUIBuilder() noexcept = default;
 
+    virtual ControlPtr buildControl(IUIControl::ControlType type, IServiceLocator& services) = 0;
+
     virtual ControlPtr buildMainMenu(IServiceLocator& services) = 0;
     virtual ControlPtr buildNodeGraph(IServiceLocator& services) = 0;
     virtual ControlPtr buildMessageConsole(IServiceLocator& services) = 0;
+    virtual ControlPtr buildDemoPanel(IServiceLocator& services) = 0;
     
     // Tests
     virtual ControlPtr buildSandboxWindow(IServiceLocator& services) = 0;

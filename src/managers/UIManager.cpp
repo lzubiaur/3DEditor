@@ -45,6 +45,8 @@ void UIManager::onPreUpdate()
 void UIManager::onUpdate()
 {
     std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onDraw(); });
+
+    mEventLoop.update();
 }
 
 void UIManager::onPostUpdate()
@@ -59,6 +61,7 @@ void UIManager::onShutdown()
     mSignalService.onShutdown();
     mLogService.onShutdown();
     mRenderer.onShutdown();
+    mEventLoop.onShutdown();
 }
 
 SignalService& UIManager::getSignalService() 
@@ -88,12 +91,36 @@ IUIService& UIManager::getUIService()
 
 void UIManager::addControl(ControlPtr control)
 {
+    if (control == nullptr)
+    {
+        return;
+    }
+
     mControls.push_back(control);
 
     if (mApplication.isRunning())
     {
         control->onInitialize();
     }
+}
+
+ControlPtr UIManager::createControl(IUIService::ControlType type, const std::string& name)
+{
+    auto control = findControl(name);
+
+    if (control != nullptr)
+    {
+        return control;
+    }
+
+    control = mUIBuilder.buildControl(type, *this);
+
+    mEventLoop.execute([&, control]()
+    {
+        addControl(control);
+    });
+
+    return control;
 }
 
 ControlPtr UIManager::findControl(const std::string& name)

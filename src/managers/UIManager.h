@@ -9,6 +9,7 @@
 #include <managers/IManager.h>
 #include <services/IServiceLocator.h>
 #include <services/IUIService.h>
+#include <services/EventLoop.h>
 
 namespace Forged
 {
@@ -45,6 +46,7 @@ public:
     EventBus& getEventBus() override;
     IUIService& getUIService() override;
 
+    ControlPtr createControl(ControlType type, const std::string& name) override;
     ControlPtr findControl(const std::string& name) override;
 
 private:
@@ -59,6 +61,7 @@ private:
     EventBus& mEventBus;
     IReactiveService& mReactiveService;
     std::vector<ControlPtr> mControls;
+    EventLoop mEventLoop;
 };
 
 }

@@ -24,6 +24,12 @@ MainMenu::MainMenu(IServiceLocator& services)
     {
         auto panel = services.getUIService().findControl(arg.panelName);
 
+        // TODO Change the name to something generic and not implementation specific
+        if (!panel && arg.panelName == "ImGuiDemo")
+        {
+            panel = services.getUIService().createControl(View::IUIControl::ControlType::UIDemoPanel, "ImGuiDemo");
+        }
+
         switch (arg.type)
         {
             case PanelCommandType::TogglePanel:

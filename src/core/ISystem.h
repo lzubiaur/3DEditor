@@ -5,6 +5,9 @@
 namespace Forged
 {
 
+// System lifecycle
+// TODO rename into ILifecycle?
+
 class ISystem
 {
 public:

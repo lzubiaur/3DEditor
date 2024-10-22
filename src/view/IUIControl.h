@@ -11,7 +11,7 @@ public:
 
     enum class ControlType
     {
-        MessageConsole, NodeGraph, MainMenu, MainWindow, None
+        MessageConsole, NodeGraph, MainMenu, MainWindow, UIDemoPanel, None
     };
 
     virtual ~IUIControl() noexcept = default;

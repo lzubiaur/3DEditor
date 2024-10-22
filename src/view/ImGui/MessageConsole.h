@@ -12,6 +12,7 @@ namespace Forged::View
 class MessageConsole : public UserControl
 {
 public:
+    // TODO remove services. Should use the presenter only
     MessageConsole(IServiceLocator& services);
 
     ControlType getType() override { return ControlType::MessageConsole; }
