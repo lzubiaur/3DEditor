@@ -1,13 +1,13 @@
 #pragma once
 
-#include <view/IUIControl.h>
+#include <view/UserControl.h>
 #include <services/IServiceLocator.h>
 #include <presenter/MainMenu.h>
 
 namespace Forged::View
 {
 
-class MainMenu : public IUIControl
+class MainMenu : public UserControl
 {
 public:
     MainMenu() = delete;
@@ -19,10 +19,6 @@ public:
     void onInitialize() override;
     void onShutdown() override;
     void onDraw() override;
-
-    bool isVisible() override { return true; }
-    void show() override {}
-    void hide() override {}
 
 private:
     void drawFileMenu();

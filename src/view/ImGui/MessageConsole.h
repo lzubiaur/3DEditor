@@ -1,6 +1,6 @@
 #pragma once
 
-#include <view/IUIControl.h>
+#include <view/UserControl.h>
 #include <services/IServiceLocator.h>
 #include <imgui.h>
 
@@ -9,7 +9,7 @@
 namespace Forged::View
 {
 
-class MessageConsole : public IUIControl
+class MessageConsole : public UserControl
 {
 public:
     MessageConsole(IServiceLocator& services);
@@ -25,12 +25,7 @@ public:
     void addLog(const char* fmt, ...) IM_FMTARGS(2);
     void draw(const char* title, bool* p_open = NULL);
 
-    bool isVisible() override { return mOpen; }
-    void show() override { mOpen = true; }
-    void hide() override { mOpen = false; }
-
 private:
-    bool mOpen;
     ImGuiTextBuffer mBuf;
     ImGuiTextFilter mFilter;
     ImVector<int> mLineOffsets; // Index to lines offset. We maintain this with AddLog() calls.

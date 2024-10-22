@@ -7,15 +7,6 @@ namespace ed = ax::NodeEditor;
 namespace Forged::View
 {
 
-NodeGraph::NodeGraph()
-: mOpen(true)
-{
-}
-
-NodeGraph::~NodeGraph()
-{
-}
-
 void NodeGraph::onInitialize()
 {
     ed::Config config;

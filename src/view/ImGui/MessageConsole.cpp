@@ -8,7 +8,6 @@ namespace Forged::View
 MessageConsole::MessageConsole(IServiceLocator& services)
 : mServices(services)
 , mAutoScroll(true)
-, mOpen(true)
 {
     clear();
 }

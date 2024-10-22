@@ -1,4 +1,4 @@
-#include <view/IUIControl.h>
+#include <view/UserControl.h>
 #include <services/IServiceLocator.h>
 #include <presenter/TestPresenter.h>
 #include <presenter/Bindings.h>
@@ -6,7 +6,7 @@
 namespace Forged::View
 {
 
-class MainWindow : public IUIControl
+class MainWindow : public UserControl
 {
 public:
     MainWindow(IServiceLocator& services, Presenter::IMainWindow& presenter);
@@ -18,10 +18,6 @@ public:
     void onInitialize() override;
     void onShutdown() override;
     void onDraw() override;
-
-    bool isVisible() override { return true; }
-    void show() override {}
-    void hide() override {}
 
 private:
     Presenter::IMainWindow& mPresenter;
