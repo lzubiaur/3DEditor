@@ -6,6 +6,8 @@
 namespace Forged
 {
 
+using ControlPtr = UIManager::ControlPtr;
+
 UIManager::UIManager(const Dependencies& dependencies)
 : mApplication(dependencies.application)
 , mUIBuilder(dependencies.uiBuilder)
@@ -79,6 +81,11 @@ EventBus& UIManager::getEventBus()
     return mEventBus;
 }
 
+IUIService& UIManager::getUIService()
+{
+    return *this;
+}
+
 void UIManager::addControl(ControlPtr control)
 {
     mControls.push_back(control);
@@ -87,6 +94,16 @@ void UIManager::addControl(ControlPtr control)
     {
         control->onInitialize();
     }
+}
+
+ControlPtr UIManager::findControl(const std::string& name)
+{
+    auto iter = std::find_if(mControls.begin(), mControls.end(), [&name](const ControlPtr control)
+    {
+        return control->getName() == name;
+    });
+
+    return iter != mControls.end() ? *iter : nullptr;
 }
 
 }

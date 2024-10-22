@@ -8,11 +8,12 @@
 #include <view/IUIBuilder.h>
 #include <managers/IManager.h>
 #include <services/IServiceLocator.h>
+#include <services/IUIService.h>
 
 namespace Forged
 {
 
-class UIManager : public IManager, public IServiceLocator
+class UIManager : public IManager, public IServiceLocator, public IUIService
 {
 public:
     using ControlPtr = std::shared_ptr<View::IUIControl>;
@@ -42,7 +43,11 @@ public:
     LogService& getLogService() override;
     IReactiveService& getReactiveService() override;
     EventBus& getEventBus() override;
+    IUIService& getUIService() override;
 
+    ControlPtr findControl(const std::string& name) override;
+
+private:
     void addControl(ControlPtr control);
 
 private:

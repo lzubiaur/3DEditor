@@ -1,23 +1,21 @@
 #pragma once
 
 #include <presenter/ReactiveCommand.h>
+#include <presenter/CommandHelper.h>
 
-namespace Forged::Presenter
+namespace Forged::Presenter::Command
 {
 
-enum class ApplicationCommandType
-{
-    Close = 0,
-    Open,
-    Save,
-};
+COMMAND_TYPE(Application, Close, OpenProject, SaveProject)
+COMMAND(Application)
 
-struct ApplicationCommandArgument
-{
-    ApplicationCommandType type;
-};
+COMMAND_TYPE(Dialog, OpenDialog, CloseDialog, AcceptDialog)
+COMMAND(Dialog)
 
-using ApplicationCommand = ReactiveCommand<ApplicationCommandArgument>;
+COMMAND_TYPE(Panel, ShowPanel, HidePanel, TogglePanel)
+BEGIN_COMMAND(Panel)
+    std::string panelName;
+END_COMMAND(Panel)
 
 // TODO
 // NavigationCommands

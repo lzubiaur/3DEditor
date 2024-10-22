@@ -2,6 +2,8 @@
 #include <imgui.h>
 #include <presenter/Command.h>
 
+using namespace Forged::Presenter::Command;
+
 namespace Forged::View
 {
 
@@ -39,7 +41,7 @@ void MainMenu::drawFileMenu()
         ImGui::MenuItem("Save", "Ctrl+S");
         if (ImGui::MenuItem("Exit", "Alt+F4"))
         {
-            mPresenter.getApplicationCommand().execute({ Presenter::ApplicationCommandType::Close });
+            mPresenter.getApplicationCommand().execute({ ApplicationCommandType::Close });
         }
         ImGui::EndMenu();
     }
@@ -51,7 +53,7 @@ void MainMenu::drawWindowsMenu()
     {
         if (ImGui::MenuItem("Messages Console"))
         {
-            // TODO create a navigation command
+            mPresenter.getPanelCommand().execute({ PanelCommandType::TogglePanel, "MessageConsole"});
         }
         ImGui::Separator();
 

@@ -8,6 +8,7 @@ namespace Forged::View
 {
 
 NodeGraph::NodeGraph()
+: mOpen(true)
 {
 }
 
@@ -28,6 +29,11 @@ void NodeGraph::onShutdown()
 
 void NodeGraph::onDraw()
 {
+    if (!mOpen)
+    {
+        return;
+    }
+
     ed::SetCurrentEditor(m_Context);
     ed::Begin("Node Graph", ImVec2(0.0, 0.0f));
 

@@ -13,9 +13,16 @@ public:
     MainMenu() = delete;
     MainMenu(Presenter::IMainMenu& presenter);
 
+    ControlType getType() override { return ControlType::MainMenu; }
+    std::string getName() override { return "MainMenu"; }
+
     void onInitialize() override;
     void onShutdown() override;
     void onDraw() override;
+
+    bool isVisible() override { return true; }
+    void show() override {}
+    void hide() override {}
 
 private:
     void drawFileMenu();

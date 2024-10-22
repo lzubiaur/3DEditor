@@ -14,6 +14,9 @@ class MessageConsole : public IUIControl
 public:
     MessageConsole(IServiceLocator& services);
 
+    ControlType getType() override { return ControlType::MessageConsole; }
+    std::string getName() override { return "MessageConsole"; }
+
     void onInitialize() override;
     void onShutdown() override;
     void onDraw() override;
@@ -21,6 +24,10 @@ public:
     void clear();
     void addLog(const char* fmt, ...) IM_FMTARGS(2);
     void draw(const char* title, bool* p_open = NULL);
+
+    bool isVisible() override { return mOpen; }
+    void show() override { mOpen = true; }
+    void hide() override { mOpen = false; }
 
 private:
     bool mOpen;

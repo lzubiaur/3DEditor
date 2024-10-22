@@ -35,25 +35,6 @@ void MessageConsole::onInitialize()
     {
         // on complete
     });
-
-
-    // rxcpp::subjects::subject<std::any> subject;
-
-    // subject.get_observable().filter([](std::any any)
-    // {
-    //     return std::any_cast<Events::TraceMessageEvent*>(any) != nullptr;
-    // })
-    // .map([](std::any any)
-    // {
-    //     return *std::any_cast<Events::TraceMessageEvent*>(any);
-    // });
-
-    // subject.get_observable().subscribe([](std::any any)
-    // {
-        
-    // });
-
-    // subject.get_subscriber().on_next(Events::TraceMessageEvent{Events::LogLevel::Error, ""});
 }
 
 void MessageConsole::onShutdown() 
