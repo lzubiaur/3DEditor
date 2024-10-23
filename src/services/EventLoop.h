@@ -4,38 +4,44 @@
 
 #include <rxcpp/rx.hpp>
 #include <any>
+#include <functional>
+#include <chrono>
 
 namespace Forged
 {
 
-class EventLoop : public IService
+class IEventLoop : public IService
 {
 public:
-    EventLoop() = default;
-    ~EventLoop() noexcept = default;
+    using Func = std::function<void()>;
+    using Milliseconds = std::chrono::milliseconds;
+    using TimePoint = std::chrono::steady_clock::time_point;
 
-    void onShutdown() override 
-    {
-         //TODO
-    }
+    virtual void immediate(Func&& func) = 0;
+    virtual void timeout(Func&& func, Milliseconds when) = 0;
 
-    template <typename Func, typename... Args>
-    void execute(Func&& func, Args&&... args) 
-    {
-        auto task = std::bind(std::forward<Func>(func), std::forward<Args>(args)...);
+    virtual void interval(Func&& func, Milliseconds period) = 0;
+    virtual void interval(Func&& func, Milliseconds period, TimePoint start) = 0;
+};
 
-        rxcpp::observable<>::just(0)
-            .observe_on(rxcpp::observe_on_run_loop(mLoop))
-            .subscribe([task](int) { task(); });
-    }
+class IEventLoopInternal : public IEventLoop
+{
+public:
+    virtual void update() = 0;
+};
 
-    void update()
-    {
-        if (!mLoop.empty())
-        {
-            mLoop.dispatch();
-        }
-    }
+class EventLoop : public IEventLoopInternal
+{
+public:
+    void onShutdown() override;
+
+    void immediate(Func&& func) override;
+    void timeout(Func&& func, Milliseconds when) override;
+
+    void interval(Func&& func, Milliseconds period) override ;
+    void interval(Func&& func, Milliseconds period, TimePoint start) override;
+
+    void update() override;
 
 private:
     rxcpp::schedulers::run_loop mLoop;

@@ -7,6 +7,7 @@
 #include <view/ImGui/UIRenderer.h>
 #include <view/ImGui/UIBuilder.h>
 #include <services/ReactiveService.h>
+#include <services/EventLoop.h>
 #include <view/IUIRenderer.h>
 #include <view/IUIBuilder.h>
 #include <presenter/TestPresenter.h>
@@ -31,6 +32,7 @@ public:
             di::bind<View::IUIBuilder>().to<View::UIBuilder>(),
             di::bind<IPlatform>().to<Platform>(),
             di::bind<IReactiveService>().to<ReactiveService>(),
+            di::bind<IEventLoopInternal>().to<EventLoop>(),
             di::bind<IApplication>().to<Application>(app)
         );
     }

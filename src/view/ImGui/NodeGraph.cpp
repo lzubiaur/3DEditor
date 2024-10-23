@@ -25,6 +25,8 @@ void NodeGraph::onDraw()
         return;
     }
 
+    ImGui::Begin("Node Graph");
+
     ed::SetCurrentEditor(m_Context);
     ed::Begin("Node Graph", ImVec2(0.0, 0.0f));
 
@@ -54,5 +56,7 @@ void NodeGraph::onDraw()
 
     ed::End();
     ed::SetCurrentEditor(nullptr);
+
+    ImGui::End();
 }
 }

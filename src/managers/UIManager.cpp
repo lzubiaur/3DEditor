@@ -16,6 +16,7 @@ UIManager::UIManager(const Dependencies& dependencies)
 , mSignalService(dependencies.signalService)
 , mReactiveService(dependencies.reactiveService)
 , mEventBus(dependencies.eventBus)
+, mEventLoop(dependencies.eventLoop)
 {}
 
 void UIManager::onInitialize()
@@ -84,6 +85,11 @@ EventBus& UIManager::getEventBus()
     return mEventBus;
 }
 
+IEventLoop& UIManager::getEventLoop()
+{
+    return mEventLoop;
+}
+
 IUIService& UIManager::getUIService()
 {
     return *this;
@@ -115,10 +121,9 @@ ControlPtr UIManager::createControl(IUIService::ControlType type, const std::str
 
     control = mUIBuilder.buildControl(type, *this);
 
-    mEventLoop.execute([&, control]()
-    {
-        addControl(control);
-    });
+    // Defer adding the control to the event loop so that createControl,
+    // which modifies the controls list, can be called within the update loop.
+    mEventLoop.immediate([&, control]() { addControl(control); });
 
     return control;
 }

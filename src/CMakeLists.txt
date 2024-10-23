@@ -26,6 +26,7 @@ add_library(mylib STATIC
   view/ImGui/UIBuilder.cpp
   presenter/MainMenu.cpp
   services/LogService.cpp
+  services/EventLoop.cpp
 )
 
 target_link_libraries(mylib
