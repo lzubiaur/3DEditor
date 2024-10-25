@@ -36,4 +36,4 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w") # Disable warnings
 # Include the dependencies, tests and source
 add_subdirectory(lib)
 add_subdirectory(src)
-# add_subdirectory(tests)
+add_subdirectory(tests)

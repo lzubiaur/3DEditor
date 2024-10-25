@@ -12,7 +12,17 @@
       "args": [],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
-      "preLaunchTask": "CMake build"
+      "preLaunchTask": "CMake Build"
+    },
+    {
+      "name": "Debug Tests",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/bin/Debug/run-tests.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "preLaunchTask": "CMake Build"
     },
   ]
 }

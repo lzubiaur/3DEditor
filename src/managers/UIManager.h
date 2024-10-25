@@ -14,7 +14,7 @@
 namespace Forged
 {
 
-// Offers a service locator and pre/post/update loops for UI control updates,
+// UIManager offers a service locator and pre/post/update loops for UI control updates,
 // along with an event loop for deferring function calls on the main UI thread.
 
 class UIManager : public IManager, public IServiceLocator, public IUIService
@@ -53,6 +53,8 @@ public:
 
     ControlPtr createControl(ControlType type, const std::string& name) override;
     ControlPtr findControl(const std::string& name) override;
+    ApplicationCommand& getApplicationCommand() override { return mApplicationCmd; }
+    PanelCommand& getPanelCommand() override { return mPanelCmd; }
 
 private:
     void addControl(ControlPtr control);
@@ -67,6 +69,9 @@ private:
     IReactiveService& mReactiveService;
     std::vector<ControlPtr> mControls;
     IEventLoopInternal& mEventLoop;
+
+    ApplicationCommand mApplicationCmd;
+    PanelCommand mPanelCmd;
 };
 
 }

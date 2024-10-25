@@ -63,7 +63,7 @@
       "dependsOn": "Create Build Folder"
     },
     {
-      "label": "CMake build",
+      "label": "CMake Build",
       "type": "shell",
       "command": "cmake",
       "args": [
@@ -88,6 +88,23 @@
       ],
       "detail": "Clean and re-build the project.",
       "problemMatcher": []
+    },
+    {
+      "label": "Run Tests",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/bin/Debug/run-tests.exe",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "dependsOn": [
+        "CMake Build"
+      ],
+      "dependsOrder": "sequence",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     }
   ],
   "version": "2.0.0"

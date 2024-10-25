@@ -17,6 +17,7 @@ public:
 
     virtual ApplicationCommand& getApplicationCommand() = 0;
     virtual PanelCommand& getPanelCommand() = 0;
+    virtual bool isMessagePanelVisible() = 0;
 };
 
 class MainMenu : public IMainMenu
@@ -24,12 +25,13 @@ class MainMenu : public IMainMenu
 public:
     MainMenu(IServiceLocator& services);
 
-    ApplicationCommand& getApplicationCommand() { return mApplicationCommand; }
-    PanelCommand& getPanelCommand() { return mPanelCommand; }
-    
+    ApplicationCommand& getApplicationCommand() { return mServices.getUIService().getApplicationCommand(); }
+    PanelCommand& getPanelCommand() { return mServices.getUIService().getPanelCommand(); }
+
+    bool isMessagePanelVisible() { return mMessagePanelVisible; }
+
 private:
-    ApplicationCommand mApplicationCommand;
-    PanelCommand mPanelCommand;
+    bool mMessagePanelVisible;
     IServiceLocator& mServices;
 };
 

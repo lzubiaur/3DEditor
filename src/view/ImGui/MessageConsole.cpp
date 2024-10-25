@@ -5,8 +5,9 @@
 namespace Forged::View
 {
 
-MessageConsole::MessageConsole(IServiceLocator& services)
+MessageConsole::MessageConsole(IServiceLocator& services, Presenter::IMessagePanel& presenter)
 : mServices(services)
+, mPresenter(presenter)
 , mAutoScroll(true)
 {
     clear();
@@ -68,10 +69,13 @@ void MessageConsole::addLog(const char* fmt, ...) IM_FMTARGS(2)
 
 void MessageConsole::onDraw()
 {
-    if (!mOpen)
+    if (!mPresenter.isVisible())
     {
         return;
     }
+
+    // TODO trigger visibility changed when closing the panel (mOpen)
+    // Probably move that logic in a Panel base class 
 
     if (!ImGui::Begin("Message Console", &mOpen))
     {

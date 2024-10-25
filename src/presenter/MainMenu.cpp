@@ -10,7 +10,7 @@ namespace Forged::Presenter
 MainMenu::MainMenu(IServiceLocator& services)
 : mServices(services)
 {
-    mApplicationCommand.bind([&services](ApplicationCommandArgument arg) 
+    services.getUIService().getApplicationCommand().bind([&services](ApplicationCommandArgument arg) 
     {
         switch (arg.type)
         {
@@ -20,7 +20,7 @@ MainMenu::MainMenu(IServiceLocator& services)
         }
     });
 
-    mPanelCommand.bind([&services](PanelCommandArgument arg) 
+    services.getUIService().getPanelCommand().bind([&](PanelCommandArgument arg) 
     {
         auto panel = services.getUIService().findControl(arg.panelName);
 
@@ -28,13 +28,6 @@ MainMenu::MainMenu(IServiceLocator& services)
         if (!panel && arg.panelName == "ImGuiDemo")
         {
             panel = services.getUIService().createControl(View::IUIControl::ControlType::UIDemoPanel, "ImGuiDemo");
-        }
-
-        switch (arg.type)
-        {
-            case PanelCommandType::TogglePanel:
-                panel->isVisible() ? panel->hide() : panel->show();
-                break;
         }
     });
 }
