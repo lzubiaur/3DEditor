@@ -60,6 +60,34 @@ auto nameSelector = [](const State& state) -> std::string
     return state.name;
 };
 
+TEST_CASE("Testing old new", "[STORE]") 
+{
+    Forge::State::Store store(State{ });
+
+    store.subscribePairWise(countSelector,
+    [&](int a, int b)
+    {
+        auto state = store.getState();
+    },
+    [](int a, int b)
+    {
+        return a == b;
+    });
+
+    store.subscribePairWise(nameSelector, 
+    [&](std::string a, std::string b)
+    {
+        auto state = store.getState();
+    },
+    [](std::string a, std::string b)
+    {
+        return a == b;
+    });
+
+    store.dispatch(UpdateName{ "Hello" });
+    store.dispatch(IncrementAction{ 2 });
+}
+
 TEST_CASE("Subscribe to local state changes", "[STORE]") 
 {
     int callCount = 0;

@@ -71,6 +71,23 @@ public:
             .subscribe(observer);
     }
 
+    template<typename T>
+    using ObserverOldNew = std::function<void(ReturnType<T>, ReturnType<T>)>;
+
+    template<typename Selector>
+    auto subscribePairWise(Selector selector, ObserverOldNew<Selector> observer, Predicate<Selector> predicate)
+    {
+        return stream.get_observable()
+            .start_with(mState)
+            .map(selector)
+            .distinct_until_changed(predicate)
+            .pairwise()
+            .subscribe([observer](auto tuple)
+            {
+                observer(std::get<0>(tuple), std::get<1>(tuple));
+            });
+    }
+
     template<typename Selector>
     auto subscribe(Selector selector, Observer<Selector> observer)
     {
