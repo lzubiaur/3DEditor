@@ -14,14 +14,18 @@ struct IncrementAction
     int value;
 };
 
+struct DecrementAction
+{
+    int value;
+};
+
 struct UpdateNameAction
 {
     std::string name;
 };
 
-using MyAction = std::variant<IncrementAction, UpdateNameAction>;
-
-auto reducer = [](State state, MyAction action)
+using NumericActions = std::variant<IncrementAction, DecrementAction>;
+auto numericReducer = [](State state, NumericActions action)
 {
     std::visit([&state](auto&& action)
     {
@@ -31,9 +35,54 @@ auto reducer = [](State state, MyAction action)
         {
             state.count += action.value;
         }
-        else if constexpr (std::is_same_v<T, UpdateNameAction>)
+        else if constexpr (std::is_same_v<T, DecrementAction>)
+        {
+            state.count -= action.value;
+        }
+        else 
+        {
+           static_assert(false, "non-exhaustive visitor!");
+        }
+    }, action);
+
+    return state;
+};
+
+using StringActions = std::variant<UpdateNameAction>;
+auto stringReducer = [](State state, StringActions action)
+{
+    std::visit([&state](auto&& action)
+    {
+        using T = std::decay_t<decltype(action)>;
+
+        if constexpr (std::is_same_v<T, UpdateNameAction>)
         {
             state.name = action.name;
+        }
+        else 
+        {
+           static_assert(false, "non-exhaustive visitor!");
+        }
+    }, action);
+
+    return state;
+};
+
+using AllActions = std::variant<NumericActions, StringActions>;
+
+auto mainReducer = [](State state, AllActions action)
+{
+    std::visit([&state](auto&& action)
+    {
+        using T = std::decay_t<decltype(action)>;
+
+        if constexpr (std::is_same_v<T, StringActions>)
+        {
+            state = stringReducer(state, action);
+        }
+        else if constexpr (std::is_same_v<T, NumericActions>)
+        {
+            state = numericReducer(state, action);
         }
         else 
         {
@@ -48,19 +97,20 @@ TEST_CASE("Subscribe to Global State Changes", "[STORE]")
 {
     int callCount = 0;
 
-    Forge::State::Store store(State{ 0, "MyOldName"}, reducer);
+    Forge::State::Store store(State{ 0, "MyOldName"}, mainReducer);
 
     store.subscribeToState([&callCount](State state)
     {
         callCount++;
     });
 
-    store.dispatch(IncrementAction{ 2 });
+    store.dispatch(IncrementAction{ 4 });
     store.dispatch(UpdateNameAction{ "MyNewName" });
+    store.dispatch(DecrementAction{ 1 });
 
-    REQUIRE(store.getState().count == 2);
+    REQUIRE(store.getState().count == 3);
     REQUIRE(store.getState().name == "MyNewName");
-    REQUIRE(callCount == 2);
+    REQUIRE(callCount == 3);
 }
 
 auto countSelector = [](const State& state) -> int
@@ -85,7 +135,7 @@ auto stringPredicate = [](const std::string& a, const std::string& b)
 
 TEST_CASE("Subscribe to Changes with Previous Value", "[STORE]") 
 {
-    Forge::State::Store store(State{ }, reducer);
+    Forge::State::Store store(State{ }, mainReducer);
 
     store.subscribeWithPrevious(countSelector, integerPredicate,
         [&](int a, int b)
@@ -107,7 +157,7 @@ TEST_CASE("Subscribe to Slice State Changes", "[STORE]")
 {
     int callCount = 0;
 
-    Forge::State::Store store(State{ }, reducer);
+    Forge::State::Store store(State{ }, mainReducer);
 
     store.subscribeToSlice(countSelector, integerPredicate,
         [&](int count)
