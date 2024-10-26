@@ -22,9 +22,10 @@ namespace Forge::State
  * and leverages the `rxcpp` library to handle asynchronous state updates.
  * 
  * @tparam StateT The type of state managed by the store.
+ * @tparam Reducer The type for the reducer function
  */
 
-template<typename StateT>
+template<typename StateT, typename Reducer>
 class Store
 {
 public:
@@ -33,7 +34,9 @@ public:
      * @brief Constructs the Store with an initial state.
      * @param initial The initial state of type `StateT`.
      */
-    Store(StateT initial) : mState(initial)
+    Store(StateT initial, Reducer reducer)
+    : mState(initial)
+    , mReducer(reducer)
     {
     }
 
@@ -70,7 +73,7 @@ public:
     template<typename Action>
     void dispatch(Action action)
     {
-        mState = reduce(mState, action);
+        mState = mReducer(mState, action);
         stream.get_subscriber().on_next(mState);
     }
 
@@ -152,42 +155,8 @@ public:
     }
 
 private:
-
-    // AppState reduce(AppState& model, const Actions::PanelAction &action)
-    // {
-    //     std::visit([&model](const auto &msg)
-    //     {
-    //     using T = std::decay_t<decltype(msg)>;
-
-    //     if constexpr (std::is_same_v<T, Actions::AddObject>) 
-    //     {
-    //         model.panels.push_back(Model::Panel{msg.id, true, ""});
-    //     }
-    //     else if constexpr (std::is_same_v<T, Actions::RemoveObject>) 
-    //     {
-    //         model.panels.erase(
-    //             std::remove_if(model.panels.begin(), model.panels.end(),
-    //                            [&](const Model::Panel& panel) { return panel.id == msg.id; }),
-    //             model.panels.end());
-    //     }
-    //     else if constexpr (std::is_same_v<T, Actions::GetObject>)
-    //     {
-            
-    //     }
-    //     else if constexpr (std::is_same_v<T, Actions::UpdateTitle>) 
-    //     {
-
-    //     }
-    //     else if constexpr (std::is_same_v<T, Actions::UpdateVisibility>) 
-    //     {
-
-    //     } }, action);
-
-    //     return model;
-    // }
-
-private:
     StateT mState;
+    Reducer mReducer;
     rxcpp::subjects::subject<StateT> stream;
 };
 }

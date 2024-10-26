@@ -14,28 +14,41 @@ struct IncrementAction
     int value;
 };
 
-struct UpdateName
+struct UpdateNameAction
 {
     std::string name;
 };
 
-State reduce(State state, IncrementAction action)
-{
-    state.count = state.count + action.value;
-    return state;
-}
+using MyAction = std::variant<IncrementAction, UpdateNameAction>;
 
-State reduce(State state, UpdateName action)
+auto reducer = [](State state, MyAction action)
 {
-    state.name = action.name;
+    std::visit([&state](auto&& action)
+    {
+        using T = std::decay_t<decltype(action)>;
+
+        if constexpr (std::is_same_v<T, IncrementAction>)
+        {
+            state.count += action.value;
+        }
+        else if constexpr (std::is_same_v<T, UpdateNameAction>)
+        {
+            state.name = action.name;
+        }
+        else 
+        {
+           static_assert(false, "non-exhaustive visitor!");
+        }
+    }, action);
+
     return state;
-}
+};
 
 TEST_CASE("Subscribe to Global State Changes", "[STORE]") 
 {
     int callCount = 0;
 
-    Forge::State::Store store(State{ 0, "MyOldName"});
+    Forge::State::Store store(State{ 0, "MyOldName"}, reducer);
 
     store.subscribeToState([&callCount](State state)
     {
@@ -43,7 +56,7 @@ TEST_CASE("Subscribe to Global State Changes", "[STORE]")
     });
 
     store.dispatch(IncrementAction{ 2 });
-    store.dispatch(UpdateName{ "MyNewName" });
+    store.dispatch(UpdateNameAction{ "MyNewName" });
 
     REQUIRE(store.getState().count == 2);
     REQUIRE(store.getState().name == "MyNewName");
@@ -72,7 +85,7 @@ auto stringPredicate = [](const std::string& a, const std::string& b)
 
 TEST_CASE("Subscribe to Changes with Previous Value", "[STORE]") 
 {
-    Forge::State::Store store(State{ });
+    Forge::State::Store store(State{ }, reducer);
 
     store.subscribeWithPrevious(countSelector, integerPredicate,
         [&](int a, int b)
@@ -86,7 +99,7 @@ TEST_CASE("Subscribe to Changes with Previous Value", "[STORE]")
             // TODO ensure a != b
         });
 
-    store.dispatch(UpdateName{ "Hello" });
+    store.dispatch(UpdateNameAction{ "Hello" });
     store.dispatch(IncrementAction{ 2 });
 }
 
@@ -94,7 +107,7 @@ TEST_CASE("Subscribe to Slice State Changes", "[STORE]")
 {
     int callCount = 0;
 
-    Forge::State::Store store(State{ });
+    Forge::State::Store store(State{ }, reducer);
 
     store.subscribeToSlice(countSelector, integerPredicate,
         [&](int count)
@@ -110,9 +123,9 @@ TEST_CASE("Subscribe to Slice State Changes", "[STORE]")
             callCount++;
         });
 
-    store.dispatch(UpdateName{ "Hello" });
+    store.dispatch(UpdateNameAction{ "Hello" });
     store.dispatch(IncrementAction{ 2 });
-    store.dispatch(UpdateName{ "World" });
+    store.dispatch(UpdateNameAction{ "World" });
 
     REQUIRE(store.getState().count == 2);
     REQUIRE(store.getState().name == "World");
