@@ -2,9 +2,11 @@
 
 #include <string>
 
-namespace Forge
+namespace Forged
 {
 
-using Guid = std::hash<std::string>;
+// TODO use std::hash
+// using Guid = std::hash<std::string>;
+using Guid = std::string;
 
 }

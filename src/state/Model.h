@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace Forge::State::Model
+namespace Forged::State
 {
 
 struct Panel

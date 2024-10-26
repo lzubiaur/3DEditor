@@ -1,7 +1,7 @@
 #include <catch.hpp>
 #include <iostream>
 
-#include <presenter/state/store.h>
+#include <state/store.h>
 
 struct State
 {
@@ -97,7 +97,7 @@ TEST_CASE("Subscribe to Global State Changes", "[STORE]")
 {
     int callCount = 0;
 
-    Forge::State::Store store(State{ 0, "MyOldName"}, mainReducer);
+    Forged::State::Store store(State{ 0, "MyOldName"}, mainReducer);
 
     store.subscribeToState([&callCount](State state)
     {
@@ -135,7 +135,7 @@ auto stringPredicate = [](const std::string& a, const std::string& b)
 
 TEST_CASE("Subscribe to Changes with Previous Value", "[STORE]") 
 {
-    Forge::State::Store store(State{ }, mainReducer);
+    Forged::State::Store store(State{ }, mainReducer);
 
     store.subscribeWithPrevious(countSelector, integerPredicate,
         [&](int a, int b)
@@ -157,7 +157,7 @@ TEST_CASE("Subscribe to Slice State Changes", "[STORE]")
 {
     int callCount = 0;
 
-    Forge::State::Store store(State{ }, mainReducer);
+    Forged::State::Store store(State{ }, mainReducer);
 
     store.subscribeToSlice(countSelector, integerPredicate,
         [&](int count)

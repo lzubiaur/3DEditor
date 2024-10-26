@@ -51,9 +51,9 @@ void MainMenu::drawWindowsMenu()
 {
     if (ImGui::BeginMenu("Windows"))
     {
-        if (ImGui::MenuItem("Messages Console"), nullptr, mPresenter.isMessagePanelVisible())
+        if (ImGui::MenuItem("Messages Console", nullptr, mPresenter.isMessagePanelVisible()))
         {
-            mPresenter.getPanelCommand().execute({ PanelCommandType::TogglePanel, "MessageConsole"});
+            mPresenter.execute(State::UpdateVisibility{ "MessageConsole", !mPresenter.isMessagePanelVisible()});
         }
         ImGui::Separator();
 

@@ -2,6 +2,7 @@
 
 #include <managers/UIManager.h>
 #include <presenter/Events.h>
+#include <state/Reducers.h>
 
 namespace Forged
 {
@@ -17,6 +18,7 @@ UIManager::UIManager(const Dependencies& dependencies)
 , mReactiveService(dependencies.reactiveService)
 , mEventBus(dependencies.eventBus)
 , mEventLoop(dependencies.eventLoop)
+, mStore(State::AppState{}, State::mainReducer)
 {}
 
 void UIManager::onInitialize()
@@ -103,6 +105,7 @@ void UIManager::addControl(ControlPtr control)
     }
 
     mControls.push_back(control);
+    mStore.getState().panels.push_back({ control->getName(), false, control->getName() });
 
     if (mApplication.isRunning())
     {
@@ -136,6 +139,15 @@ ControlPtr UIManager::findControl(const std::string& name)
     });
 
     return iter != mControls.end() ? *iter : nullptr;
+}
+
+void UIManager::subscribeToPanelChanges(State::PanelObserver observer, Guid id)
+{
+    mStore.subscribeToSlice([id](State::AppState state)
+    {
+        return State::getPanel(state, id);
+    }, 
+    State::panelPredicate, observer);
 }
 
 }

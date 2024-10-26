@@ -27,6 +27,7 @@ add_library(mylib STATIC
   presenter/MainMenu.cpp
   services/LogService.cpp
   services/EventLoop.cpp
+  state/Reducers.cpp
 )
 
 target_link_libraries(mylib

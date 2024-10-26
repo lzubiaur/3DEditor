@@ -11,6 +11,9 @@
 #include <services/IUIService.h>
 #include <services/EventLoop.h>
 
+#include <state/Model.h>
+#include <state/Store.h>
+
 namespace Forged
 {
 
@@ -21,6 +24,7 @@ class UIManager : public IManager, public IServiceLocator, public IUIService
 {
 public:
     using ControlPtr = std::shared_ptr<View::IUIControl>;
+    using Store = State::Store<State::AppState, State::MainReducer>;
 
     struct Dependencies
     {
@@ -56,6 +60,9 @@ public:
     ApplicationCommand& getApplicationCommand() override { return mApplicationCmd; }
     PanelCommand& getPanelCommand() override { return mPanelCmd; }
 
+    Store& getStore() override { return mStore; }
+    void subscribeToPanelChanges(State::PanelObserver observer, Guid id) override;
+
 private:
     void addControl(ControlPtr control);
 
@@ -69,9 +76,9 @@ private:
     IReactiveService& mReactiveService;
     std::vector<ControlPtr> mControls;
     IEventLoopInternal& mEventLoop;
-
     ApplicationCommand mApplicationCmd;
     PanelCommand mPanelCmd;
+    Store mStore;
 };
 
 }

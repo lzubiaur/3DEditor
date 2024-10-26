@@ -15,7 +15,7 @@ MessageConsole::MessageConsole(IServiceLocator& services, Presenter::IMessagePan
 
 void MessageConsole::onInitialize()
 {
-    // TODO get rid of the event bus and use a concreate command instead
+    // TODO get rid of the event bus and use a Reactive command instead
     mServices.getEventBus().getEvent<Presenter::Events::TraceMessageEvent>().subscribe([&](auto event)
     {
         addLog(event.message.c_str());
@@ -79,6 +79,7 @@ void MessageConsole::onDraw()
 
     if (!ImGui::Begin("Message Console", &mOpen))
     {
+        mPresenter.setIsVisible(false);
         ImGui::End();
         return;
     }

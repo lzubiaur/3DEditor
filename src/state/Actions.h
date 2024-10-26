@@ -5,7 +5,7 @@
 #include <string>
 #include <variant>
 
-namespace Forge::State::Actions
+namespace Forged::State
 {
 
 struct AddObject
@@ -18,21 +18,20 @@ struct RemoveObject
     Guid id;
 };
 
-struct GetObject
-{
-    Guid id;
-};
-
 struct UpdateTitle
 {
+    Guid id;
     std::string title;
 };
 
 struct UpdateVisibility
 {
+    Guid id;
     bool isVisible;
 };
 
-using PanelAction = std::variant<AddObject, RemoveObject, GetObject, UpdateTitle, UpdateVisibility>;
+using TestActions = std::variant<UpdateTitle>;
+using PanelActions = std::variant<AddObject, RemoveObject, UpdateTitle, UpdateVisibility>;
+using AllActions = std::variant<PanelActions, TestActions>;
 
 }

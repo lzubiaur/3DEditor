@@ -1,13 +1,14 @@
 #pragma once
 
-#include <presenter/state/Actions.h>
-#include <presenter/state/Model.h>
+#include <state/Actions.h>
+#include <state/Model.h>
 
 #include <rxcpp/rx.hpp>
 #include <variant>
 #include <utility>
+#include <exception>
 
-namespace Forge::State
+namespace Forged::State
 {
 
 /**
@@ -120,7 +121,14 @@ public:
             .start_with(mState)
             .map(selector)
             .distinct_until_changed(predicate)
-            .subscribe(observer);
+            .subscribe(observer, [](std::exception_ptr exp)
+            {
+
+            },
+            []()
+            {
+
+            });
     }
     
     // TODO Create a SubscribeMetadata to pass as parameters with 
