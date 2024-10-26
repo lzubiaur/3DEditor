@@ -31,13 +31,13 @@ State reduce(State state, UpdateName action)
     return state;
 }
 
-TEST_CASE("Subscribe to global state changes", "[STORE]") 
+TEST_CASE("Subscribe to Global State Changes", "[STORE]") 
 {
     int callCount = 0;
 
     Forge::State::Store store(State{ 0, "MyOldName"});
 
-    store.subscribeGlobal([&callCount](State state)
+    store.subscribeToState([&callCount](State state)
     {
         callCount++;
     });
@@ -60,59 +60,55 @@ auto nameSelector = [](const State& state) -> std::string
     return state.name;
 };
 
-TEST_CASE("Testing old new", "[STORE]") 
+auto integerPredicate = [](int a, int b)
+{
+    return a == b;
+};
+
+auto stringPredicate = [](const std::string& a, const std::string& b)
+{
+    return a == b;
+};
+
+TEST_CASE("Subscribe to Changes with Previous Value", "[STORE]") 
 {
     Forge::State::Store store(State{ });
 
-    store.subscribePairWise(countSelector,
-    [&](int a, int b)
-    {
-        auto state = store.getState();
-    },
-    [](int a, int b)
-    {
-        return a == b;
-    });
+    store.subscribeWithPrevious(countSelector, integerPredicate,
+        [&](int a, int b)
+        {
+            // TODO ensure a != b
+        });
 
-    store.subscribePairWise(nameSelector, 
-    [&](std::string a, std::string b)
-    {
-        auto state = store.getState();
-    },
-    [](std::string a, std::string b)
-    {
-        return a == b;
-    });
+    store.subscribeWithPrevious(nameSelector, stringPredicate,
+        [&](std::string a, std::string b)
+        {
+            // TODO ensure a != b
+        });
 
     store.dispatch(UpdateName{ "Hello" });
     store.dispatch(IncrementAction{ 2 });
 }
 
-TEST_CASE("Subscribe to local state changes", "[STORE]") 
+TEST_CASE("Subscribe to Slice State Changes", "[STORE]") 
 {
     int callCount = 0;
 
     Forge::State::Store store(State{ });
 
-    store.subscribe(countSelector, [&](int count)
-    {
-        auto state = store.getState();
-        callCount++;
-    }, 
-    [](int a, int b)
-    {
-        return a == b;
-    });
+    store.subscribeToSlice(countSelector, integerPredicate,
+        [&](int count)
+        {
+            auto state = store.getState();
+            callCount++;
+        });
 
-    store.subscribe(nameSelector, [&](std::string name)
-    {
-        auto state = store.getState();
-        callCount++;
-    },
-    [](std::string a, std::string b)
-    {
-        return a == b;
-    });
+    store.subscribeToSlice(nameSelector, stringPredicate,
+        [&](std::string name)
+        {
+            auto state = store.getState();
+            callCount++;
+        });
 
     store.dispatch(UpdateName{ "Hello" });
     store.dispatch(IncrementAction{ 2 });
