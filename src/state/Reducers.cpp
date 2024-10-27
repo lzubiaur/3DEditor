@@ -4,7 +4,7 @@
 namespace Forged::State
 {
 
-Panel dummyPanel;
+Panel dummyPanel = { "DummyPanel", false, "Dummy Panel" };
 
 Panel &getPanel(AppState &state, const Guid &id)
 {
@@ -33,7 +33,7 @@ PanelReducer panelReducer = [](AppState state, PanelActions action)
 
         if constexpr (std::is_same_v<T, AddObject>)
         {
-            // TODO
+            state.panels.push_back(action.panel);
         }
         else if constexpr (std::is_same_v<T, RemoveObject>)
         {
@@ -42,6 +42,11 @@ PanelReducer panelReducer = [](AppState state, PanelActions action)
         else if constexpr (std::is_same_v<T, UpdateTitle>)
         {
             getPanel(state, action.id).title = action.title;
+        }
+        else if constexpr (std::is_same_v<T, ToggleVisibility>)
+        {
+            auto& panel = getPanel(state, action.id);
+            panel.isVisible = !panel.isVisible;
         }
         else if constexpr (std::is_same_v<T, UpdateVisibility>)
         {

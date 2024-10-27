@@ -13,10 +13,17 @@ MainMenu::MainMenu(IServiceLocator& services)
 {
     services.getUIService().subscribeToPanelChanges([&](State::Panel panel)
         {
-            mMessagePanelVisible = panel.isVisible;
+            mIsMessagePanelVisible = panel.isVisible;
         },
         "MessageConsole");
 
+    services.getUIService().subscribeToPanelChanges([&](State::Panel panel)
+        {
+            mIsDemoPanelVisible = panel.isVisible;
+        },
+        "DemoPanel");
+
+    // TODO remove command and use the global
     services.getUIService().getApplicationCommand().bind([&services](ApplicationCommandArgument arg) 
     {
         switch (arg.type)
@@ -26,22 +33,31 @@ MainMenu::MainMenu(IServiceLocator& services)
                 break;
         }
     });
-
-    services.getUIService().getPanelCommand().bind([&](PanelCommandArgument arg) 
-    {
-        auto panel = services.getUIService().findControl(arg.panelName);
-
-        // TODO Change the name to something generic and not implementation specific
-        if (!panel && arg.panelName == "ImGuiDemo")
-        {
-            panel = services.getUIService().createControl(View::IUIControl::ControlType::UIDemoPanel, "ImGuiDemo");
-        }
-    });
 }
 
-void MainMenu::execute(State::PanelActions action)
+void MainMenu::closeApplication()
 {
-    mServices.getUIService().getStore().dispatch(action);
+    // TODO
+}
+
+bool MainMenu::isDemoPanelVisible()
+{
+    return mIsDemoPanelVisible;
+}
+
+bool MainMenu::isMessagePanelVisible()
+{
+    return mIsMessagePanelVisible;
+}
+
+void MainMenu::setIsDemoPanelVisible(bool value)
+{
+    mServices.getUIService().getStore().dispatch(State::ToggleVisibility{ "DemoPanel" });
+}
+
+void MainMenu::setIsMessagePanelVisible(bool value)
+{
+    mServices.getUIService().getStore().dispatch(State::ToggleVisibility{ "MessageConsole" });
 }
 
 }

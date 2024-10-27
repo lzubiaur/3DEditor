@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utils/Types.h>
+#include <state/Model.h>
 
 #include <string>
 #include <variant>
@@ -10,7 +11,7 @@ namespace Forged::State
 
 struct AddObject
 {
-    Guid id;
+    Panel panel;
 };
 
 struct RemoveObject
@@ -30,8 +31,13 @@ struct UpdateVisibility
     bool isVisible;
 };
 
+struct ToggleVisibility
+{
+    Guid id;
+};
+
 using TestActions = std::variant<UpdateTitle>;
-using PanelActions = std::variant<AddObject, RemoveObject, UpdateTitle, UpdateVisibility>;
+using PanelActions = std::variant<AddObject, RemoveObject, UpdateTitle, UpdateVisibility, ToggleVisibility>;
 using AllActions = std::variant<PanelActions, TestActions>;
 
 }

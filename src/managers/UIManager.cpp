@@ -36,6 +36,7 @@ void UIManager::onInitialize()
     addControl(mUIBuilder.buildNodeGraph(*this));
     addControl(mUIBuilder.buildMessageConsole(*this));
     addControl(mUIBuilder.buildSandboxWindow(*this));
+    addControl(mUIBuilder.buildDemoPanel(*this));
 
     std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onInitialize(); });
 }
@@ -105,7 +106,7 @@ void UIManager::addControl(ControlPtr control)
     }
 
     mControls.push_back(control);
-    mStore.getState().panels.push_back({ control->getName(), false, control->getName() });
+    mStore.dispatch(State::AddObject{ control->getName(), false, control->getName()});
 
     if (mApplication.isRunning())
     {

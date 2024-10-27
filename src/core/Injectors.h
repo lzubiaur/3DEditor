@@ -13,6 +13,7 @@
 #include <presenter/TestPresenter.h>
 #include <presenter/MessagePanel.h>
 #include <presenter/MainMenu.h>
+#include <presenter/DemoPanel.h>
 
 #include <memory>
 #include <boost/di.hpp>
@@ -51,7 +52,8 @@ public:
             di::bind<IServiceLocator>().to(services),
             di::bind<Presenter::IMainWindow>().to<Presenter::TestPresenter>(),
             di::bind<Presenter::IMainMenu>().to<Presenter::MainMenu>(),
-            di::bind<Presenter::IMessagePanel>().to<Presenter::MessagePanel>()
+            di::bind<Presenter::IMessagePanel>().to<Presenter::MessagePanel>(),
+            di::bind<Presenter::IDemoPanel>().to<Presenter::DemoPanel>()
         );
     }
 };

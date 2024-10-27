@@ -16,14 +16,13 @@ class IMainMenu
 public:
     ~IMainMenu() noexcept = default;
 
-    // TODO remove
-    virtual ApplicationCommand& getApplicationCommand() = 0;
-    // TODO remove
-    virtual PanelCommand& getPanelCommand() = 0;
-
-    virtual void execute(State::PanelActions action) = 0;
-
     virtual bool isMessagePanelVisible() = 0;
+    virtual bool isDemoPanelVisible() = 0;
+
+    virtual void setIsMessagePanelVisible(bool value) = 0;
+    virtual void setIsDemoPanelVisible(bool value) = 0;
+
+    virtual void closeApplication() = 0;
 };
 
 class MainMenu : public IMainMenu
@@ -31,15 +30,17 @@ class MainMenu : public IMainMenu
 public:
     MainMenu(IServiceLocator& services);
 
-    ApplicationCommand& getApplicationCommand() { return mServices.getUIService().getApplicationCommand(); }
-    PanelCommand& getPanelCommand() { return mServices.getUIService().getPanelCommand(); }
+    bool isMessagePanelVisible() override;
+    bool isDemoPanelVisible() override;
 
-    void execute(State::PanelActions action) override;
+    void setIsMessagePanelVisible(bool value) override;
+    void setIsDemoPanelVisible(bool value) override;
 
-    bool isMessagePanelVisible() { return mMessagePanelVisible; }
+    void closeApplication() override;
 
 private:
-    bool mMessagePanelVisible;
+    bool mIsMessagePanelVisible;
+    bool mIsDemoPanelVisible;
     IServiceLocator& mServices;
 };
 

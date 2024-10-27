@@ -45,7 +45,7 @@ public:
      * @brief Retrieves the current state.
      * @return The current state of type `StateT`.
      */
-    StateT getState() const 
+    const StateT& getState() const 
     {
         return mState; 
     }

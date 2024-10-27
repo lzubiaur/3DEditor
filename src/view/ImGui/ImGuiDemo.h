@@ -2,6 +2,7 @@
 
 #include <view/UserControl.h>
 #include <services/IServiceLocator.h>
+#include <presenter/DemoPanel.h>
 #include <imgui.h>
 
 namespace Forged::View
@@ -9,23 +10,37 @@ namespace Forged::View
 class ImGuiDemo : public UserControl
 {
 public:
-    ImGuiDemo() : UserControl() 
+    ImGuiDemo(Presenter::IDemoPanel& presenter)
+    : UserControl()
+    , mPresenter(presenter)
     {
         mOpen = false;
     }
 
     ControlType getType() override { return ControlType::None; }
-    std::string getName() override { return "ImGuiDemo"; }
+    std::string getName() override { return "DemoPanel"; }
 
     void onInitialize() override {}
     void onShutdown() override {}
     void onDraw() override 
     {
-        if (mOpen)
+        if (!mPresenter.isVisible())
         {
-            ImGui::ShowDemoWindow();
+            return;
+        }
+
+        mOpen = true;
+
+        ImGui::ShowDemoWindow(&mOpen);
+
+        if (!mOpen)
+        {
+            mPresenter.setIsVisible(false);
         }
     }
+
+private:
+    Presenter::IDemoPanel& mPresenter;
 };
 
 }

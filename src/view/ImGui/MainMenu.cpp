@@ -41,7 +41,7 @@ void MainMenu::drawFileMenu()
         ImGui::MenuItem("Save", "Ctrl+S");
         if (ImGui::MenuItem("Exit", "Alt+F4"))
         {
-            mPresenter.getApplicationCommand().execute({ ApplicationCommandType::Close });
+            mPresenter.closeApplication();
         }
         ImGui::EndMenu();
     }
@@ -53,13 +53,13 @@ void MainMenu::drawWindowsMenu()
     {
         if (ImGui::MenuItem("Messages Console", nullptr, mPresenter.isMessagePanelVisible()))
         {
-            mPresenter.execute(State::UpdateVisibility{ "MessageConsole", !mPresenter.isMessagePanelVisible()});
+            mPresenter.setIsMessagePanelVisible(false);
         }
         ImGui::Separator();
 
-        if (ImGui::MenuItem("ImGui Demo"))
+        if (ImGui::MenuItem("ImGui Demo", nullptr, mPresenter.isDemoPanelVisible()))
         {
-            mPresenter.getPanelCommand().execute({ PanelCommandType::TogglePanel, "ImGuiDemo"});
+            mPresenter.setIsDemoPanelVisible(false);
         }
         if (ImGui::MenuItem("ImPlot Demo"))
         {

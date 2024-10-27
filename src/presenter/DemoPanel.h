@@ -1,41 +1,33 @@
 #pragma once
 
 #include <services/IServiceLocator.h>
-#include <presenter/ReactiveProperty.h>
-#include <presenter/Command.h>
 #include <state/Store.h>
 #include <state/Model.h>
 
 namespace Forged::Presenter
 {
 
-struct PanelState
-{
-    bool isVisible;
-};
-
-class IMessagePanel
+class IDemoPanel
 {
 public:
     virtual bool isVisible() = 0;
     virtual void setIsVisible(bool value) = 0;
 };
 
-class MessagePanel : public IMessagePanel
+class DemoPanel : public IDemoPanel
 {
 public:
-    MessagePanel(IServiceLocator& services)
-    : mServices(services) 
-    , mVisible(true)
-    , mStateProperty({ false })
+    DemoPanel(IServiceLocator& services)
+    : mServices(services)
+    , mVisible(false)
     {
-        services.getUIService().getStore().dispatch(State::UpdateVisibility{ "MessageConsole", true });
+        services.getUIService().getStore().dispatch(State::UpdateVisibility{ "DemoPanel", false });
 
         services.getUIService().subscribeToPanelChanges([&](const State::Panel& panel)
         {
             mVisible = panel.isVisible;
         }, 
-        "MessageConsole");
+        "DemoPanel");
     }
 
     bool isVisible() { return mVisible; }
@@ -43,7 +35,7 @@ public:
     void setIsVisible(bool value)
     {
          mVisible = value;
-         execute(State::UpdateVisibility{ "MessageConsole", value });
+         execute(State::UpdateVisibility{ "DemoPanel", value });
     }
 
     void execute(State::PanelActions action)
@@ -53,7 +45,6 @@ public:
 
 private:
     IServiceLocator& mServices;
-    Presenter::ReactiveProperty<PanelState> mStateProperty;
     bool mVisible = false;
 };
 
