@@ -1,5 +1,6 @@
 #pragma once
 
+#include <view/UIControlHash.h>
 #include <string>
 
 namespace Forged::View
@@ -9,13 +10,9 @@ class IUIControl
 {
 public:
 
-    enum class ControlType
-    {
-        MessageConsole, NodeGraph, MainMenu, MainWindow, UIDemoPanel, None
-    };
-
     virtual ~IUIControl() noexcept = default;
 
+    virtual ControlHash getHash() = 0;
     virtual ControlType getType() = 0;
     virtual std::string getName() = 0;
 

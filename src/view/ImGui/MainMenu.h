@@ -13,7 +13,8 @@ public:
     MainMenu() = delete;
     MainMenu(Presenter::IMainMenu& presenter);
 
-    ControlType getType() override { return ControlType::MainMenu; }
+    ControlHash getHash() override { return ControlHashes::MainMenuHash; }
+    ControlType getType() override { return ControlType::Panel; }
     std::string getName() override { return "MainMenu"; }
 
     void onInitialize() override;

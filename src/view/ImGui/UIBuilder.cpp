@@ -1,6 +1,6 @@
 #include <view/ImGui/UIBuilder.h>
 #include <view/ImGui/MainMenu.h>
-#include <view/ImGui/MessageConsole.h>
+#include <view/ImGui/MessagePanel.h>
 #include <view/ImGui/NodeGraph.h>
 #include <view/ImGui/MainWindow.h>
 #include <view/ImGui/ImGuiDemo.h>
@@ -19,11 +19,12 @@ ControlPtr build(IServiceLocator& services)
     return Injector::getUIControlInjector(services).create<std::shared_ptr<T>>();
 }
     
-ControlPtr UIBuilder::buildControl(IUIControl::ControlType type, IServiceLocator& services)
+ControlPtr UIBuilder::buildControl(ControlType type, IServiceLocator& services)
 {
     switch (type)
     {
-        case IUIControl::ControlType::UIDemoPanel:
+        // TODO use name and panel or hash
+        case ControlType::Panel:
             return buildDemoPanel(services);
             break;
         default:
@@ -43,7 +44,7 @@ ControlPtr UIBuilder::buildNodeGraph(IServiceLocator& services)
 
 ControlPtr UIBuilder::buildMessageConsole(IServiceLocator& services)
 {
-    return build<View::MessageConsole>(services);
+    return build<View::MessagePanel>(services);
 }
 
 ControlPtr UIBuilder::buildSandboxWindow(IServiceLocator& services)

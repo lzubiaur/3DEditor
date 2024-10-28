@@ -17,6 +17,7 @@ public:
         mOpen = false;
     }
 
+    ControlHash getHash() override { return ControlHashes::DemoPanelHash; }
     ControlType getType() override { return ControlType::None; }
     std::string getName() override { return "DemoPanel"; }
 

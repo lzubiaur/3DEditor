@@ -19,7 +19,7 @@ add_library(mylib STATIC
   managers/UIManager.cpp
   managers/ScriptManager.cpp
   view/ImGui/UIRenderer.cpp 
-  view/ImGui/MessageConsole.cpp
+  view/ImGui/MessagePanel.cpp
   view/ImGui/MainWindow.cpp
   view/ImGui/NodeGraph.cpp
   view/ImGui/MainMenu.cpp

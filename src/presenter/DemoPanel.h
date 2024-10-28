@@ -3,6 +3,7 @@
 #include <services/IServiceLocator.h>
 #include <state/Store.h>
 #include <state/Model.h>
+#include <view/UIControlHash.h>
 
 namespace Forged::Presenter
 {
@@ -17,17 +18,20 @@ public:
 class DemoPanel : public IDemoPanel
 {
 public:
+    // using DemoPanelHash = Forged::View::ControlHashes::DemoPanelHash;
+
     DemoPanel(IServiceLocator& services)
     : mServices(services)
+    , mUIService(services.getUIService())
     , mVisible(false)
     {
-        services.getUIService().getStore().dispatch(State::UpdateVisibility{ "DemoPanel", false });
+        setIsVisible(false);
 
-        services.getUIService().subscribeToPanelChanges([&](const State::Panel& panel)
+        mUIService.subscribeToPanelChanges([&](const State::Panel& panel)
         {
             mVisible = panel.isVisible;
         }, 
-        "DemoPanel");
+        View::ControlHashes::DemoPanelHash);
     }
 
     bool isVisible() { return mVisible; }
@@ -35,16 +39,12 @@ public:
     void setIsVisible(bool value)
     {
          mVisible = value;
-         execute(State::UpdateVisibility{ "DemoPanel", value });
-    }
-
-    void execute(State::PanelActions action)
-    {
-        mServices.getUIService().getStore().dispatch(action);
+         mUIService.getStore().dispatch(State::UpdatePanelVisibility(View::ControlHashes::DemoPanelHash, value));
     }
 
 private:
     IServiceLocator& mServices;
+    IUIService &mUIService;
     bool mVisible = false;
 };
 

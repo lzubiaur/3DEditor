@@ -14,7 +14,7 @@ public:
 
     virtual ~IUIBuilder() noexcept = default;
 
-    virtual ControlPtr buildControl(IUIControl::ControlType type, IServiceLocator& services) = 0;
+    virtual ControlPtr buildControl(ControlType type, IServiceLocator& services) = 0;
 
     virtual ControlPtr buildMainMenu(IServiceLocator& services) = 0;
     virtual ControlPtr buildNodeGraph(IServiceLocator& services) = 0;

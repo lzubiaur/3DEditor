@@ -1,87 +1,64 @@
 #include <state/Reducers.h>
-#include <state/Model.h>
 
 namespace Forged::State
 {
 
-Panel dummyPanel = { "DummyPanel", false, "Dummy Panel" };
+Panel dummyPanel = { std::hash<View::ControlHashInfo>{}({ "DummyPanel", View::ControlType::Panel }), false, "DummyPanel" };
 
-Panel &getPanel(AppState &state, const Guid &id)
+Panel& getPanel(AppState &state, const View::ControlHash &hash)
 {
-    auto iter = std::find_if(state.panels.begin(), state.panels.end(), [&id](const Panel &panel) { return panel.id == id; });
+    auto iter = std::find_if(state.panels.begin(), state.panels.end(), [hash](const Panel &panel) { return panel.id == hash; });
 
     return iter != state.panels.end() ? *iter : dummyPanel;
 }
 
-PanelPredicate panelPredicate = [](Panel a, Panel b)
+PanelPredicate GetPanelPredicate()
 {
-    return a.id == b.id && a.isVisible == b.isVisible && a.title == b.title;
-};
-
-PanelSelector panelSelector = [](AppState state) -> Panel
-{
-    // TODO
-    // return getPanel(state, id);
-    return dummyPanel;
-};
-
-PanelReducer panelReducer = [](AppState state, PanelActions action)
-{
-    std::visit([&state](auto&& action)
+    return [](const Panel& a, const Panel& b)
     {
-        using T = std::decay_t<decltype(action)>;
+        return a.id == b.id && a.isVisible == b.isVisible && a.title == b.title;
+    };
+}
 
-        if constexpr (std::is_same_v<T, AddObject>)
-        {
-            state.panels.push_back(action.panel);
-        }
-        else if constexpr (std::is_same_v<T, RemoveObject>)
-        {
-            // TODO
-        }
-        else if constexpr (std::is_same_v<T, UpdateTitle>)
-        {
-            getPanel(state, action.id).title = action.title;
-        }
-        else if constexpr (std::is_same_v<T, ToggleVisibility>)
-        {
-            auto& panel = getPanel(state, action.id);
-            panel.isVisible = !panel.isVisible;
-        }
-        else if constexpr (std::is_same_v<T, UpdateVisibility>)
-        {
-            getPanel(state, action.id).isVisible = action.isVisible;
-        }
-        else 
-        {
-           static_assert(false, "non-exhaustive visitor!");
-        }
-    }, action);
-
-    return state;
-};
-
-extern MainReducer mainReducer = [](AppState state, AllActions action)
+PanelSelector GetPanelSelector(const View::ControlHash& hash)
 {
-    std::visit([&state](auto&& action)
+    return [hash](const AppState& state) -> Panel
     {
-        using T = std::decay_t<decltype(action)>;
+        // TODO
+        auto s = state;
+        return getPanel(s, hash);
+    };
+}
 
-        if constexpr (std::is_same_v<T, PanelActions>)
-        {
-            state = panelReducer(state, action);
-        }
-        else if constexpr (std::is_same_v<T, TestActions>)
-        {
-            // TODO
-        }
-        else 
-        {
-           static_assert(false, "non-exhaustive visitor!");
-        }
-    }, action);
+Reducer AddPanel(const Panel& panel)
+{
+    return [&panel](AppState& state)
+    {
+        state.panels.push_back(panel);
+        return state;
+    };
+}
 
-    return state;
-};
+Reducer UpdatePanelVisibility(const View::ControlHash& hash, bool value)
+{
+    return [value, hash](AppState& state)
+    {
+        auto& panel = getPanel(state, hash);
+        panel.isVisible = value;
+
+        return state;
+    };
+}
+
+Reducer TogglePanelVisibility(const View::ControlHash& hash)
+{
+    return [hash](AppState& state)
+    {
+        auto& panel = getPanel(state, hash);
+        panel.isVisible = !panel.isVisible;
+
+        return state;
+    };
+}
 
 }

@@ -8,22 +8,25 @@
 
 namespace Forged::State
 {
-// TODO Use macros to declare reducer, predicate...
 
-// TODO use reference for the State?
-using MainReducer = std::function<AppState(AppState, AllActions)>;
-using PanelSelector = std::function<Panel(AppState)>;
+Panel& getPanel(AppState &state, const View::ControlHash &id);
 
-extern MainReducer mainReducer;
-extern PanelSelector panelSelector;
+// -------------------------- Actions ---------------------------
+using Reducer = std::function<AppState(AppState&)>;
 
-// TODO use reference for the State?
-using PanelReducer = std::function<AppState(AppState, PanelActions)>;
-using PanelObserver = std::function<void(Panel)>;
-using PanelPredicate = std::function<bool(Panel, Panel)>;
+Reducer AddPanel(const Panel& panel);
+Reducer UpdatePanelVisibility(const View::ControlHash& hash, bool value);
+extern Reducer TogglePanelVisibility(const View::ControlHash& hash);
 
-extern PanelReducer panelReducer;
-extern PanelPredicate panelPredicate;
+// ------------------------- Predicates -------------------------
+using PanelPredicate = std::function<bool(const Panel&, const Panel&)>;
+extern PanelPredicate GetPanelPredicate();
 
-extern Panel &getPanel(AppState &state, const Guid &id);
+// ------------------------- Selectors --------------------------
+using PanelSelector = std::function<Panel(const AppState&)>;
+extern PanelSelector GetPanelSelector(const View::ControlHash& hash);
+
+// ------------------------- Observers --------------------------
+
+using PanelObserver = std::function<void(const Panel&)>;
 }

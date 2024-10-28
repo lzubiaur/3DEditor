@@ -11,17 +11,19 @@ namespace Forged::Presenter
 MainMenu::MainMenu(IServiceLocator& services)
 : mServices(services)
 {
+    using namespace View::ControlHashes;
+
     services.getUIService().subscribeToPanelChanges([&](State::Panel panel)
         {
             mIsMessagePanelVisible = panel.isVisible;
         },
-        "MessageConsole");
+        MessagePanelHash);
 
     services.getUIService().subscribeToPanelChanges([&](State::Panel panel)
         {
             mIsDemoPanelVisible = panel.isVisible;
         },
-        "DemoPanel");
+        DemoPanelHash);
 
     // TODO remove command and use the global
     services.getUIService().getApplicationCommand().bind([&services](ApplicationCommandArgument arg) 
@@ -52,12 +54,12 @@ bool MainMenu::isMessagePanelVisible()
 
 void MainMenu::setIsDemoPanelVisible(bool value)
 {
-    mServices.getUIService().getStore().dispatch(State::ToggleVisibility{ "DemoPanel" });
+    mServices.getUIService().getStore().dispatch(State::TogglePanelVisibility(View::ControlHashes::DemoPanelHash));
 }
 
 void MainMenu::setIsMessagePanelVisible(bool value)
 {
-    mServices.getUIService().getStore().dispatch(State::ToggleVisibility{ "MessageConsole" });
+    mServices.getUIService().getStore().dispatch(State::TogglePanelVisibility(View::ControlHashes::MessagePanelHash));
 }
 
 }

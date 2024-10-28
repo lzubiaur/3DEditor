@@ -15,8 +15,9 @@ class NodeGraph : public UserControl
 public:
     NodeGraph() = default;
 
-    ControlType getType() override { return ControlType::NodeGraph; }
-    std::string getName() override { return "NodeGraph"; }
+    ControlHash getHash() override { return ControlHashes::NodeGraphHash; }
+    ControlType getType() override { return ControlType::Panel; }
+    std::string getName() override { return ControlName::NodeGraph; }
 
     void onInitialize() override;
     void onShutdown() override;

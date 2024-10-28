@@ -29,13 +29,15 @@ public:
     , mVisible(true)
     , mStateProperty({ false })
     {
-        services.getUIService().getStore().dispatch(State::UpdateVisibility{ "MessageConsole", true });
+        using namespace View::ControlHashes;
+
+        services.getUIService().getStore().dispatch(State::UpdatePanelVisibility(MessagePanelHash, true));
 
         services.getUIService().subscribeToPanelChanges([&](const State::Panel& panel)
         {
             mVisible = panel.isVisible;
         }, 
-        "MessageConsole");
+        MessagePanelHash);
     }
 
     bool isVisible() { return mVisible; }
@@ -43,12 +45,7 @@ public:
     void setIsVisible(bool value)
     {
          mVisible = value;
-         execute(State::UpdateVisibility{ "MessageConsole", value });
-    }
-
-    void execute(State::PanelActions action)
-    {
-        mServices.getUIService().getStore().dispatch(action);
+         mServices.getUIService().getStore().dispatch(State::UpdatePanelVisibility(View::ControlHashes::MessagePanelHash, value));
     }
 
 private:

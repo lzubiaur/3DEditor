@@ -2,6 +2,7 @@
 
 #include <utils/Types.h>
 #include <state/Model.h>
+#include <view/UIControlHash.h>
 
 #include <string>
 #include <variant>
@@ -11,29 +12,31 @@ namespace Forged::State
 
 struct AddObject
 {
-    Panel panel;
+    View::ControlHash id;
+    bool isVisible;
+    std::string title;
 };
 
 struct RemoveObject
 {
-    Guid id;
+    View::ControlHash id;
 };
 
 struct UpdateTitle
 {
-    Guid id;
+    View::ControlHash id;
     std::string title;
 };
 
 struct UpdateVisibility
 {
-    Guid id;
+    View::ControlHash id;
     bool isVisible;
 };
 
 struct ToggleVisibility
 {
-    Guid id;
+    View::ControlHash id;
 };
 
 using TestActions = std::variant<UpdateTitle>;

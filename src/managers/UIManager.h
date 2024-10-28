@@ -10,6 +10,7 @@
 #include <services/IServiceLocator.h>
 #include <services/IUIService.h>
 #include <services/EventLoop.h>
+#include <view/UIControlHash.h>
 
 #include <state/Model.h>
 #include <state/Store.h>
@@ -24,7 +25,7 @@ class UIManager : public IManager, public IServiceLocator, public IUIService
 {
 public:
     using ControlPtr = std::shared_ptr<View::IUIControl>;
-    using Store = State::Store<State::AppState, State::MainReducer>;
+    using Store = State::Store<State::AppState>;
 
     struct Dependencies
     {
@@ -61,7 +62,7 @@ public:
     PanelCommand& getPanelCommand() override { return mPanelCmd; }
 
     Store& getStore() override { return mStore; }
-    void subscribeToPanelChanges(State::PanelObserver observer, Guid id) override;
+    void subscribeToPanelChanges(State::PanelObserver observer, View::ControlHash id) override;
 
 private:
     void addControl(ControlPtr control);
@@ -69,16 +70,22 @@ private:
 private:
     View::IUIRenderer& mRenderer;
     View::IUIBuilder& mUIBuilder;
+
     SignalService& mSignalService;
     LogService& mLogService;
     IApplication& mApplication;
     EventBus& mEventBus;
     IReactiveService& mReactiveService;
-    std::vector<ControlPtr> mControls;
+
     IEventLoopInternal& mEventLoop;
+    Store mStore;
+
+    // TODO use hash instead of info
+    std::unordered_map<View::ControlHashInfo, ControlPtr> mControls;
+
+    // TODO Remove
     ApplicationCommand mApplicationCmd;
     PanelCommand mPanelCmd;
-    Store mStore;
 };
 
 }

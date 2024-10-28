@@ -1,11 +1,11 @@
-#include <view/ImGui/MessageConsole.h>
+#include <view/ImGui/MessagePanel.h>
 #include <core/Application.h>
 #include <presenter/Events.h>
 
 namespace Forged::View
 {
 
-MessageConsole::MessageConsole(IServiceLocator& services, Presenter::IMessagePanel& presenter)
+MessagePanel::MessagePanel(IServiceLocator& services, Presenter::IMessagePanel& presenter)
 : mServices(services)
 , mPresenter(presenter)
 , mAutoScroll(true)
@@ -13,7 +13,7 @@ MessageConsole::MessageConsole(IServiceLocator& services, Presenter::IMessagePan
     clear();
 }
 
-void MessageConsole::onInitialize()
+void MessagePanel::onInitialize()
 {
     // TODO get rid of the event bus and use a Reactive command instead
     mServices.getEventBus().getEvent<Presenter::Events::TraceMessageEvent>().subscribe([&](auto event)
@@ -37,18 +37,18 @@ void MessageConsole::onInitialize()
     });
 }
 
-void MessageConsole::onShutdown() 
+void MessagePanel::onShutdown() 
 {
 }
 
-void MessageConsole::clear()
+void MessagePanel::clear()
 {
     mBuf.clear();
     mLineOffsets.clear();
     mLineOffsets.push_back(0);
 }
 
-void MessageConsole::addLog(const char* fmt, ...) IM_FMTARGS(2)
+void MessagePanel::addLog(const char* fmt, ...) IM_FMTARGS(2)
 {
     int old_size = mBuf.size();
     va_list args;
@@ -67,7 +67,7 @@ void MessageConsole::addLog(const char* fmt, ...) IM_FMTARGS(2)
     // }
 }
 
-void MessageConsole::onDraw()
+void MessagePanel::onDraw()
 {
     if (!mPresenter.isVisible())
     {

@@ -10,17 +10,15 @@
 namespace Forged::View
 {
 
-
-// TODO rename MessagePanel 
-
-class MessageConsole : public UserControl
+class MessagePanel : public UserControl
 {
 public:
     // TODO remove services. Should use the presenter only
-    MessageConsole(IServiceLocator& services, Presenter::IMessagePanel& presenter);
+    MessagePanel(IServiceLocator& services, Presenter::IMessagePanel& presenter);
 
-    ControlType getType() override { return ControlType::MessageConsole; }
-    std::string getName() override { return "MessageConsole"; }
+    ControlHash getHash() override { return ControlHashes::MessagePanelHash; }
+    ControlType getType() override { return ControlType::Panel; }
+    std::string getName() override { return ControlName::MessagePanel; }
 
     void onInitialize() override;
     void onShutdown() override;

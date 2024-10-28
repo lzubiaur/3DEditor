@@ -18,7 +18,7 @@ UIManager::UIManager(const Dependencies& dependencies)
 , mReactiveService(dependencies.reactiveService)
 , mEventBus(dependencies.eventBus)
 , mEventLoop(dependencies.eventLoop)
-, mStore(State::AppState{}, State::mainReducer)
+, mStore(State::AppState{})
 {}
 
 void UIManager::onInitialize()
@@ -32,13 +32,20 @@ void UIManager::onInitialize()
 
     mRenderer.onInitialize();
 
+    mStore.subscribeToState([](State::AppState state)
+    {
+        auto panel = state.panels;
+    });
+
+    mStore.startEmitting();
+
     addControl(mUIBuilder.buildMainMenu(*this));
     addControl(mUIBuilder.buildNodeGraph(*this));
     addControl(mUIBuilder.buildMessageConsole(*this));
     addControl(mUIBuilder.buildSandboxWindow(*this));
     addControl(mUIBuilder.buildDemoPanel(*this));
 
-    std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onInitialize(); });
+    std::for_each(mControls.begin(), mControls.end(), [](const auto& pair) { pair.second->onInitialize(); });
 }
 
 void UIManager::onPreUpdate()
@@ -48,7 +55,7 @@ void UIManager::onPreUpdate()
 
 void UIManager::onUpdate()
 {
-    std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onDraw(); });
+    std::for_each(mControls.begin(), mControls.end(), [](const auto& pair) { pair.second->onDraw(); });
 
     mEventLoop.update();
 }
@@ -60,7 +67,7 @@ void UIManager::onPostUpdate()
 
 void UIManager::onShutdown()
 {
-    std::for_each(mControls.begin(), mControls.end(), [](auto control) { control->onShutdown(); });
+    std::for_each(mControls.begin(), mControls.end(), [](const auto& pair) { pair.second->onShutdown(); });
 
     mSignalService.onShutdown();
     mLogService.onShutdown();
@@ -105,8 +112,8 @@ void UIManager::addControl(ControlPtr control)
         return;
     }
 
-    mControls.push_back(control);
-    mStore.dispatch(State::AddObject{ control->getName(), false, control->getName()});
+    mControls[{ control->getName(), View::ControlType::Panel }] = control;
+    mStore.dispatch(State::AddPanel({ control->getHash(), false, control->getName() }));
 
     if (mApplication.isRunning())
     {
@@ -134,21 +141,22 @@ ControlPtr UIManager::createControl(IUIService::ControlType type, const std::str
 
 ControlPtr UIManager::findControl(const std::string& name)
 {
-    auto iter = std::find_if(mControls.begin(), mControls.end(), [&name](const ControlPtr control)
-    {
-        return control->getName() == name;
-    });
+    auto iter = mControls.find({ name, View::ControlType::Panel });
 
-    return iter != mControls.end() ? *iter : nullptr;
+    return iter != mControls.end() ? iter->second : nullptr;
 }
 
-void UIManager::subscribeToPanelChanges(State::PanelObserver observer, Guid id)
+void UIManager::subscribeToPanelChanges(State::PanelObserver observer, View::ControlHash id)
 {
-    mStore.subscribeToSlice([id](State::AppState state)
+    mStore.subscribeToState([id, observer](State::AppState state)
     {
-        return State::getPanel(state, id);
-    }, 
-    State::panelPredicate, observer);
+        observer(getPanel(state, id));
+    });
+
+    // mStore.subscribeToSlice(
+    //     State::GetPanelSelector(id),
+    //     State::GetPanelPredicate(),
+    //     observer);
 }
 
 }

@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.3)
 project(tests C CXX)
 
 include_directories(
-  ${CATCH_HEADERS}
   ${SPDLOG_HEADERS}
   ${DI_HEADERS}
   ${GSL_HEADERS}
@@ -11,10 +10,11 @@ include_directories(
   ${RXCPP_HEADERS}
 )
 
+add_subdirectory(Catch2)
+
 add_executable(tests
-  main.cpp
-  test_store.cpp
+  test_store2.cpp
 )
 
-target_link_libraries(tests mylib)
+target_link_libraries(tests mylib Catch2WithMain)
 set_target_properties(tests PROPERTIES OUTPUT_NAME "run-tests")

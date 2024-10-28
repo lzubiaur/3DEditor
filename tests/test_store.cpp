@@ -1,4 +1,7 @@
-#include <catch.hpp>
+// DEPRECATED
+
+
+#include <catch2/catch_all.hpp>
 #include <iostream>
 
 #include <state/store.h>

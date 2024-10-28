@@ -13,8 +13,9 @@ public:
     MainWindow(IServiceLocator& services, Presenter::IMainWindow& presenter);
     ~MainWindow();
 
-    ControlType getType() override { return ControlType::MainWindow; }
-    std::string getName() override { return "MainWindow"; }
+    ControlHash getHash() override { return ControlHashes::MainWindowHash; }
+    ControlType getType() override { return ControlType::Panel; }
+    std::string getName() override { return ControlName::MainWindow; }
 
     void onInitialize() override;
     void onShutdown() override;

@@ -1,3 +1,7 @@
+## Requirements
+
+C++ 20
+
 ## Build on Windows
 
 ```bash
