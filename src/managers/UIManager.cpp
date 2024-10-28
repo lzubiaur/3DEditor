@@ -148,15 +148,10 @@ ControlPtr UIManager::findControl(const std::string& name)
 
 void UIManager::subscribeToPanelChanges(State::PanelObserver observer, View::ControlHash id)
 {
-    mStore.subscribeToState([id, observer](State::AppState state)
-    {
-        observer(getPanel(state, id));
-    });
-
-    // mStore.subscribeToSlice(
-    //     State::GetPanelSelector(id),
-    //     State::GetPanelPredicate(),
-    //     observer);
+    mStore.subscribeToSlice(
+        State::GetPanelSelector(id),
+        State::GetPanelPredicate(),
+        observer);
 }
 
 }

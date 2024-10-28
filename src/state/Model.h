@@ -6,6 +6,8 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+#include <unordered_map>
 
 namespace Forged::State
 {
@@ -19,8 +21,7 @@ struct Panel
 
 struct AppState
 {
-    // TODO use std::unordored_map<View::ControlHash, std::shared_ptr<Panel>>
-    std::vector<Panel> panels;
+    std::unordered_map<View::ControlHash, std::shared_ptr<Panel>> panels;
 };
 
 }

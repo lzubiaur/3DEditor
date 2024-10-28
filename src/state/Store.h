@@ -15,7 +15,7 @@ class Store
 {
 public:
     using StateObserver = std::function<void (const StateT&)>;
-    using Reducer = std::function<StateT(StateT&)>;
+    using Reducer = std::function<StateT(const StateT&)>;
 
     Store(StateT initial)
     : mState(initial)
@@ -90,7 +90,7 @@ private:
         return mState;
     };
 
-    Reducer nilReducer = [&](StateT &state) -> StateT
+    Reducer nilReducer = [&](const StateT &state) -> StateT
     {
         return mState;
     };

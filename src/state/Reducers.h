@@ -9,10 +9,8 @@
 namespace Forged::State
 {
 
-Panel& getPanel(AppState &state, const View::ControlHash &id);
-
 // -------------------------- Actions ---------------------------
-using Reducer = std::function<AppState(AppState&)>;
+using Reducer = std::function<AppState(const AppState&)>;
 
 Reducer AddPanel(const Panel& panel);
 Reducer UpdatePanelVisibility(const View::ControlHash& hash, bool value);
