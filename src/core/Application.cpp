@@ -10,6 +10,8 @@
 namespace Forged
 {
 
+// TODO add saving/loading for the store
+
 Application::Application(IPlatform& platform)
 : mPlatform(platform)
 , mStore(State::AppState{})
@@ -80,14 +82,18 @@ void Application::initialize()
     mRunning = true;
     mStore.dispatch(State::UpdateAppStatus(State::AppStatus::Running));
 
-    // TODO move the log service in the application
-    // mLogService.info("Ready...");
+    mLogService.info("Application ready");
 }
 
 void Application::shutdown()
 {
+    mLogService.info("Shutting Down...");
+
     shutdownSystems();
     mPlatform.onShutdown();
+
+    mLogService.info("Closed");
+    mLogService.onShutdown();
     mRunning = false;
 }
 

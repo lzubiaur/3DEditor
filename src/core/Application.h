@@ -37,6 +37,7 @@ public:
     void removeSystem(SystemPtr system) override;
     const IPlatform& getPlatform() const override;
     Store& getStore() override { return mStore; }
+    LogService& getLogService() override { return mLogService; }
 
 private:
     void initialize();
@@ -52,6 +53,7 @@ public:
     IPlatform& mPlatform;
     std::vector<SystemPtr> mSystems;
     Store mStore;
+    LogService mLogService;
 };
 
 }

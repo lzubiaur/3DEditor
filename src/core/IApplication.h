@@ -4,6 +4,7 @@
 #include <core/IPlatform.h>
 #include <state/Store.h>
 #include <state/Model.h>
+#include <services/LogService.h>
 
 namespace Forged
 {
@@ -23,6 +24,7 @@ public:
     virtual void close() = 0;
 
     virtual Store& getStore() = 0;
+    virtual LogService& getLogService() = 0;
 };
 
 }

@@ -35,6 +35,7 @@ public:
             di::bind<IPlatform>().to<Platform>(),
             di::bind<IReactiveService>().to<ReactiveService>(),
             di::bind<IEventLoopInternal>().to<EventLoop>(),
+            di::bind<LogService>().to(app.getLogService()),
             di::bind<IApplication>().to<Application>(app)
         );
     }
