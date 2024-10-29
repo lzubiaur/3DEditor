@@ -23,11 +23,6 @@ UIManager::UIManager(const Dependencies& dependencies)
 
 void UIManager::onInitialize()
 {
-    // TODO create a "host" service to handle application states
-
-
-    mStore.dispatch(State::UpdateAppStatus(State::AppStatus::Starting));
-
     mRenderer.onInitialize();
 
     addControl(mUIBuilder.buildMainMenu(*this));
@@ -37,6 +32,8 @@ void UIManager::onInitialize()
     addControl(mUIBuilder.buildDemoPanel(*this));
 
     std::for_each(mControls.begin(), mControls.end(), [](const auto& pair) { pair.second->onInitialize(); });
+
+    mLogService.info("UI system ready...");
 }
 
 void UIManager::onPreUpdate()

@@ -1,6 +1,6 @@
 #include <view/ImGui/MessagePanel.h>
 #include <core/Application.h>
-#include <presenter/Events.h>
+#include <services/LogService.h>
 
 namespace Forged::View
 {
@@ -15,25 +15,10 @@ MessagePanel::MessagePanel(IServiceLocator& services, Presenter::IMessagePanel& 
 
 void MessagePanel::onInitialize()
 {
-    // TODO get rid of the event bus and use a Reactive command instead
-    mServices.getEventBus().getEvent<Presenter::Events::TraceMessageEvent>().subscribe([&](auto event)
+    mServices.getLogService().subscribe([&](const LogService::LogMessage& message)
     {
-        addLog(event.message.c_str());
-    },
-    [](std::exception_ptr eptr)
-    {
-        try 
-        {
-            std::rethrow_exception(eptr);
-        }
-        catch (const std::exception& ex) 
-        {
-            // TODO
-            std::cout << "Error: " << ex.what() << std::endl;
-        }
-    }, []()
-    {
-        // on complete
+        // TODO add color based on level
+        addLog(message.payload.c_str());
     });
 }
 

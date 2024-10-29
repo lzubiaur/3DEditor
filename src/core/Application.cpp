@@ -79,6 +79,9 @@ void Application::initialize()
 
     mRunning = true;
     mStore.dispatch(State::UpdateAppStatus(State::AppStatus::Running));
+
+    // TODO move the log service in the application
+    // mLogService.info("Ready...");
 }
 
 void Application::shutdown()
