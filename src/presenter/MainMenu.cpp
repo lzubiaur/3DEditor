@@ -39,7 +39,7 @@ MainMenu::MainMenu(IServiceLocator& services)
 
 void MainMenu::closeApplication()
 {
-    // TODO
+    dispatch(State::UpdateAppStatus(State::AppStatus::Closing));
 }
 
 bool MainMenu::isDemoPanelVisible()
@@ -54,12 +54,17 @@ bool MainMenu::isMessagePanelVisible()
 
 void MainMenu::setIsDemoPanelVisible(bool value)
 {
-    mServices.getUIService().getStore().dispatch(State::TogglePanelVisibility(View::ControlHashes::DemoPanelHash));
+    dispatch(State::TogglePanelVisibility(View::ControlHashes::DemoPanelHash));
 }
 
 void MainMenu::setIsMessagePanelVisible(bool value)
 {
-    mServices.getUIService().getStore().dispatch(State::TogglePanelVisibility(View::ControlHashes::MessagePanelHash));
+    dispatch(State::TogglePanelVisibility(View::ControlHashes::MessagePanelHash));
+}
+
+void MainMenu::dispatch(State::Reducer reducer)
+{
+    mServices.getUIService().getStore().dispatch(reducer);
 }
 
 }

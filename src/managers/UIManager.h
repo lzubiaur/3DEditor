@@ -12,9 +12,6 @@
 #include <services/EventLoop.h>
 #include <view/UIControlHash.h>
 
-#include <state/Model.h>
-#include <state/Store.h>
-
 namespace Forged
 {
 
@@ -25,7 +22,6 @@ class UIManager : public IManager, public IServiceLocator, public IUIService
 {
 public:
     using ControlPtr = std::shared_ptr<View::IUIControl>;
-    using Store = State::Store<State::AppState>;
 
     struct Dependencies
     {
@@ -78,7 +74,6 @@ private:
     IReactiveService& mReactiveService;
 
     IEventLoopInternal& mEventLoop;
-    Store mStore;
 
     // TODO use hash instead of info
     std::unordered_map<View::ControlHashInfo, ControlPtr> mControls;
@@ -86,6 +81,7 @@ private:
     // TODO Remove
     ApplicationCommand mApplicationCmd;
     PanelCommand mPanelCmd;
+    IApplication::Store& mStore;
 };
 
 }

@@ -53,6 +53,16 @@ Installed dependencies
 
 Following curated list of useful libraries that I’m considering or already installed.
 
+###  library collection
+https://github.com/abseil/abseil-cpp
+https://github.com/facebook/folly/
+
+### key-value db / distributed memory
+Redis
+LevelDb
+Sqlite
+https://github.com/memcached/memcached
+
 ### Serialization / Data Formats
 - [https://github.com/protocolbuffers/protobuf](https://github.com/protocolbuffers/protobuf): Google's protocol buffers, a language-neutral, platform-neutral extensible mechanism for serializing structured data.
 - [https://github.com/nlohmann/json](https://github.com/nlohmann/json): A JSON library for C++ providing easy manipulation of JSON data.

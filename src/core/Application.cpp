@@ -5,12 +5,14 @@
 #include <memory>
 
 #include <utils/Common.h>
+#include <state/Reducers.h>
 
 namespace Forged
 {
 
 Application::Application(IPlatform& platform)
 : mPlatform(platform)
+, mStore(State::AppState{})
 {
 }
 
@@ -27,7 +29,6 @@ void Application::removeSystem(SystemPtr system)
 void Application::run()
 {
     initialize();
-    mRunning = true;
 
     while (!mPlatform.shouldClose() && !mCloseRequested)
     {
@@ -38,7 +39,6 @@ void Application::run()
         mPlatform.onPostUpdate();
     }
 
-    mRunning = false;
     shutdown();
 }
 
@@ -63,14 +63,29 @@ const IPlatform& Application::getPlatform() const
 
 void Application::initialize()
 {
+    mStore.subscribeToState([&](State::AppState state)
+    {
+        if (state.appStatus == State::AppStatus::Closing)
+        {
+            close();
+        }
+    });
+
+    mStore.startEmitting();
+    mStore.dispatch(State::UpdateAppStatus(State::AppStatus::Starting));
+
     mPlatform.onInitialize();
     initializeSystems();
+
+    mRunning = true;
+    mStore.dispatch(State::UpdateAppStatus(State::AppStatus::Running));
 }
 
 void Application::shutdown()
 {
     shutdownSystems();
     mPlatform.onShutdown();
+    mRunning = false;
 }
 
 void Application::initializeSystems()

@@ -8,6 +8,7 @@
 #include <core/ISystem.h>
 #include <core/IApplication.h>
 #include <core/IPlatform.h>
+#include <state/Store.h>
 
 namespace Forged 
 {
@@ -15,6 +16,7 @@ namespace Forged
 class Application : public IApplication
 {
 public:
+
     Application() = delete;
     ~Application() noexcept = default;
 
@@ -34,6 +36,7 @@ public:
     void addSystem(SystemPtr system) override;
     void removeSystem(SystemPtr system) override;
     const IPlatform& getPlatform() const override;
+    Store& getStore() override { return mStore; }
 
 private:
     void initialize();
@@ -48,6 +51,7 @@ public:
     bool mCloseRequested = false;
     IPlatform& mPlatform;
     std::vector<SystemPtr> mSystems;
+    Store mStore;
 };
 
 }

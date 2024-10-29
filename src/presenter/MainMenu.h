@@ -3,7 +3,6 @@
 #include <presenter/ReactiveProperty.h>
 #include <presenter/ReactiveCommand.h>
 #include <presenter/Command.h>
-#include <state/Actions.h>
 #include <services/IServiceLocator.h>
 
 namespace Forged::Presenter
@@ -37,6 +36,9 @@ public:
     void setIsDemoPanelVisible(bool value) override;
 
     void closeApplication() override;
+
+private:
+    void dispatch(State::Reducer reducer);
 
 private:
     bool mIsMessagePanelVisible;

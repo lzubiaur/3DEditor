@@ -18,26 +18,17 @@ UIManager::UIManager(const Dependencies& dependencies)
 , mReactiveService(dependencies.reactiveService)
 , mEventBus(dependencies.eventBus)
 , mEventLoop(dependencies.eventLoop)
-, mStore(State::AppState{})
+, mStore(dependencies.application.getStore())
 {}
 
 void UIManager::onInitialize()
 {
-    auto signal = mSignalService.registerSignal<void()>(Presenter::UIEvents::OnRequestAppClose);
+    // TODO create a "host" service to handle application states
 
-    signal->subscribe([&]()
-    {
-        mApplication.close();
-    });
+
+    mStore.dispatch(State::UpdateAppStatus(State::AppStatus::Starting));
 
     mRenderer.onInitialize();
-
-    mStore.subscribeToState([](State::AppState state)
-    {
-        auto panel = state.panels;
-    });
-
-    mStore.startEmitting();
 
     addControl(mUIBuilder.buildMainMenu(*this));
     addControl(mUIBuilder.buildNodeGraph(*this));

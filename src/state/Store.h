@@ -22,10 +22,10 @@ public:
     {
         mObservable = mStream
             .get_observable()
-            .start_with(nilReducer)    // Emit an initial default value before other data
-            .map(reduce)               // Transform each emitted item using the 'reduce' function
-            .publish()                 // Convert to a hot observable, sharing data among subscribers
-            .as_dynamic();             // Enable dynamic, real-time updates for all subscribers
+            .start_with(nilReducer)
+            .map(reduce)
+            .publish()
+            .as_dynamic();
     }
 
     void startEmitting()

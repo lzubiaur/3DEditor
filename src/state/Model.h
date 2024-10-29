@@ -19,9 +19,15 @@ struct Panel
     std::string title;
 };
 
+enum class AppStatus
+{
+    Starting, Running, Closing, Closed
+};
+
 struct AppState
 {
-    std::unordered_map<View::ControlHash, std::shared_ptr<Panel>> panels;
+    AppStatus appStatus;
+    std::unordered_map<View::ControlHash, Panel> panels;
 };
 
 }
