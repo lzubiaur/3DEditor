@@ -1,8 +1,5 @@
 #include <view/ImGui/MainMenu.h>
 #include <imgui.h>
-#include <presenter/Command.h>
-
-using namespace Forged::Presenter::Command;
 
 namespace Forged::View
 {

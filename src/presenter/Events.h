@@ -2,22 +2,19 @@
 
 #include <services/EventBus.h>
 
-// TODO should probably remove signal and use ReactiveCommand instead
-
 namespace Forged::Presenter
 {
 
-// TODO rename
+// DEPRECATED
 struct UIEvents
 {
-    inline static const char* OnRequestAppClose = "OnRequestAppClose";
-    inline static const char* OnWindowResized = "OnWindowResized";
-    inline static const char* OnButtonClick = "OnButtonClick";
+    // inline static const char* OnButtonClick = "OnButtonClick";
 };
 
 namespace Events
 {
 
+// TODO use reactive stream instead of signals
 enum class LogLevel
 {
     Error = 0,

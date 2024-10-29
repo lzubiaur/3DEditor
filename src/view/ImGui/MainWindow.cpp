@@ -8,7 +8,6 @@ namespace Forged::View
 
 MainWindow::MainWindow(IServiceLocator& services, Presenter::IMainWindow& presenter)
 : mPresenter(presenter)
-, mTestBinding(mPresenter.getName())
 {
 
 }
@@ -20,25 +19,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::onInitialize()
 {
-    mTestBinding.bind();
 }
 
 void MainWindow::onShutdown() 
 {
-    mTestBinding.unbind();
 }
 
 void MainWindow::onDraw()
 {
-    if (!ImGui::Begin("Test properties"))
+    if (!ImGui::Begin("MainWindow"))
     {
         ImGui::End();
         return;
-    }
-
-    if (View::Widget::InputText("Test", mTestBinding))
-    {
-        // TODO do other stuff if the text changed....
     }
 
     ImGui::End();

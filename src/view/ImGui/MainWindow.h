@@ -1,7 +1,6 @@
+#include <presenter/MainWindow.h>
 #include <view/UserControl.h>
 #include <services/IServiceLocator.h>
-#include <presenter/TestPresenter.h>
-#include <presenter/Bindings.h>
 
 namespace Forged::View
 {
@@ -23,7 +22,6 @@ public:
 
 private:
     Presenter::IMainWindow& mPresenter;
-    Presenter::StringBinding mTestBinding;
 };
 
 }

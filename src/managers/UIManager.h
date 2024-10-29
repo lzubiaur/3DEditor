@@ -54,8 +54,6 @@ public:
 
     ControlPtr createControl(ControlType type, const std::string& name) override;
     ControlPtr findControl(const std::string& name) override;
-    ApplicationCommand& getApplicationCommand() override { return mApplicationCmd; }
-    PanelCommand& getPanelCommand() override { return mPanelCmd; }
 
     Store& getStore() override { return mStore; }
     void subscribeToPanelChanges(State::PanelObserver observer, View::ControlHash id) override;
@@ -77,10 +75,6 @@ private:
 
     // TODO use hash instead of info
     std::unordered_map<View::ControlHashInfo, ControlPtr> mControls;
-
-    // TODO Remove
-    ApplicationCommand mApplicationCmd;
-    PanelCommand mPanelCmd;
     IApplication::Store& mStore;
 };
 

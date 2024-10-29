@@ -1,8 +1,6 @@
 #pragma once
 
 #include <services/IServiceLocator.h>
-#include <presenter/ReactiveProperty.h>
-#include <presenter/Command.h>
 #include <state/Store.h>
 #include <state/Model.h>
 
@@ -27,7 +25,6 @@ public:
     MessagePanel(IServiceLocator& services)
     : mServices(services) 
     , mVisible(true)
-    , mStateProperty({ false })
     {
         using namespace View::ControlHashes;
 
@@ -50,7 +47,6 @@ public:
 
 private:
     IServiceLocator& mServices;
-    Presenter::ReactiveProperty<PanelState> mStateProperty;
     bool mVisible = false;
 };
 

@@ -1,14 +1,9 @@
 #pragma once
 
-#include <presenter/ReactiveProperty.h>
-#include <presenter/ReactiveCommand.h>
-#include <presenter/Command.h>
 #include <services/IServiceLocator.h>
 
 namespace Forged::Presenter
 {
-
-using namespace Command;
 
 class IMainMenu
 {

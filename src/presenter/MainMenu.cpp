@@ -24,17 +24,6 @@ MainMenu::MainMenu(IServiceLocator& services)
             mIsDemoPanelVisible = panel.isVisible;
         },
         DemoPanelHash);
-
-    // TODO remove command and use the global
-    services.getUIService().getApplicationCommand().bind([&services](ApplicationCommandArgument arg) 
-    {
-        switch (arg.type)
-        {
-            case ApplicationCommandType::Close:
-                services.getSignalService().getSignal<void()>(UIEvents::OnRequestAppClose)->emit();
-                break;
-        }
-    });
 }
 
 void MainMenu::closeApplication()

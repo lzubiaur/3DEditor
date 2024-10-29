@@ -14,6 +14,8 @@ class IReactiveService : public IService
 public:
     using LogMessageSlot = std::function<void(const std::string&)>;
 
+    // TODO add a reactive stream for logging 
+
     virtual void onLogMessage(const std::string& message) = 0;
     virtual void subscribeToLogMessage(const LogMessageSlot& slot) = 0;
 };
