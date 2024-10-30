@@ -19,6 +19,7 @@ public:
     ControlPtr buildMessageConsole(IServiceLocator& services) override;
     ControlPtr buildSandboxWindow(IServiceLocator& services) override;
     ControlPtr buildDemoPanel(IServiceLocator& services) override;
+    ControlPtr buildPlotDemoPanel(IServiceLocator& services) override;
 };
 
 }

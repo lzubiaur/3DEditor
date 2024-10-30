@@ -10,7 +10,7 @@ namespace Forged
 {
 
 // DEPRECATED
-// WARN : probably not very efficient if too much events
+// WARN : probably not very efficient
 
 class EventBus : public IService
 {

@@ -40,7 +40,9 @@ int main(int argc, char *argv[])
     auto app = Injector::getApplicationInjector().create<std::unique_ptr<Application>>();
 
     app->addSystem(Injector::getManagerInjector(*app).create<std::shared_ptr<UIManager>>());
+#ifdef FORGED_USE_SCRIPT
     app->addSystem(Injector::getManagerInjector(*app).create<std::shared_ptr<ScriptManager>>());
+#endif
 
     app->run();
 

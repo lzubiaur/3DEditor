@@ -1,4 +1,5 @@
 #include <services/LogService.h>
+#include <utils/Config.h>
 
 #include <spdlog/sinks/callback_sink.h>
 #include <spdlog/sinks/basic_file_sink.h>
@@ -28,7 +29,10 @@ void LogService::createCustomLogger()
     // TODO add config to set the sinks and main levels
     callback_sink->set_level(spdlog::level::info);
 
-    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("log.txt", true);
+    std::string filename(Forged::AppName);
+    filename += "_log.txt";
+
+    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(filename.c_str(), true);
     file_sink->set_level(spdlog::level::debug);
 
     mLogger->sinks().push_back(file_sink);

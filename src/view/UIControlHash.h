@@ -19,6 +19,7 @@ constexpr const char* DemoPanel = "DemoPanel";
 constexpr const char* NodeGraph = "NodeGraph";
 constexpr const char* MainWindow = "MainWindow";
 constexpr const char* MessagePanel = "MessagePanel";
+constexpr const char* PlotDemoPanel = "PlotDemoPanel";
 }
 
 struct ControlHashInfo
@@ -48,6 +49,7 @@ inline ControlHash NodeGraphHash = std::hash<ControlHashInfo>{}({ ControlName::N
 inline ControlHash DemoPanelHash = std::hash<ControlHashInfo>{}({ ControlName::DemoPanel, ControlType::Panel });
 inline ControlHash MainWindowHash = std::hash<ControlHashInfo>{}({ ControlName::MainWindow, ControlType::Panel });
 inline ControlHash MessagePanelHash = std::hash<ControlHashInfo>{}({ ControlName::MessagePanel, ControlType::Panel });
+inline ControlHash PlotDemoPanelHash = std::hash<ControlHashInfo>{}({ ControlName::PlotDemoPanel, ControlType::Panel });
 }
 
 }

@@ -12,9 +12,11 @@ public:
 
     virtual bool isMessagePanelVisible() = 0;
     virtual bool isDemoPanelVisible() = 0;
+    virtual bool isPlotDemoPanelVisible() = 0;
 
     virtual void setIsMessagePanelVisible(bool value) = 0;
     virtual void setIsDemoPanelVisible(bool value) = 0;
+    virtual void setIsPlotDemoPanelVisible(bool value) = 0;
 
     virtual void closeApplication() = 0;
 };
@@ -26,9 +28,11 @@ public:
 
     bool isMessagePanelVisible() override;
     bool isDemoPanelVisible() override;
+    bool isPlotDemoPanelVisible() override;
 
     void setIsMessagePanelVisible(bool value) override;
     void setIsDemoPanelVisible(bool value) override;
+    void setIsPlotDemoPanelVisible(bool value) override;
 
     void closeApplication() override;
 
@@ -38,6 +42,7 @@ private:
 private:
     bool mIsMessagePanelVisible;
     bool mIsDemoPanelVisible;
+    bool mIsPlotDemoPanelVisible;
     IServiceLocator& mServices;
 };
 

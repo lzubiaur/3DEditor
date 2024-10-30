@@ -1,3 +1,5 @@
+#ifdef FORGED_USE_SCRIPT 
+
 #include <managers/ScriptManager.h>
 
 #include <stdio.h>
@@ -148,3 +150,5 @@ void ScriptManager::printSystemError(HSQUIRRELVM m_vm)
 }
 
 }
+
+#endif

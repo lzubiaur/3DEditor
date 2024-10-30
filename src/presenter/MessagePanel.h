@@ -1,5 +1,6 @@
 #pragma once
 
+#include <presenter/PresenterBase.h>
 #include <services/IServiceLocator.h>
 #include <state/Store.h>
 #include <state/Model.h>
@@ -7,47 +8,18 @@
 namespace Forged::Presenter
 {
 
-struct PanelState
-{
-    bool isVisible;
-};
-
-class IMessagePanel
+class IMessagePanel : public PresenterBase
 {
 public:
-    virtual bool isVisible() = 0;
-    virtual void setIsVisible(bool value) = 0;
+    IMessagePanel(IServiceLocator& services) : PresenterBase(services) {}
 };
 
 class MessagePanel : public IMessagePanel
 {
 public:
-    MessagePanel(IServiceLocator& services)
-    : mServices(services) 
-    , mVisible(true)
-    {
-        using namespace View::ControlHashes;
+    MessagePanel(IServiceLocator& services);
 
-        services.getUIService().getStore().dispatch(State::UpdatePanelVisibility(MessagePanelHash, true));
-
-        services.getUIService().subscribeToPanelChanges([&](const State::Panel& panel)
-        {
-            mVisible = panel.isVisible;
-        }, 
-        MessagePanelHash);
-    }
-
-    bool isVisible() { return mVisible; }
-
-    void setIsVisible(bool value)
-    {
-         mVisible = value;
-         mServices.getUIService().getStore().dispatch(State::UpdatePanelVisibility(View::ControlHashes::MessagePanelHash, value));
-    }
-
-private:
-    IServiceLocator& mServices;
-    bool mVisible = false;
+    void setIsVisible(bool value) override;
 };
 
 }

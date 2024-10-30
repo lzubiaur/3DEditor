@@ -24,6 +24,12 @@ MainMenu::MainMenu(IServiceLocator& services)
             mIsDemoPanelVisible = panel.isVisible;
         },
         DemoPanelHash);
+
+    services.getUIService().subscribeToPanelChanges([&](State::Panel panel)
+        {
+            mIsPlotDemoPanelVisible = panel.isVisible;
+        },
+        PlotDemoPanelHash);
 }
 
 void MainMenu::closeApplication()
@@ -36,6 +42,11 @@ bool MainMenu::isDemoPanelVisible()
     return mIsDemoPanelVisible;
 }
 
+bool MainMenu::isPlotDemoPanelVisible()
+{
+    return mIsPlotDemoPanelVisible;
+}
+
 bool MainMenu::isMessagePanelVisible()
 {
     return mIsMessagePanelVisible;
@@ -44,6 +55,11 @@ bool MainMenu::isMessagePanelVisible()
 void MainMenu::setIsDemoPanelVisible(bool value)
 {
     dispatch(State::TogglePanelVisibility(View::ControlHashes::DemoPanelHash));
+}
+
+void MainMenu::setIsPlotDemoPanelVisible(bool value)
+{
+    dispatch(State::TogglePanelVisibility(View::ControlHashes::PlotDemoPanelHash));
 }
 
 void MainMenu::setIsMessagePanelVisible(bool value)

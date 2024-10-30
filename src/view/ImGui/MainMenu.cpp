@@ -58,8 +58,9 @@ void MainMenu::drawWindowsMenu()
         {
             mPresenter.setIsDemoPanelVisible(false);
         }
-        if (ImGui::MenuItem("ImPlot Demo"))
+        if (ImGui::MenuItem("ImPlot Demo", nullptr, mPresenter.isPlotDemoPanelVisible()))
         {
+            mPresenter.setIsPlotDemoPanelVisible(false);
         }
         ImGui::EndMenu();
     }

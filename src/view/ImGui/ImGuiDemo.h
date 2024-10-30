@@ -19,7 +19,7 @@ public:
 
     ControlHash getHash() override { return ControlHashes::DemoPanelHash; }
     ControlType getType() override { return ControlType::None; }
-    std::string getName() override { return "DemoPanel"; }
+    std::string getName() override { return ControlName::DemoPanel; }
 
     void onInitialize() override {}
     void onShutdown() override {}

@@ -2,6 +2,6 @@
 
 namespace Forged
 {
-    const char* Version = "0.1";
-    const char* AppName = "Forged - Particle Editor";
+    inline const char* Version = APP_VERSION;
+    inline const char* AppName = APP_NAME;
 }

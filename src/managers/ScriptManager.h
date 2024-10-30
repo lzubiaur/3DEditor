@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef FORGED_USE_SCRIPT 
+
 #include <managers/IManager.h>
 #include <string>
 #include <squirrel.h>
@@ -30,3 +32,5 @@ private:
 };
 
 }
+
+#endif

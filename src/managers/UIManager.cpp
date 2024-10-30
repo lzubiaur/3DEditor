@@ -30,6 +30,7 @@ void UIManager::onInitialize()
     addControl(mUIBuilder.buildMessageConsole(*this));
     addControl(mUIBuilder.buildSandboxWindow(*this));
     addControl(mUIBuilder.buildDemoPanel(*this));
+    addControl(mUIBuilder.buildPlotDemoPanel(*this));
 
     std::for_each(mControls.begin(), mControls.end(), [](const auto& pair) { pair.second->onInitialize(); });
 

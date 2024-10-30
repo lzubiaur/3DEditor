@@ -1,7 +1,17 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-project("Forged - Particle Editor" C CXX)
-set(RUNTIME_NAME "forged")
+set(APP_NAME "Forged")
+set(APP_VERSION "1.0.0")
+set(APP_RUNTIME_NAME "forged")
+
+option(FORGED_USE_SCRIPT "Enable the scripting" OFF)
+
+project(${APP_NAME} C CXX)
+set(RUNTIME_NAME ${APP_RUNTIME_NAME})
+
+message(STATUS "Building ${APP_NAME} ${APP_VERSION}...")
+message(STATUS "C Compiler: ${CMAKE_C_COMPILER}")
+message(STATUS "C++ Compiler: ${CMAKE_CXX_COMPILER}")
 
 # TODO GLFW compile options http://www.glfw.org/docs/latest/compile.html#compile_options_osx
 
@@ -24,6 +34,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Build options
 set(CMAKE_BUILD_TYPE "Debug")
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON)
 
 # Compiler options
 # set(CMAKE_C_COMPILER "clang")

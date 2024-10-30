@@ -14,6 +14,7 @@
 #include <presenter/MessagePanel.h>
 #include <presenter/MainMenu.h>
 #include <presenter/DemoPanel.h>
+#include <presenter/PlotDemoPanel.h>
 
 #include <memory>
 #include <boost/di.hpp>
@@ -54,7 +55,8 @@ public:
             di::bind<Presenter::IMainWindow>().to<Presenter::MainWindow>(),
             di::bind<Presenter::IMainMenu>().to<Presenter::MainMenu>(),
             di::bind<Presenter::IMessagePanel>().to<Presenter::MessagePanel>(),
-            di::bind<Presenter::IDemoPanel>().to<Presenter::DemoPanel>()
+            di::bind<Presenter::IDemoPanel>().to<Presenter::DemoPanel>(),
+            di::bind<Presenter::IPlotDemoPanel>().to<Presenter::PlotDemoPanel>()
         );
     }
 };

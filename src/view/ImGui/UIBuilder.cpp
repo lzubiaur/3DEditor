@@ -4,6 +4,7 @@
 #include <view/ImGui/NodeGraph.h>
 #include <view/ImGui/MainWindow.h>
 #include <view/ImGui/ImGuiDemo.h>
+#include <view/ImGui/ImGuiPlotDemo.h>
 #include <core/Injectors.h>
 
 #include <memory>
@@ -56,6 +57,11 @@ ControlPtr UIBuilder::buildSandboxWindow(IServiceLocator& services)
 ControlPtr UIBuilder::buildDemoPanel(IServiceLocator& services)
 {
     return build<View::ImGuiDemo>(services);
+}
+
+ControlPtr UIBuilder::buildPlotDemoPanel(IServiceLocator& services)
+{
+    return build<View::ImGuiPlotDemo>(services);
 }
 
 }
