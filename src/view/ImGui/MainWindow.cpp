@@ -164,14 +164,29 @@ void MainWindow::onDraw()
         return;
     }
 
-      if (firstFrame)
-      {
-         float eye[] = { cosf(camYAngle) * cosf(camXAngle) * camDistance, sinf(camXAngle) * camDistance, sinf(camYAngle) * cosf(camXAngle) * camDistance };
-         float at[] = { 0.f, 0.f, 0.f };
-         float up[] = { 0.f, 1.f, 0.f };
-         LookAt(eye, at, up, cameraView);
-         firstFrame = false;
-      }
+    ImGuiIO &io = ImGui::GetIO();
+
+    if (isPerspective)
+    {
+        Perspective(fov, io.DisplaySize.x / io.DisplaySize.y, 0.1f, 100.f, cameraProjection);
+    }
+    else
+    {
+        float viewHeight = viewWidth * io.DisplaySize.y / io.DisplaySize.x;
+        OrthoGraphic(-viewWidth, viewWidth, -viewHeight, viewHeight, 1000.f, -1000.f, cameraProjection);
+    }
+
+    ImGuizmo::SetOrthographic(!isPerspective);
+    ImGuizmo::BeginFrame();
+
+    if (firstFrame)
+    {
+        float eye[] = {cosf(camYAngle) * cosf(camXAngle) * camDistance, sinf(camXAngle) * camDistance, sinf(camYAngle) * cosf(camXAngle) * camDistance};
+        float at[] = {0.f, 0.f, 0.f};
+        float up[] = {0.f, 1.f, 0.f};
+        LookAt(eye, at, up, cameraView);
+        firstFrame = false;
+    }
 
     TransformStart(cameraView, cameraProjection, objectMatrix[lastUsing]);
     for (int matId = 0; matId < gizmoCount; matId++)

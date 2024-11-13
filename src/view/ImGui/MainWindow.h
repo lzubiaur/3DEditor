@@ -38,55 +38,52 @@ private:
    float viewWidth = 10.f; // for orthographic
    float camYAngle = 165.f / 180.f * 3.14159f;
    float camXAngle = 32.f / 180.f * 3.14159f;
-    
- bool firstFrame = true;
 
-    bool useSnap = false;
-    float snap[3] = { 1.f, 1.f, 1.f };
-    int lastUsing = 0;
-    ImGuizmo::OPERATION mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-    ImGuizmo::MODE mCurrentGizmoMode = ImGuizmo::WORLD;
-    
-    float cameraView[16] = {
-        1.f, 0.f, 0.f, 0.f,
+   bool firstFrame = true;
+
+   bool useSnap = false;
+   float snap[3] = {1.f, 1.f, 1.f};
+   int lastUsing = 0;
+   ImGuizmo::OPERATION mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+   ImGuizmo::MODE mCurrentGizmoMode = ImGuizmo::WORLD;
+
+   float cameraView[16] = {
+       1.f, 0.f, 0.f, 0.f,
+       0.f, 1.f, 0.f, 0.f,
+       0.f, 0.f, 1.f, 0.f,
+       0.f, 0.f, 0.f, 1.f};
+
+   float cameraProjection[16];
+
+   const float identityMatrix[16] = {
+       1.f, 0.f, 0.f, 0.f,
+       0.f, 1.f, 0.f, 0.f,
+       0.f, 0.f, 1.f, 0.f,
+       0.f, 0.f, 0.f, 1.f};
+
+   float objectMatrix[4][16] = {
+       {1.f, 0.f, 0.f, 0.f,
         0.f, 1.f, 0.f, 0.f,
         0.f, 0.f, 1.f, 0.f,
-        0.f, 0.f, 0.f, 1.f
-    };
+        0.f, 0.f, 0.f, 1.f},
 
-    float cameraProjection[16];
-
-    const float identityMatrix[16] = {
-        1.f, 0.f, 0.f, 0.f,
+       {1.f, 0.f, 0.f, 0.f,
         0.f, 1.f, 0.f, 0.f,
         0.f, 0.f, 1.f, 0.f,
-        0.f, 0.f, 0.f, 1.f
-    };
+        2.f, 0.f, 0.f, 1.f},
 
-    float objectMatrix[4][16] = {
-        {1.f, 0.f, 0.f, 0.f,
-         0.f, 1.f, 0.f, 0.f,
-         0.f, 0.f, 1.f, 0.f,
-         0.f, 0.f, 0.f, 1.f},
+       {1.f, 0.f, 0.f, 0.f,
+        0.f, 1.f, 0.f, 0.f,
+        0.f, 0.f, 1.f, 0.f,
+        2.f, 0.f, 2.f, 1.f},
 
-        {1.f, 0.f, 0.f, 0.f,
-         0.f, 1.f, 0.f, 0.f,
-         0.f, 0.f, 1.f, 0.f,
-         2.f, 0.f, 0.f, 1.f},
+       {1.f, 0.f, 0.f, 0.f,
+        0.f, 1.f, 0.f, 0.f,
+        0.f, 0.f, 1.f, 0.f,
+        0.f, 0.f, 2.f, 1.f}};
 
-        {1.f, 0.f, 0.f, 0.f,
-         0.f, 1.f, 0.f, 0.f,
-         0.f, 0.f, 1.f, 0.f,
-         2.f, 0.f, 2.f, 1.f},
-
-        {1.f, 0.f, 0.f, 0.f,
-         0.f, 1.f, 0.f, 0.f,
-         0.f, 0.f, 1.f, 0.f,
-         0.f, 0.f, 2.f, 1.f}
-    };
-
-    int gizmoCount = 1;
-    float camDistance = 8.f;
+   int gizmoCount = 1;
+   float camDistance = 8.f;
 };
 
 }
