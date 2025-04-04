@@ -12,6 +12,7 @@ lib/boost_1_86_0
 
 # Some generated misc files 
 log.txt
+Forged_log.txt
 NodeGraphConfig.json
 
 # Vim
