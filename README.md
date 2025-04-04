@@ -1,11 +1,11 @@
 # WIP - 3D level editor
 
-Work in progress 3D level editor
+3D editor framework aimed at game level design or visual effect creation.
 
 Planned features:
 * UI reactive state
-* Node graph
-* Script API
+* Node graph system
+* Scripting API 
 
 ![Editor screenshot](assets/editor.png)
 
